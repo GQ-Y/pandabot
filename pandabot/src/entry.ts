@@ -8,7 +8,7 @@ import { isTruthyEnvValue } from "./infra/env.js";
 import { installProcessWarningFilter } from "./infra/warnings.js";
 import { attachChildProcessBridge } from "./process/child-process-bridge.js";
 
-process.title = "moltbot";
+process.title = "pandabot";
 installProcessWarningFilter();
 
 if (process.argv.includes("--no-color")) {
@@ -24,12 +24,12 @@ function hasExperimentalWarningSuppressed(nodeOptions: string): boolean {
 }
 
 function ensureExperimentalWarningSuppressed(): boolean {
-  if (isTruthyEnvValue(process.env.CLAWDBOT_NO_RESPAWN)) return false;
-  if (isTruthyEnvValue(process.env.CLAWDBOT_NODE_OPTIONS_READY)) return false;
+  if (isTruthyEnvValue(process.env.PANDA_NO_RESPAWN)) return false;
+  if (isTruthyEnvValue(process.env.PANDA_NODE_OPTIONS_READY)) return false;
   const nodeOptions = process.env.NODE_OPTIONS ?? "";
   if (hasExperimentalWarningSuppressed(nodeOptions)) return false;
 
-  process.env.CLAWDBOT_NODE_OPTIONS_READY = "1";
+  process.env.PANDA_NODE_OPTIONS_READY = "1";
   process.env.NODE_OPTIONS = `${nodeOptions} ${EXPERIMENTAL_WARNING_FLAG}`.trim();
 
   const child = spawn(process.execPath, [...process.execArgv, ...process.argv.slice(1)], {

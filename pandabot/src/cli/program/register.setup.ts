@@ -10,7 +10,7 @@ import { runCommandWithRuntime } from "../cli-utils.js";
 export function registerSetupCommand(program: Command) {
   program
     .command("setup")
-    .description("Initialize ~/.clawdbot/moltbot.json and the agent workspace")
+    .description("Initialize ~/.panda/panda.json and the agent workspace")
     .addHelpText(
       "after",
       () =>

@@ -68,7 +68,7 @@ describe("Agent-specific sandbox config", () => {
           sandbox: {
             mode: "all",
             scope: "agent",
-            workspaceRoot: "~/.clawdbot/sandboxes", // Global default
+            workspaceRoot: "~/.panda/sandboxes", // Global default
           },
         },
         list: [

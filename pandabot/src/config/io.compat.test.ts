@@ -28,7 +28,7 @@ async function writeConfig(
 }
 
 describe("config io compat (new + legacy folders)", () => {
-  it("prefers ~/.moltbot/moltbot.json when both configs exist", async () => {
+  it("prefers ~/.panda/panda.json when both configs exist", async () => {
     await withTempHome(async (home) => {
       const newConfigPath = await writeConfig(home, ".moltbot", 19001);
       await writeConfig(home, ".clawdbot", 18789);
@@ -42,7 +42,7 @@ describe("config io compat (new + legacy folders)", () => {
     });
   });
 
-  it("falls back to ~/.clawdbot/moltbot.json when only legacy exists", async () => {
+  it("falls back to ~/.panda/panda.json when only legacy exists", async () => {
     await withTempHome(async (home) => {
       const legacyConfigPath = await writeConfig(home, ".clawdbot", 20001);
 
@@ -56,7 +56,7 @@ describe("config io compat (new + legacy folders)", () => {
     });
   });
 
-  it("falls back to ~/.clawdbot/clawdbot.json when only legacy filename exists", async () => {
+  it("falls back to ~/.panda/panda.json when only legacy filename exists", async () => {
     await withTempHome(async (home) => {
       const legacyConfigPath = await writeConfig(home, ".clawdbot", 20002, "clawdbot.json");
 

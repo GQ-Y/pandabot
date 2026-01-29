@@ -13,16 +13,16 @@ describe("normalizeConfigPaths", () => {
       const cfg = normalizeConfigPaths({
         tools: { exec: { pathPrepend: ["~/bin"] } },
         plugins: { load: { paths: ["~/plugins/a"] } },
-        logging: { file: "~/.clawdbot/logs/moltbot.log" },
+        logging: { file: "~/.panda/logs/moltbot.log" },
         hooks: {
-          path: "~/.clawdbot/hooks.json5",
+          path: "~/.panda/hooks.json5",
           transformsDir: "~/hooks-xform",
         },
         channels: {
           telegram: {
             accounts: {
               personal: {
-                tokenFile: "~/.clawdbot/telegram.token",
+                tokenFile: "~/.panda/telegram.token",
               },
             },
           },
@@ -36,7 +36,7 @@ describe("normalizeConfigPaths", () => {
             {
               id: "main",
               workspace: "~/ws-agent",
-              agentDir: "~/.clawdbot/agents/main",
+              agentDir: "~/.panda/agents/main",
               identity: {
                 name: "~not-a-path",
               },

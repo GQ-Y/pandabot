@@ -327,7 +327,7 @@ describe("doctor legacy state migrations", () => {
     expect(store["agent:main:main"]?.sessionId).toBe("legacy");
   });
 
-  it("auto-migrates legacy state dir to ~/.moltbot", async () => {
+  it("auto-migrates legacy state dir to ~/.panda", async () => {
     const root = await makeTempRoot();
     const legacyDir = path.join(root, ".clawdbot");
     fs.mkdirSync(legacyDir, { recursive: true });

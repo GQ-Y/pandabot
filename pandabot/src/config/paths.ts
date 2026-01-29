@@ -47,7 +47,7 @@ export function resolveNewStateDir(homedir: () => string = os.homedir): string {
  * State directory for mutable data (sessions, logs, caches).
  * Can be overridden via PANDA_STATE_DIR (preferred) or PANDA_STATE_DIR/PANDA_STATE_DIR (legacy).
  * Default: ~/.panda
- * If ~/.panda doesn't exist but ~/.moltbot or ~/.clawdbot exists, use those for compatibility.
+ * If ~/.panda doesn't exist but ~/.panda or ~/.panda exists, use those for compatibility.
  */
 export function resolveStateDir(
   env: NodeJS.ProcessEnv = process.env,
@@ -209,7 +209,7 @@ const OAUTH_FILENAME = "oauth.json";
  * Precedence:
  * - `PANDA_OAUTH_DIR` (explicit override)
  * - `$*_STATE_DIR/credentials` (canonical server/default)
- * - `~/.clawdbot/credentials` (legacy default)
+ * - `~/.panda/credentials` (legacy default)
  */
 export function resolveOAuthDir(
   env: NodeJS.ProcessEnv = process.env,

@@ -122,7 +122,7 @@ describe("jidToE164", () => {
 });
 
 describe("resolveConfigDir", () => {
-  it("prefers ~/.moltbot when legacy dir is missing", async () => {
+  it("prefers ~/.panda when legacy dir is missing", async () => {
     const root = await fs.promises.mkdtemp(path.join(os.tmpdir(), "moltbot-config-dir-"));
     try {
       const newDir = path.join(root, ".moltbot");

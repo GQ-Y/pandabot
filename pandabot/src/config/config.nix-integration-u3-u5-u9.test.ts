@@ -35,7 +35,7 @@ describe("Nix integration (U3, U5, U9)", () => {
   });
 
   describe("U5: CONFIG_PATH and STATE_DIR env var overrides", () => {
-    it("STATE_DIR defaults to ~/.clawdbot when env not set", async () => {
+    it("STATE_DIR defaults to ~/.panda when env not set", async () => {
       await withEnvOverride(
         { PANDA_STATE_DIR: undefined, PANDA_STATE_DIR: undefined },
         async () => {
@@ -65,7 +65,7 @@ describe("Nix integration (U3, U5, U9)", () => {
       );
     });
 
-    it("CONFIG_PATH defaults to ~/.clawdbot/moltbot.json when env not set", async () => {
+    it("CONFIG_PATH defaults to ~/.panda/panda.json when env not set", async () => {
       await withEnvOverride(
         {
           PANDA_CONFIG_PATH: undefined,
@@ -106,7 +106,7 @@ describe("Nix integration (U3, U5, U9)", () => {
     it("CONFIG_PATH expands ~ in PANDA_CONFIG_PATH override", async () => {
       await withTempHome(async (home) => {
         await withEnvOverride(
-          { PANDA_CONFIG_PATH: undefined, PANDA_CONFIG_PATH: "~/.clawdbot/custom.json" },
+          { PANDA_CONFIG_PATH: undefined, PANDA_CONFIG_PATH: "~/.panda/custom.json" },
           async () => {
             const { CONFIG_PATH } = await import("./config.js");
             expect(CONFIG_PATH).toBe(path.join(home, ".clawdbot", "custom.json"));
@@ -170,7 +170,7 @@ describe("Nix integration (U3, U5, U9)", () => {
                   {
                     id: "main",
                     workspace: "~/ws-agent",
-                    agentDir: "~/.clawdbot/agents/main",
+                    agentDir: "~/.panda/agents/main",
                     sandbox: { workspaceRoot: "~/sandbox-root" },
                   },
                 ],
@@ -179,7 +179,7 @@ describe("Nix integration (U3, U5, U9)", () => {
                 whatsapp: {
                   accounts: {
                     personal: {
-                      authDir: "~/.clawdbot/credentials/wa-personal",
+                      authDir: "~/.panda/credentials/wa-personal",
                     },
                   },
                 },

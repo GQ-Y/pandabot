@@ -55,7 +55,7 @@ describe("state + config path candidates", () => {
     expect(candidates[3]).toBe(path.join(home, ".clawdbot", "clawdbot.json"));
   });
 
-  it("prefers ~/.moltbot when it exists and legacy dir is missing", async () => {
+  it("prefers ~/.panda when it exists and legacy dir is missing", async () => {
     const root = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-state-"));
     try {
       const newDir = path.join(root, ".moltbot");
