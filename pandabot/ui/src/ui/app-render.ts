@@ -141,7 +141,7 @@ export function renderApp(state: AppViewState) {
         </div>
         <div class="topbar-status">
           <div class="pill">
-            <span>statusDot ${state.connected ? "ok" : ""}"></span>
+            <span class="statusDot ${state.connected ? "ok" : ""}"></span>
             <span>${t('common.health')}</span>
             <span class="mono">${state.connected ? t('common.ok') : t('common.offline')}</span>
           </div>

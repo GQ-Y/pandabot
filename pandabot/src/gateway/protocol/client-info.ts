@@ -1,16 +1,21 @@
 export const GATEWAY_CLIENT_IDS = {
   WEBCHAT_UI: "webchat-ui",
-  CONTROL_UI: "moltbot-control-ui",
+  CONTROL_UI: "pandabot-control-ui",
+  CONTROL_UI_LEGACY: "moltbot-control-ui",
   WEBCHAT: "webchat",
   CLI: "cli",
   GATEWAY_CLIENT: "gateway-client",
-  MACOS_APP: "moltbot-macos",
-  IOS_APP: "moltbot-ios",
-  ANDROID_APP: "moltbot-android",
+  MACOS_APP: "pandabot-macos",
+  MACOS_APP_LEGACY: "moltbot-macos",
+  IOS_APP: "pandabot-ios",
+  IOS_APP_LEGACY: "moltbot-ios",
+  ANDROID_APP: "pandabot-android",
+  ANDROID_APP_LEGACY: "moltbot-android",
   NODE_HOST: "node-host",
   TEST: "test",
   FINGERPRINT: "fingerprint",
-  PROBE: "moltbot-probe",
+  PROBE: "pandabot-probe",
+  PROBE_LEGACY: "moltbot-probe",
 } as const;
 
 export type GatewayClientId = (typeof GATEWAY_CLIENT_IDS)[keyof typeof GATEWAY_CLIENT_IDS];
