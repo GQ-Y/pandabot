@@ -1,18 +1,18 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { MoltbotApp } from "./app";
+import { PandabotApp } from "./app";
 
-const originalConnect = MoltbotApp.prototype.connect;
+const originalConnect = PandabotApp.prototype.connect;
 
 function mountApp(pathname: string) {
   window.history.replaceState({}, "", pathname);
-  const app = document.createElement("panda-app") as MoltbotApp;
+  const app = document.createElement("panda-app") as PandabotApp;
   document.body.append(app);
   return app;
 }
 
 beforeEach(() => {
-  MoltbotApp.prototype.connect = () => {
+  PandabotApp.prototype.connect = () => {
     // no-op: avoid real gateway WS connections in browser tests
   };
   window.__PANDA_CONTROL_UI_BASE_PATH__ = undefined;
@@ -21,7 +21,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  MoltbotApp.prototype.connect = originalConnect;
+  PandabotApp.prototype.connect = originalConnect;
   window.__PANDA_CONTROL_UI_BASE_PATH__ = undefined;
   localStorage.clear();
   document.body.innerHTML = "";

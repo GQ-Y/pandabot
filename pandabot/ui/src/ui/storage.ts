@@ -1,6 +1,7 @@
-const KEY = "moltbot.control.settings.v1";
+const KEY = "pandabot.control.settings.v1";
 
 import type { ThemeMode } from "./theme";
+import type { Language } from "../i18n/types.js";
 
 export type UiSettings = {
   gatewayUrl: string;
@@ -8,6 +9,7 @@ export type UiSettings = {
   sessionKey: string;
   lastActiveSessionKey: string;
   theme: ThemeMode;
+  language: Language;
   chatFocusMode: boolean;
   chatShowThinking: boolean;
   splitRatio: number; // Sidebar split ratio (0.4 to 0.7, default 0.6)
@@ -27,6 +29,7 @@ export function loadSettings(): UiSettings {
     sessionKey: "main",
     lastActiveSessionKey: "main",
     theme: "system",
+    language: "zh",
     chatFocusMode: false,
     chatShowThinking: true,
     splitRatio: 0.6,
@@ -61,6 +64,10 @@ export function loadSettings(): UiSettings {
         parsed.theme === "system"
           ? parsed.theme
           : defaults.theme,
+      language:
+        parsed.language === "zh" || parsed.language === "en"
+          ? parsed.language
+          : defaults.language,
       chatFocusMode:
         typeof parsed.chatFocusMode === "boolean"
           ? parsed.chatFocusMode

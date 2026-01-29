@@ -1,13 +1,14 @@
 import type { IconName } from "./icons.js";
+import { t } from "../i18n/index.js";
 
 export const TAB_GROUPS = [
-  { label: "Chat", tabs: ["chat"] },
+  { label: "nav.chat", tabs: ["chat"] },
   {
-    label: "Control",
+    label: "nav.control",
     tabs: ["overview", "channels", "instances", "sessions", "cron"],
   },
-  { label: "Agent", tabs: ["skills", "nodes"] },
-  { label: "Settings", tabs: ["config", "debug", "logs"] },
+  { label: "nav.agent", tabs: ["skills", "nodes"] },
+  { label: "nav.settings", tabs: ["config", "debug", "logs"] },
 ] as const;
 
 export type Tab =
@@ -132,56 +133,56 @@ export function iconForTab(tab: Tab): IconName {
 export function titleForTab(tab: Tab) {
   switch (tab) {
     case "overview":
-      return "Overview";
+      return t("nav.overview");
     case "channels":
-      return "Channels";
+      return t("nav.channels");
     case "instances":
-      return "Instances";
+      return t("nav.instances");
     case "sessions":
-      return "Sessions";
+      return t("nav.sessions");
     case "cron":
-      return "Cron Jobs";
+      return t("nav.cron");
     case "skills":
-      return "Skills";
+      return t("nav.skills");
     case "nodes":
-      return "Nodes";
+      return t("nav.nodes");
     case "chat":
-      return "Chat";
+      return t("nav.chat");
     case "config":
-      return "Config";
+      return t("nav.config");
     case "debug":
-      return "Debug";
+      return t("nav.debug");
     case "logs":
-      return "Logs";
+      return t("nav.logs");
     default:
-      return "Control";
+      return t("nav.control");
   }
 }
 
 export function subtitleForTab(tab: Tab) {
   switch (tab) {
     case "overview":
-      return "Gateway status, entry points, and a fast health read.";
+      return t("navDesc.overview");
     case "channels":
-      return "Manage channels and settings.";
+      return t("navDesc.channels");
     case "instances":
-      return "Presence beacons from connected clients and nodes.";
+      return t("navDesc.instances");
     case "sessions":
-      return "Inspect active sessions and adjust per-session defaults.";
+      return t("navDesc.sessions");
     case "cron":
-      return "Schedule wakeups and recurring agent runs.";
+      return t("navDesc.cron");
     case "skills":
-      return "Manage skill availability and API key injection.";
+      return t("navDesc.skills");
     case "nodes":
-      return "Paired devices, capabilities, and command exposure.";
+      return t("navDesc.nodes");
     case "chat":
-      return "Direct gateway chat session for quick interventions.";
+      return t("navDesc.chat");
     case "config":
-      return "Edit ~/.clawdbot/moltbot.json safely.";
+      return t("navDesc.config");
     case "debug":
-      return "Gateway snapshots, events, and manual RPC calls.";
+      return t("navDesc.debug");
     case "logs":
-      return "Live tail of the gateway file logs.";
+      return t("navDesc.logs");
     default:
       return "";
   }

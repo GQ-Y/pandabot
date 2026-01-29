@@ -13,6 +13,7 @@ import {
 } from "./navigation";
 import { icons } from "./icons";
 import type { UiSettings } from "./storage";
+import { t } from "../i18n/index.js";
 import type { ThemeMode } from "./theme";
 import type { ThemeTransitionContext } from "./theme-transition";
 import type {
@@ -51,7 +52,7 @@ import {
   rotateDeviceToken,
 } from "./controllers/devices";
 import { renderSkills } from "./views/skills";
-import { renderChatControls, renderTab, renderThemeToggle } from "./app-render.helpers";
+import { renderChatControls, renderTab, renderThemeToggle, renderLanguageToggle } from "./app-render.helpers";
 import { loadChannels } from "./controllers/channels";
 import { loadPresence } from "./controllers/presence";
 import { deleteSession, loadSessions, patchSession } from "./controllers/sessions";
@@ -130,20 +131,21 @@ export function renderApp(state: AppViewState) {
           </button>
           <div class="brand">
             <div class="brand-logo">
-              <img src="https://mintcdn.com/clawdhub/4rYvG-uuZrMK_URE/assets/pixel-lobster.svg?fit=max&auto=format&n=4rYvG-uuZrMK_URE&q=85&s=da2032e9eac3b5d9bfe7eb96ca6a8a26" alt="Moltbot" />
+              <img src="https://mintcdn.com/clawdhub/4rYvG-uuZrMK_URE/assets/pixel-lobster.svg?fit=max&auto=format&n=4rYvG-uuZrMK_URE&q=85&s=da2032e9eac3b5d9bfe7eb96ca6a8a26" alt="Pandabot" />
             </div>
-            <div class="brand-text">
-              <div class="brand-title">MOLTBOT</div>
-              <div class="brand-sub">Gateway Dashboard</div>
-            </div>
+          <div class="brand-text">
+            <div class="brand-title">${t('brand.title')}</div>
+            <div class="brand-sub">${t('brand.subtitle')}</div>
+          </div>
           </div>
         </div>
         <div class="topbar-status">
           <div class="pill">
-            <span class="statusDot ${state.connected ? "ok" : ""}"></span>
-            <span>Health</span>
-            <span class="mono">${state.connected ? "OK" : "Offline"}</span>
+            <span>statusDot ${state.connected ? "ok" : ""}"></span>
+            <span>${t('common.health')}</span>
+            <span class="mono">${state.connected ? t('common.ok') : t('common.offline')}</span>
           </div>
+          ${renderLanguageToggle(state)}
           ${renderThemeToggle(state)}
         </div>
       </header>
@@ -165,7 +167,7 @@ export function renderApp(state: AppViewState) {
                 }}
                 aria-expanded=${!isGroupCollapsed}
               >
-                <span class="nav-label__text">${group.label}</span>
+                <span class="nav-label__text">${t(group.label)}</span>
                 <span class="nav-label__chevron">${isGroupCollapsed ? "+" : "−"}</span>
               </button>
               <div class="nav-group__items">
@@ -176,7 +178,7 @@ export function renderApp(state: AppViewState) {
         })}
         <div class="nav-group nav-group--links">
           <div class="nav-label nav-label--static">
-            <span class="nav-label__text">Resources</span>
+            <span class="nav-label__text">${t('brand.resources')}</span>
           </div>
           <div class="nav-group__items">
             <a
@@ -184,10 +186,10 @@ export function renderApp(state: AppViewState) {
               href="https://docs.panda.bot"
               target="_blank"
               rel="noreferrer"
-              title="Docs (opens in new tab)"
+              title="${t('brand.docs')}"
             >
               <span class="nav-item__icon" aria-hidden="true">${icons.book}</span>
-              <span class="nav-item__text">Docs</span>
+              <span class="nav-item__text">${t('brand.docs')}</span>
             </a>
           </div>
         </div>

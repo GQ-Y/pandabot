@@ -3,6 +3,7 @@ import { repeat } from "lit/directives/repeat.js";
 
 import type { AppViewState } from "./app-view-state";
 import { iconForTab, pathForTab, titleForTab, type Tab } from "./navigation";
+import type { Language } from "../i18n/types.js";
 import { icons } from "./icons";
 import { loadChatHistory } from "./controllers/chat";
 import { refreshChat } from "./app-chat";
@@ -237,6 +238,42 @@ export function renderThemeToggle(state: AppViewState) {
           title="Dark"
         >
           ${renderMoonIcon()}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+export function renderLanguageToggle(state: AppViewState) {
+  const applyLanguage = (lang: Language) => () => {
+    if ('setLanguage' in state && typeof state.setLanguage === 'function') {
+      (state.setLanguage as (lang: Language) => void)(lang);
+    }
+  };
+
+  return html`
+    <div class="theme-toggle" style="--theme-index: ${state.language === 'zh' ? 0 : 1};">
+      <div class="theme-toggle__track" role="group" aria-label="Language">
+        <span class="theme-toggle__indicator"></span>
+        <button
+          class="theme-toggle__button ${state.language === 'zh' ? 'active' : ''}"
+          @click=${applyLanguage('zh')}
+          aria-pressed=${state.language === 'zh'}
+          aria-label="中文"
+          title="中文"
+          style="font-size: 0.9em;"
+        >
+          中
+        </button>
+        <button
+          class="theme-toggle__button ${state.language === 'en' ? 'active' : ''}"
+          @click=${applyLanguage('en')}
+          aria-pressed=${state.language === 'en'}
+          aria-label="English"
+          title="English"
+          style="font-size: 0.9em;"
+        >
+          En
         </button>
       </div>
     </div>

@@ -97,7 +97,7 @@ function resolveOnboardingMode(): boolean {
 }
 
 @customElement("panda-app")
-export class MoltbotApp extends LitElement {
+export class PandabotApp extends LitElement {
   @state() settings: UiSettings = loadSettings();
   @state() password = "";
   @state() tab: Tab = "chat";
@@ -105,6 +105,7 @@ export class MoltbotApp extends LitElement {
   @state() connected = false;
   @state() theme: ThemeMode = this.settings.theme ?? "system";
   @state() themeResolved: ResolvedTheme = "dark";
+  @state() language = this.settings.language ?? "zh";
   @state() hello: GatewayHelloOk | null = null;
   @state() lastError: string | null = null;
   @state() eventLog: EventLogEntry[] = [];
@@ -350,6 +351,16 @@ export class MoltbotApp extends LitElement {
       next,
       context,
     );
+  }
+
+  setLanguage(lang: 'zh' | 'en') {
+    this.language = lang;
+    const newSettings = { ...this.settings, language: lang };
+    this.applySettings(newSettings);
+    // Import setLanguage from i18n
+    import('../i18n/index.js').then(({ setLanguage }) => {
+      setLanguage(lang);
+    });
   }
 
   async loadOverview() {
