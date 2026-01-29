@@ -124,8 +124,8 @@ export function renderApp(state: AppViewState) {
                 ...state.settings,
                 navCollapsed: !state.settings.navCollapsed,
               })}
-            title="${state.settings.navCollapsed ? "Expand sidebar" : "Collapse sidebar"}"
-            aria-label="${state.settings.navCollapsed ? "Expand sidebar" : "Collapse sidebar"}"
+            title="${state.settings.navCollapsed ? t('common.expandSidebar') : t('common.collapseSidebar')}"
+            aria-label="${state.settings.navCollapsed ? t('common.expandSidebar') : t('common.collapseSidebar')}"
           >
             <span class="nav-collapse-toggle__icon">${icons.menu}</span>
           </button>
@@ -142,7 +142,6 @@ export function renderApp(state: AppViewState) {
         <div class="topbar-status">
           <div class="pill">
             <span class="statusDot ${state.connected ? "ok" : ""}"></span>
-            <span>${t('common.health')}</span>
             <span class="mono">${state.connected ? t('common.ok') : t('common.offline')}</span>
           </div>
           ${renderLanguageToggle(state)}

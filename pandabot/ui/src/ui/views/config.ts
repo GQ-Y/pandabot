@@ -1,6 +1,7 @@
 import { html, nothing } from "lit";
 import type { ConfigUiHints } from "../types";
 import { analyzeConfigSchema, renderConfigForm, SECTION_META } from "./config-form";
+import { t } from "../../i18n";
 import {
   hintForPath,
   humanize,
@@ -73,20 +74,20 @@ const sidebarIcons = {
   default: html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>`,
 };
 
-// Section definitions
-const SECTIONS: Array<{ key: string; label: string }> = [
-  { key: "env", label: "Environment" },
-  { key: "update", label: "Updates" },
-  { key: "agents", label: "Agents" },
-  { key: "auth", label: "Authentication" },
-  { key: "channels", label: "Channels" },
-  { key: "messages", label: "Messages" },
-  { key: "commands", label: "Commands" },
-  { key: "hooks", label: "Hooks" },
-  { key: "skills", label: "Skills" },
-  { key: "tools", label: "Tools" },
-  { key: "gateway", label: "Gateway" },
-  { key: "wizard", label: "Setup Wizard" },
+// Section definitions (labels via i18n config.sections.*)
+const SECTIONS: Array<{ key: string }> = [
+  { key: "env" },
+  { key: "update" },
+  { key: "agents" },
+  { key: "auth" },
+  { key: "channels" },
+  { key: "messages" },
+  { key: "commands" },
+  { key: "hooks" },
+  { key: "skills" },
+  { key: "tools" },
+  { key: "gateway" },
+  { key: "wizard" },
 ];
 
 type SubsectionEntry = {
@@ -182,8 +183,9 @@ function truncateValue(value: unknown, maxLen = 40): string {
 }
 
 export function renderConfig(props: ConfigProps) {
-  const validity =
-    props.valid == null ? "unknown" : props.valid ? "valid" : "invalid";
+  const validityKey =
+    props.valid == null ? "config.validityUnknown" : props.valid ? "config.validityValid" : "config.validityInvalid";
+  const validityDisplay = t(validityKey);
   const analysis = analyzeConfigSchema(props.schema);
   const formUnsafe = analysis.schema
     ? analysis.unsupportedPaths.length > 0
@@ -193,13 +195,25 @@ export function renderConfig(props: ConfigProps) {
   const schemaProps = analysis.schema?.properties ?? {};
   const availableSections = SECTIONS.filter(s => s.key in schemaProps);
 
-  // Add any sections in schema but not in our list
+  // Add any sections in schema but not in our list (label from i18n or fallback)
   const knownKeys = new Set(SECTIONS.map(s => s.key));
+  const sectionLabel = (key: string) => {
+    const sectionKey = `config.sections.${key}`;
+    try {
+      const label = t(sectionKey);
+      return label !== sectionKey ? label : key.charAt(0).toUpperCase() + key.slice(1);
+    } catch {
+      return key.charAt(0).toUpperCase() + key.slice(1);
+    }
+  };
   const extraSections = Object.keys(schemaProps)
     .filter(k => !knownKeys.has(k))
-    .map(k => ({ key: k, label: k.charAt(0).toUpperCase() + k.slice(1) }));
+    .map(k => ({ key: k, label: sectionLabel(k) }));
 
-  const allSections = [...availableSections, ...extraSections];
+  const allSections = [
+    ...availableSections.map(s => ({ key: s.key, label: sectionLabel(s.key) })),
+    ...extraSections,
+  ];
 
   const activeSectionSchema =
     props.activeSection && analysis.schema && schemaType(analysis.schema) === "object"
@@ -255,8 +269,8 @@ export function renderConfig(props: ConfigProps) {
       <!-- Sidebar -->
       <aside class="config-sidebar">
         <div class="config-sidebar__header">
-          <div class="config-sidebar__title">Settings</div>
-          <span class="pill pill--sm ${validity === "valid" ? "pill--ok" : validity === "invalid" ? "pill--danger" : ""}">${validity}</span>
+          <div class="config-sidebar__title">${t("config.title")}</div>
+          <span class="pill pill--sm ${props.valid === true ? "pill--ok" : props.valid === false ? "pill--danger" : ""}">${validityDisplay}</span>
         </div>
 
         <!-- Search -->
@@ -268,7 +282,7 @@ export function renderConfig(props: ConfigProps) {
           <input
             type="text"
             class="config-search__input"
-            placeholder="Search settings..."
+            placeholder=${t("config.searchSettings")}
             .value=${props.searchQuery}
             @input=${(e: Event) => props.onSearchChange((e.target as HTMLInputElement).value)}
           />
@@ -287,7 +301,7 @@ export function renderConfig(props: ConfigProps) {
             @click=${() => props.onSectionChange(null)}
           >
             <span class="config-nav__icon">${sidebarIcons.all}</span>
-            <span class="config-nav__label">All Settings</span>
+            <span class="config-nav__label">${t("config.allSettings")}</span>
           </button>
           ${allSections.map(section => html`
             <button
@@ -308,13 +322,13 @@ export function renderConfig(props: ConfigProps) {
               ?disabled=${props.schemaLoading || !props.schema}
               @click=${() => props.onFormModeChange("form")}
             >
-              Form
+              ${t("config.form")}
             </button>
             <button
               class="config-mode-toggle__btn ${props.formMode === "raw" ? "active" : ""}"
               @click=${() => props.onFormModeChange("raw")}
             >
-              Raw
+              ${t("config.raw")}
             </button>
           </div>
         </div>
@@ -326,35 +340,35 @@ export function renderConfig(props: ConfigProps) {
         <div class="config-actions">
           <div class="config-actions__left">
             ${hasChanges ? html`
-              <span class="config-changes-badge">${props.formMode === "raw" ? "Unsaved changes" : `${diff.length} unsaved change${diff.length !== 1 ? "s" : ""}`}</span>
+              <span class="config-changes-badge">${props.formMode === "raw" ? t("config.unsavedChanges") : `${diff.length} ${t("config.unsavedCount")}`}</span>
             ` : html`
-              <span class="config-status muted">No changes</span>
+              <span class="config-status muted">${t("config.noChanges")}</span>
             `}
           </div>
           <div class="config-actions__right">
             <button class="btn btn--sm" ?disabled=${props.loading} @click=${props.onReload}>
-              ${props.loading ? "Loading…" : "Reload"}
+              ${props.loading ? t("common.loading") : t("config.reload")}
             </button>
             <button
               class="btn btn--sm primary"
               ?disabled=${!canSave}
               @click=${props.onSave}
             >
-              ${props.saving ? "Saving…" : "Save"}
+              ${props.saving ? t("common.saving") : t("common.save")}
             </button>
             <button
               class="btn btn--sm"
               ?disabled=${!canApply}
               @click=${props.onApply}
             >
-              ${props.applying ? "Applying…" : "Apply"}
+              ${props.applying ? t("config.applying") : t("config.apply")}
             </button>
             <button
               class="btn btn--sm"
               ?disabled=${!canUpdate}
               @click=${props.onUpdate}
             >
-              ${props.updating ? "Updating…" : "Update"}
+              ${props.updating ? t("config.updating") : t("config.update")}
             </button>
           </div>
         </div>
@@ -363,7 +377,7 @@ export function renderConfig(props: ConfigProps) {
         ${hasChanges && props.formMode === "form" ? html`
           <details class="config-diff">
             <summary class="config-diff__summary">
-              <span>View ${diff.length} pending change${diff.length !== 1 ? "s" : ""}</span>
+              <span>${t("config.viewPending")} ${diff.length}</span>
               <svg class="config-diff__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
@@ -404,7 +418,7 @@ export function renderConfig(props: ConfigProps) {
                   class="config-subnav__item ${effectiveSubsection === null ? "active" : ""}"
                   @click=${() => props.onSubsectionChange(ALL_SUBSECTION)}
                 >
-                  All
+                  ${t("config.all")}
                 </button>
                 ${subsections.map(
                   (entry) => html`
@@ -430,7 +444,7 @@ export function renderConfig(props: ConfigProps) {
                 ${props.schemaLoading
                   ? html`<div class="config-loading">
                       <div class="config-loading__spinner"></div>
-                      <span>Loading schema…</span>
+                      <span>${t("config.loadingSchema")}</span>
                     </div>`
                   : renderConfigForm({
                       schema: analysis.schema,
@@ -445,14 +459,13 @@ export function renderConfig(props: ConfigProps) {
                     })}
                 ${formUnsafe
                   ? html`<div class="callout danger" style="margin-top: 12px;">
-                      Form view can't safely edit some fields.
-                      Use Raw to avoid losing config entries.
+                      ${t("config.formViewWarning")}
                     </div>`
                   : nothing}
               `
             : html`
                 <label class="field config-raw-field">
-                  <span>Raw JSON5</span>
+                  <span>${t("config.rawJson")}</span>
                   <textarea
                     .value=${props.raw}
                     @input=${(e: Event) =>

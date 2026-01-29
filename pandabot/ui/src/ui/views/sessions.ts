@@ -4,6 +4,7 @@ import { formatAgo } from "../format";
 import { formatSessionTokens } from "../presenter";
 import { pathForTab } from "../navigation";
 import type { GatewaySessionRow, SessionsListResult } from "../types";
+import { t } from "../../i18n";
 
 export type SessionsProps = {
   loading: boolean;
@@ -35,11 +36,13 @@ export type SessionsProps = {
 
 const THINK_LEVELS = ["", "off", "minimal", "low", "medium", "high"] as const;
 const BINARY_THINK_LEVELS = ["", "off", "on"] as const;
-const VERBOSE_LEVELS = [
-  { value: "", label: "inherit" },
-  { value: "off", label: "off (explicit)" },
-  { value: "on", label: "on" },
-] as const;
+function getVerboseLevels(): Array<{ value: string; labelKey: string }> {
+  return [
+    { value: "", labelKey: "format.inherit" },
+    { value: "off", labelKey: "format.offExplicit" },
+    { value: "on", labelKey: "format.on" },
+  ];
+}
 const REASONING_LEVELS = ["", "off", "on", "stream"] as const;
 
 function normalizeProviderId(provider?: string | null): string {
@@ -76,17 +79,17 @@ export function renderSessions(props: SessionsProps) {
     <section class="card">
       <div class="row" style="justify-content: space-between;">
         <div>
-          <div class="card-title">Sessions</div>
-          <div class="card-sub">Active session keys and per-session overrides.</div>
+          <div class="card-title">${t("sessions.title")}</div>
+          <div class="card-sub">${t("sessions.subtitle")}</div>
         </div>
         <button class="btn" ?disabled=${props.loading} @click=${props.onRefresh}>
-          ${props.loading ? "Loading…" : "Refresh"}
+          ${props.loading ? t("common.loading") : t("common.refresh")}
         </button>
       </div>
 
       <div class="filters" style="margin-top: 14px;">
         <label class="field">
-          <span>Active within (minutes)</span>
+          <span>${t("sessions.activeWithin")}</span>
           <input
             .value=${props.activeMinutes}
             @input=${(e: Event) =>
@@ -99,7 +102,7 @@ export function renderSessions(props: SessionsProps) {
           />
         </label>
         <label class="field">
-          <span>Limit</span>
+          <span>${t("sessions.limit")}</span>
           <input
             .value=${props.limit}
             @input=${(e: Event) =>
@@ -112,7 +115,7 @@ export function renderSessions(props: SessionsProps) {
           />
         </label>
         <label class="field checkbox">
-          <span>Include global</span>
+          <span>${t("sessions.includeGlobal")}</span>
           <input
             type="checkbox"
             .checked=${props.includeGlobal}
@@ -126,7 +129,7 @@ export function renderSessions(props: SessionsProps) {
           />
         </label>
         <label class="field checkbox">
-          <span>Include unknown</span>
+          <span>${t("sessions.includeUnknown")}</span>
           <input
             type="checkbox"
             .checked=${props.includeUnknown}
@@ -146,23 +149,23 @@ export function renderSessions(props: SessionsProps) {
         : nothing}
 
       <div class="muted" style="margin-top: 12px;">
-        ${props.result ? `Store: ${props.result.path}` : ""}
+        ${props.result ? `${t("sessions.storeLabel")} ${props.result.path}` : ""}
       </div>
 
       <div class="table" style="margin-top: 16px;">
         <div class="table-head">
-          <div>Key</div>
-          <div>Label</div>
-          <div>Kind</div>
-          <div>Updated</div>
-          <div>Tokens</div>
-          <div>Thinking</div>
-          <div>Verbose</div>
-          <div>Reasoning</div>
-          <div>Actions</div>
+          <div>${t("sessions.keyColumn")}</div>
+          <div>${t("sessions.labelColumn")}</div>
+          <div>${t("sessions.kindColumn")}</div>
+          <div>${t("sessions.updatedColumn")}</div>
+          <div>${t("sessions.tokensColumn")}</div>
+          <div>${t("sessions.thinkingColumn")}</div>
+          <div>${t("sessions.verboseColumn")}</div>
+          <div>${t("sessions.reasoningColumn")}</div>
+          <div>${t("sessions.actionsColumn")}</div>
         </div>
         ${rows.length === 0
-          ? html`<div class="muted">No sessions found.</div>`
+          ? html`<div class="muted">${t("sessions.noSessionsFound")}</div>`
           : rows.map((row) =>
               renderRow(row, props.basePath, props.onPatch, props.onDelete, props.loading),
             )}
@@ -178,7 +181,7 @@ function renderRow(
   onDelete: SessionsProps["onDelete"],
   disabled: boolean,
 ) {
-  const updated = row.updatedAt ? formatAgo(row.updatedAt) : "n/a";
+  const updated = row.updatedAt ? formatAgo(row.updatedAt) : t("common.na");
   const rawThinking = row.thinkingLevel ?? "";
   const isBinaryThinking = isBinaryThinkingProvider(row.modelProvider);
   const thinking = resolveThinkLevelDisplay(rawThinking, isBinaryThinking);
@@ -200,7 +203,7 @@ function renderRow(
         <input
           .value=${row.label ?? ""}
           ?disabled=${disabled}
-          placeholder="(optional)"
+          placeholder=${t("sessions.optional")}
           @change=${(e: Event) => {
             const value = (e.target as HTMLInputElement).value.trim();
             onPatch(row.key, { label: value || null });
@@ -222,7 +225,7 @@ function renderRow(
           }}
         >
           ${thinkLevels.map((level) =>
-            html`<option value=${level}>${level || "inherit"}</option>`,
+            html`<option value=${level}>${level ? level : t("format.inherit")}</option>`,
           )}
         </select>
       </div>
@@ -235,8 +238,8 @@ function renderRow(
             onPatch(row.key, { verboseLevel: value || null });
           }}
         >
-          ${VERBOSE_LEVELS.map(
-            (level) => html`<option value=${level.value}>${level.label}</option>`,
+          ${getVerboseLevels().map(
+            (level) => html`<option value=${level.value}>${t(level.labelKey)}</option>`,
           )}
         </select>
       </div>
@@ -250,13 +253,13 @@ function renderRow(
           }}
         >
           ${REASONING_LEVELS.map((level) =>
-            html`<option value=${level}>${level || "inherit"}</option>`,
+            html`<option value=${level}>${level ? level : t("format.inherit")}</option>`,
           )}
         </select>
       </div>
       <div>
         <button class="btn danger" ?disabled=${disabled} @click=${() => onDelete(row.key)}>
-          Delete
+          ${t("common.delete")}
         </button>
       </div>
     </div>

@@ -2,9 +2,10 @@ import { html, nothing } from "lit";
 
 import type { ChannelAccountSnapshot } from "../types";
 import type { ChannelKey, ChannelsProps } from "./channels.types";
+import { t } from "../../i18n";
 
 export function formatDuration(ms?: number | null) {
-  if (!ms && ms !== 0) return "n/a";
+  if (!ms && ms !== 0) return t("common.na");
   const sec = Math.round(ms / 1000);
   if (sec < 60) return `${sec}s`;
   const min = Math.round(sec / 60);
@@ -41,5 +42,6 @@ export function renderChannelAccountCount(
 ) {
   const count = getChannelAccountCount(key, channelAccounts);
   if (count < 2) return nothing;
-  return html`<div class="account-count">Accounts (${count})</div>`;
+  const label = t("channels.accountsCount").replace("{{count}}", String(count));
+  return html`<div class="account-count">${label}</div>`;
 }

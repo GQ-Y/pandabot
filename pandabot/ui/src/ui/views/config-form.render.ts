@@ -8,6 +8,7 @@ import {
   type JsonSchema,
 } from "./config-form.shared";
 import { renderNode } from "./config-form.node";
+import { t } from "../../i18n";
 
 export type ConfigFormProps = {
   schema: JsonSchema | null;
@@ -142,12 +143,12 @@ function schemaMatches(schema: JsonSchema, query: string): boolean {
 
 export function renderConfigForm(props: ConfigFormProps) {
   if (!props.schema) {
-    return html`<div class="muted">Schema unavailable.</div>`;
+    return html`<div class="muted">${t("config.schemaUnavailable")}</div>`;
   }
   const schema = props.schema;
   const value = props.value ?? {};
   if (schemaType(schema) !== "object" || !schema.properties) {
-    return html`<div class="callout danger">Unsupported schema. Use Raw.</div>`;
+    return html`<div class="callout danger">${t("config.unsupportedSchemaUseRaw")}</div>`;
   }
   const unsupported = new Set(props.unsupportedPaths ?? []);
   const properties = schema.properties;

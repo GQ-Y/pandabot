@@ -1,6 +1,7 @@
 import { html, nothing } from "lit";
 
 import type { AppViewState } from "../app-view-state";
+import { t } from "../../i18n";
 
 export function renderGatewayUrlConfirmation(state: AppViewState) {
   const { pendingGatewayUrl } = state;
@@ -11,26 +12,26 @@ export function renderGatewayUrlConfirmation(state: AppViewState) {
       <div class="exec-approval-card">
         <div class="exec-approval-header">
           <div>
-            <div class="exec-approval-title">Change Gateway URL</div>
-            <div class="exec-approval-sub">This will reconnect to a different gateway server</div>
+            <div class="exec-approval-title">${t("gatewayUrl.title")}</div>
+            <div class="exec-approval-sub">${t("gatewayUrl.message")}</div>
           </div>
         </div>
         <div class="exec-approval-command mono">${pendingGatewayUrl}</div>
         <div class="callout danger" style="margin-top: 12px;">
-          Only confirm if you trust this URL. Malicious URLs can compromise your system.
+          ${t("gatewayUrl.warning")}
         </div>
         <div class="exec-approval-actions">
           <button
             class="btn primary"
             @click=${() => state.handleGatewayUrlConfirm()}
           >
-            Confirm
+            ${t("common.confirm")}
           </button>
           <button
             class="btn"
             @click=${() => state.handleGatewayUrlCancel()}
           >
-            Cancel
+            ${t("common.cancel")}
           </button>
         </div>
       </div>
