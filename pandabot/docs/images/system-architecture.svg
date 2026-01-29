@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="920" viewBox="0 0 1100 920" role="img" aria-label="Moltbot &#x7CFB;&#x7EDF;&#x67B6;&#x6784;">
+  <defs>
+    <style>
+      .box { fill: #f6f5f3; stroke: #2b2b2b; stroke-width: 1.5; }
+      .box-gateway { fill: #e8f4f8; stroke: #1a6b7c; stroke-width: 1.5; }
+      .box-channel { fill: #f0f7e8; stroke: #4a7c2c; stroke-width: 1.5; }
+      .box-agent { fill: #faf0e8; stroke: #9a5a1a; stroke-width: 1.5; }
+      .box-infra { fill: #f5f0f8; stroke: #5a3a8a; stroke-width: 1.5; }
+      .text { font: 13px "PingFang SC", "Microsoft YaHei", sans-serif; fill: #1a1a1a; }
+      .text-small { font: 11px "PingFang SC", "Microsoft YaHei", sans-serif; fill: #333; }
+      .title { font: bold 14px "PingFang SC", "Microsoft YaHei", sans-serif; fill: #1a1a1a; }
+      .arrow { stroke: #2b2b2b; stroke-width: 1.5; fill: none; marker-end: url(#arrow); }
+      .arrow-dash { stroke: #666; stroke-width: 1; stroke-dasharray: 4 2; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#2b2b2b" />
+    </marker>
+  </defs>
+
+  <!-- &#x6807;&#x9898; -->
+  <text class="title" x="550" y="28" text-anchor="middle">Moltbot &#x7CFB;&#x7EDF;&#x6D41;&#x7A0B;&#x67B6;&#x6784;&#x56FE;</text>
+  <text class="text-small" x="550" y="46" text-anchor="middle">Gateway &#x63A7;&#x5236;&#x9762; &#xB7; &#x591A;&#x6E20;&#x9053; &#xB7; Pi Agent &#x8FD0;&#x884C;&#x65F6;</text>
+
+  <!-- &#x7B2C;&#x4E00;&#x5C42;&#xFF1A;&#x5165;&#x53E3;&#x4E0E;&#x5BA2;&#x6237;&#x7AEF; -->
+  <rect class="box" x="20" y="58" width="1060" height="88" rx="6" />
+  <text class="title" x="36" y="78">&#x5165;&#x53E3;&#x4E0E;&#x5BA2;&#x6237;&#x7AEF;</text>
+  <rect class="box" x="36" y="86" width="120" height="48" rx="4" />
+  <text class="text" x="96" y="108" text-anchor="middle">CLI</text>
+  <text class="text-small" x="96" y="124" text-anchor="middle">entry &#x2192; run-main</text>
+  <text class="text-small" x="96" y="128" text-anchor="middle">gateway / agent / send</text>
+
+  <rect class="box" x="176" y="86" width="130" height="48" rx="4" />
+  <text class="text" x="241" y="108" text-anchor="middle">&#x63A7;&#x5236;&#x53F0; UI</text>
+  <text class="text-small" x="241" y="124" text-anchor="middle">HTTP + WebChat</text>
+
+  <rect class="box" x="326" y="86" width="200" height="48" rx="4" />
+  <text class="text" x="426" y="106" text-anchor="middle">&#x6838;&#x5FC3;&#x6E20;&#x9053;</text>
+  <text class="text-small" x="426" y="122" text-anchor="middle">Telegram&#x3001;Discord&#x3001;Slack&#x3001;Signal</text>
+  <text class="text-small" x="426" y="128" text-anchor="middle">iMessage&#x3001;WhatsApp(Web)&#x3001;Line</text>
+
+  <rect class="box" x="546" y="86" width="220" height="48" rx="4" />
+  <text class="text" x="656" y="106" text-anchor="middle">&#x6269;&#x5C55;&#x6E20;&#x9053;</text>
+  <text class="text-small" x="656" y="122" text-anchor="middle">BlueBubbles&#x3001;Google Chat&#x3001;Matrix</text>
+  <text class="text-small" x="656" y="128" text-anchor="middle">MSTeams&#x3001;Zalo&#x3001;Voice-call&#x3001;Nostr</text>
+
+  <rect class="box" x="786" y="86" width="140" height="48" rx="4" />
+  <text class="text" x="856" y="108" text-anchor="middle">Node &#x5BA2;&#x6237;&#x7AEF;</text>
+  <text class="text-small" x="856" y="124" text-anchor="middle">macOS / iOS / Android</text>
+
+  <rect class="box" x="946" y="86" width="114" height="48" rx="4" />
+  <text class="text" x="1003" y="108" text-anchor="middle">Hooks / Cron</text>
+  <text class="text-small" x="1003" y="124" text-anchor="middle">webhook&#x3001;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;</text>
+
+  <line class="arrow" x1="96" y1="146" x2="96" y2="172" />
+  <line class="arrow" x1="241" y1="146" x2="350" y2="172" />
+  <line class="arrow" x1="426" y1="146" x2="450" y2="172" />
+  <line class="arrow" x1="656" y1="146" x2="550" y2="172" />
+  <line class="arrow" x1="856" y1="146" x2="750" y2="172" />
+  <line class="arrow" x1="1003" y1="146" x2="950" y2="172" />
+
+  <!-- &#x7B2C;&#x4E8C;&#x5C42;&#xFF1A;Gateway &#x63A7;&#x5236;&#x9762; -->
+  <rect class="box-gateway" x="20" y="172" width="1060" height="118" rx="6" />
+  <text class="title" x="36" y="192" fill="#1a6b7c">Gateway &#x63A7;&#x5236;&#x9762;</text>
+  <rect class="box-gateway" x="36" y="198" width="180" height="78" rx="4" />
+  <text class="text" x="126" y="220" text-anchor="middle">HTTP &#x670D;&#x52A1;</text>
+  <text class="text-small" x="126" y="236" text-anchor="middle">hooks&#x3001;tools-invoke&#x3001;Slack</text>
+  <text class="text-small" x="126" y="250" text-anchor="middle">plugins&#x3001;open-responses</text>
+  <text class="text-small" x="126" y="262" text-anchor="middle">OpenAI API&#x3001;Canvas/A2UI&#x3001;Control UI</text>
+
+  <rect class="box-gateway" x="236" y="198" width="160" height="78" rx="4" />
+  <text class="text" x="316" y="220" text-anchor="middle">WebSocket &#x670D;&#x52A1;</text>
+  <text class="text-small" x="316" y="236" text-anchor="middle">&#x5347;&#x7EA7;&#x3001;&#x534F;&#x8BAE;</text>
+  <text class="text-small" x="316" y="250" text-anchor="middle">&#x4E8B;&#x4EF6;&#x5E7F;&#x64AD;</text>
+
+  <rect class="box-gateway" x="416" y="198" width="320" height="78" rx="4" />
+  <text class="text" x="576" y="216" text-anchor="middle">Gateway &#x65B9;&#x6CD5; (WS RPC)</text>
+  <text class="text-small" x="576" y="232" text-anchor="middle">agent&#x3001;chat&#x3001;sessions&#x3001;send&#x3001;config&#x3001;channels&#x3001;cron&#x3001;nodes</text>
+  <text class="text-small" x="576" y="246" text-anchor="middle">health&#x3001;plugins&#x3001;wizard&#x3001;exec-approval&#x3001;&#x6269;&#x5C55;&#x65B9;&#x6CD5;</text>
+
+  <rect class="box-gateway" x="756" y="198" width="150" height="78" rx="4" />
+  <text class="text" x="831" y="224" text-anchor="middle">ChannelManager</text>
+  <text class="text-small" x="831" y="242" text-anchor="middle">startChannel</text>
+  <text class="text-small" x="831" y="256" text-anchor="middle">stopChannel</text>
+
+  <rect class="box-gateway" x="926" y="198" width="134" height="78" rx="4" />
+  <text class="text" x="993" y="224" text-anchor="middle">Node &#x6CE8;&#x518C;&#x8868;</text>
+  <text class="text-small" x="993" y="242" text-anchor="middle">&#x8BA2;&#x9605; / &#x63A8;&#x9001;</text>
+
+  <line class="arrow" x1="316" y1="290" x2="400" y2="318" />
+  <line class="arrow" x1="576" y1="290" x2="576" y2="318" />
+  <line class="arrow" x1="831" y1="290" x2="750" y2="318" />
+
+  <!-- &#x7B2C;&#x4E09;&#x5C42;&#xFF1A;&#x6E20;&#x9053;&#x5C42; -->
+  <rect class="box-channel" x="20" y="318" width="1060" height="100" rx="6" />
+  <text class="title" x="36" y="338" fill="#4a7c2c">&#x6E20;&#x9053;&#x5C42;</text>
+  <rect class="box-channel" x="36" y="352" width="140" height="54" rx="4" />
+  <text class="text" x="106" y="372" text-anchor="middle">Channel Dock</text>
+  <text class="text-small" x="106" y="388" text-anchor="middle">&#x80FD;&#x529B;&#x3001;&#x51FA;&#x7AD9;&#x9650;&#x5236;</text>
+
+  <rect class="box-channel" x="196" y="352" width="140" height="54" rx="4" />
+  <text class="text" x="266" y="372" text-anchor="middle">&#x63D2;&#x4EF6;&#x6CE8;&#x518C;&#x8868;</text>
+  <text class="text-small" x="266" y="388" text-anchor="middle">&#x6269;&#x5C55;&#x6E20;&#x9053;&#x6CE8;&#x518C;</text>
+
+  <rect class="box-channel" x="356" y="352" width="200" height="54" rx="4" />
+  <text class="text" x="456" y="370" text-anchor="middle">gateway.startAccount</text>
+  <text class="text-small" x="456" y="386" text-anchor="middle">Monitor &#x62C9;&#x53D6; / Webhook &#x63A5;&#x6536;&#x3001;&#x5F52;&#x4E00;&#x5316;&#x6D88;&#x606F;</text>
+
+  <rect class="box-channel" x="576" y="352" width="180" height="54" rx="4" />
+  <text class="text" x="666" y="370" text-anchor="middle">&#x8DEF;&#x7531;</text>
+  <text class="text-small" x="666" y="386" text-anchor="middle">resolveAgentRoute&#x3001;sessionKey</text>
+  <text class="text-small" x="666" y="398" text-anchor="middle">binding.peer/guild/team/default</text>
+
+  <rect class="box-channel" x="776" y="352" width="140" height="54" rx="4" />
+  <text class="text" x="846" y="372" text-anchor="middle">&#x5165;&#x7AD9;&#x5206;&#x53D1;</text>
+  <text class="text-small" x="846" y="388" text-anchor="middle">dispatchReplyFromConfig</text>
+
+  <rect class="box-channel" x="936" y="352" width="124" height="54" rx="4" />
+  <text class="text" x="998" y="372" text-anchor="middle">ReplyDispatcher</text>
+  <text class="text-small" x="998" y="388" text-anchor="middle">deliver &#x56DE;&#x8C03;</text>
+
+  <line class="arrow" x1="666" y1="418" x2="576" y2="448" />
+  <line class="arrow" x1="846" y1="418" x2="676" y2="448" />
+  <line class="arrow" x1="998" y1="418" x2="900" y2="448" />
+
+  <!-- &#x7B2C;&#x56DB;&#x5C42;&#xFF1A;&#x6D88;&#x606F;&#x5904;&#x7406;&#x94FE; -->
+  <rect class="box" x="20" y="448" width="1060" height="112" rx="6" />
+  <text class="title" x="36" y="468">&#x6D88;&#x606F;&#x5904;&#x7406;&#x94FE; (auto-reply)</text>
+  <rect class="box" x="36" y="482" width="150" height="66" rx="4" />
+  <text class="text" x="111" y="502" text-anchor="middle">getReplyFromConfig</text>
+  <text class="text-small" x="111" y="518" text-anchor="middle">finalizeInboundContext</text>
+  <text class="text-small" x="111" y="532" text-anchor="middle">&#x5A92;&#x4F53;/&#x94FE;&#x63A5;&#x7406;&#x89E3;</text>
+  <text class="text-small" x="111" y="544" text-anchor="middle">initSessionState&#x3001;&#x6307;&#x4EE4;&#x89E3;&#x6790;</text>
+
+  <rect class="box" x="206" y="482" width="160" height="66" rx="4" />
+  <text class="text" x="286" y="502" text-anchor="middle">resolveReplyDirectives</text>
+  <text class="text-small" x="286" y="518" text-anchor="middle">&#x5FEB;&#x901F;&#x8DEF;&#x5F84; / &#x72B6;&#x6001;&#x56DE;&#x590D;</text>
+  <text class="text-small" x="286" y="532" text-anchor="middle">runPreparedReply</text>
+  <text class="text-small" x="286" y="544" text-anchor="middle">&#x6216; runReplyAgent</text>
+
+  <rect class="box" x="386" y="482" width="140" height="66" rx="4" />
+  <text class="text" x="456" y="502" text-anchor="middle">&#x4F1A;&#x8BDD;</text>
+  <text class="text-small" x="456" y="518" text-anchor="middle">sessionKey&#x3001;storePath</text>
+  <text class="text-small" x="456" y="532" text-anchor="middle">transcript&#x3001;&#x961F;&#x5217;&#x6A21;&#x5F0F;</text>
+
+  <rect class="box" x="546" y="482" width="160" height="66" rx="4" />
+  <text class="text" x="626" y="502" text-anchor="middle">runAgentTurnWithFallback</text>
+  <text class="text-small" x="626" y="518" text-anchor="middle">Pi Embedded &#x8C03;&#x7528;</text>
+  <text class="text-small" x="626" y="532" text-anchor="middle">block streaming&#x3001;&#x5DE5;&#x5177;&#x6D41;</text>
+
+  <rect class="box" x="726" y="482" width="170" height="66" rx="4" />
+  <text class="text" x="811" y="502" text-anchor="middle">routeReply / &#x51FA;&#x7AD9;</text>
+  <text class="text-small" x="811" y="518" text-anchor="middle">deliverOutboundPayloads</text>
+  <text class="text-small" x="811" y="532" text-anchor="middle">&#x6E20;&#x9053;&#x9002;&#x914D;&#x5668; send</text>
+  <text class="text-small" x="811" y="544" text-anchor="middle">&#x4F1A;&#x8BDD;&#x955C;&#x50CF;</text>
+
+  <rect class="box" x="916" y="482" width="144" height="66" rx="4" />
+  <text class="text" x="988" y="502" text-anchor="middle">infra/outbound</text>
+  <text class="text-small" x="988" y="518" text-anchor="middle">deliver.ts</text>
+  <text class="text-small" x="988" y="532" text-anchor="middle">Telegram/Discord/Slack</text>
+  <text class="text-small" x="988" y="544" text-anchor="middle">WhatsApp/Signal/iMessage</text>
+
+  <line class="arrow" x1="626" y1="560" x2="450" y2="588" />
+
+  <!-- &#x7B2C;&#x4E94;&#x5C42;&#xFF1A;Agent &#x8FD0;&#x884C;&#x65F6; -->
+  <rect class="box-agent" x="20" y="588" width="1060" height="118" rx="6" />
+  <text class="title" x="36" y="608" fill="#9a5a1a">Agent &#x8FD0;&#x884C;&#x65F6; (Pi Embedded)</text>
+  <rect class="box-agent" x="36" y="622" width="160" height="72" rx="4" />
+  <text class="text" x="116" y="642" text-anchor="middle">pi-embedded-runner</text>
+  <text class="text-small" x="116" y="658" text-anchor="middle">runEmbeddedPiAgent</text>
+  <text class="text-small" x="116" y="672" text-anchor="middle">queueEmbeddedPiMessage</text>
+  <text class="text-small" x="116" y="684" text-anchor="middle">session-manager&#x3001;&#x5386;&#x53F2;</text>
+
+  <rect class="box-agent" x="216" y="622" width="140" height="72" rx="4" />
+  <text class="text" x="286" y="642" text-anchor="middle">&#x6A21;&#x578B;&#x76EE;&#x5F55;</text>
+  <text class="text-small" x="286" y="658" text-anchor="middle">auth profiles</text>
+  <text class="text-small" x="286" y="672" text-anchor="middle">&#x6545;&#x969C;&#x8F6C;&#x79FB;&#x3001;&#x522B;&#x540D;</text>
+
+  <rect class="box-agent" x="376" y="622" width="200" height="72" rx="4" />
+  <text class="text" x="476" y="640" text-anchor="middle">LLM &#x8C03;&#x7528; (Embedded)</text>
+  <text class="text-small" x="476" y="656" text-anchor="middle">Claude / OpenAI / Gemini / &#x672C;&#x5730;</text>
+  <text class="text-small" x="476" y="670" text-anchor="middle">&#x6D41;&#x5F0F;&#x3001;tool calls</text>
+  <text class="text-small" x="476" y="684" text-anchor="middle">thinking&#x3001;block &#x5206;&#x5757;</text>
+
+  <rect class="box-agent" x="596" y="622" width="220" height="72" rx="4" />
+  <text class="text" x="706" y="640" text-anchor="middle">&#x5DE5;&#x5177;</text>
+  <text class="text-small" x="706" y="656" text-anchor="middle">bash&#x3001;browser&#x3001;canvas&#x3001;skills&#x3001;plugins</text>
+  <text class="text-small" x="706" y="670" text-anchor="middle">exec&#x3001;cron&#x3001;sessions&#x3001;&#x6269;&#x5C55; tool</text>
+  <text class="text-small" x="706" y="684" text-anchor="middle">moltbot-tools (send/memory &#x7B49;)</text>
+
+  <rect class="box-agent" x="836" y="622" width="224" height="72" rx="4" />
+  <text class="text" x="948" y="640" text-anchor="middle">&#x6C99;&#x7BB1; / &#x7B56;&#x7565;</text>
+  <text class="text-small" x="948" y="656" text-anchor="middle">tool policy&#x3001;elevated</text>
+  <text class="text-small" x="948" y="670" text-anchor="middle">exec-approval&#x3001;Docker</text>
+  <text class="text-small" x="948" y="684" text-anchor="middle">context pruning&#x3001;compaction</text>
+
+  <line class="arrow-dash" x1="286" y1="718" x2="350" y2="738" />
+  <line class="arrow-dash" x1="706" y1="718" x2="550" y2="738" />
+
+  <!-- &#x7B2C;&#x516D;&#x5C42;&#xFF1A;&#x914D;&#x7F6E;&#x4E0E;&#x57FA;&#x7840;&#x8BBE;&#x65BD; -->
+  <rect class="box-infra" x="20" y="738" width="1060" height="118" rx="6" />
+  <text class="title" x="36" y="758" fill="#5a3a8a">&#x914D;&#x7F6E;&#x4E0E;&#x57FA;&#x7840;&#x8BBE;&#x65BD;</text>
+  <rect class="box-infra" x="36" y="772" width="140" height="72" rx="4" />
+  <text class="text" x="106" y="792" text-anchor="middle">&#x914D;&#x7F6E;</text>
+  <text class="text-small" x="106" y="808" text-anchor="middle">MoltbotConfig</text>
+  <text class="text-small" x="106" y="822" text-anchor="middle">loadConfig&#x3001;&#x70ED;&#x91CD;&#x8F7D;</text>
+
+  <rect class="box-infra" x="196" y="772" width="120" height="72" rx="4" />
+  <text class="text" x="256" y="792" text-anchor="middle">&#x63D2;&#x4EF6;</text>
+  <text class="text-small" x="256" y="808" text-anchor="middle">PluginRegistry</text>
+  <text class="text-small" x="256" y="822" text-anchor="middle">extensions &#x52A0;&#x8F7D;</text>
+
+  <rect class="box-infra" x="336" y="772" width="140" height="72" rx="4" />
+  <text class="text" x="406" y="792" text-anchor="middle">Hooks</text>
+  <text class="text-small" x="406" y="808" text-anchor="middle">message_received</text>
+  <text class="text-small" x="406" y="822" text-anchor="middle">HTTP &#x8F6C;&#x53D1;</text>
+
+  <rect class="box-infra" x="496" y="772" width="120" height="72" rx="4" />
+  <text class="text" x="556" y="792" text-anchor="middle">Skills</text>
+  <text class="text-small" x="556" y="808" text-anchor="middle">bundled&#x3001;workspace</text>
+  <text class="text-small" x="556" y="822" text-anchor="middle">plugin-skills</text>
+
+  <rect class="box-infra" x="636" y="772" width="140" height="72" rx="4" />
+  <text class="text" x="706" y="792" text-anchor="middle">&#x5A92;&#x4F53;</text>
+  <text class="text-small" x="706" y="808" text-anchor="middle">media pipeline</text>
+  <text class="text-small" x="706" y="822" text-anchor="middle">&#x7406;&#x89E3;&#x3001;host</text>
+
+  <rect class="box-infra" x="796" y="772" width="130" height="72" rx="4" />
+  <text class="text" x="861" y="792" text-anchor="middle">&#x57FA;&#x7840;&#x8BBE;&#x65BD;</text>
+  <text class="text-small" x="861" y="808" text-anchor="middle">retry&#x3001;Tailscale</text>
+  <text class="text-small" x="861" y="822" text-anchor="middle">daemon&#x3001;gateway-lock</text>
+
+  <rect class="box-infra" x="946" y="772" width="114" height="72" rx="4" />
+  <text class="text" x="1003" y="792" text-anchor="middle">Memory</text>
+  <text class="text-small" x="1003" y="808" text-anchor="middle">&#x53EF;&#x9009;&#x63D2;&#x4EF6;</text>
+  <text class="text-small" x="1003" y="822" text-anchor="middle">memory-core/lancedb</text>
+
+  <!-- &#x6570;&#x636E;&#x6D41;&#x56FE;&#x4F8B; -->
+  <rect class="box" x="20" y="868" width="1060" height="42" rx="4" />
+  <text class="text-small" x="36" y="888">&#x5165;&#x7AD9;&#xFF1A;&#x6E20;&#x9053; Monitor/Webhook &#x2192; &#x5F52;&#x4E00;&#x5316; ctx &#x2192; resolveAgentRoute &#x2192; dispatchInboundMessage &#x2192; getReplyFromConfig &#x2192; (&#x6307;&#x4EE4;&#x6216; runReplyAgent) &#x2192; Pi Embedded &#x2192; LLM + &#x5DE5;&#x5177; &#x2192; &#x56DE;&#x590D;</text>
+  <text class="text-small" x="36" y="902">&#x51FA;&#x7AD9;&#xFF1A;ReplyDispatcher.deliver / routeReply &#x2192; infra/outbound deliver &#x2192; &#x6E20;&#x9053; send &#x2192; &#x7528;&#x6237;/&#x7FA4;&#x7EC4;</text>
+</svg>

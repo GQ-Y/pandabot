@@ -1,0 +1,17 @@
+{
+  "name": "@moltbot/memory-core",
+  "version": "2026.1.27-beta.1",
+  "type": "module",
+  "description": "Moltbot core memory search plugin",
+  "pandabot": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "peerDependencies": {
+    "pandabot": ">=2026.1.26"
+  },
+  "devDependencies": {
+    "pandabot": "workspace:*"
+  }
+}

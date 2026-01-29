@@ -1,0 +1,122 @@
+#!/usr/bin/env python3
+"""批量替换环境变量引用"""
+import os
+import re
+from pathlib import Path
+
+# 环境变量映射表
+ENV_VAR_MAPPINGS = {
+    "CLAWDBOT_STATE_DIR": "PANDA_STATE_DIR",
+    "MOLTBOT_STATE_DIR": "PANDA_STATE_DIR",
+    "CLAWDBOT_CONFIG_PATH": "PANDA_CONFIG_PATH",
+    "MOLTBOT_CONFIG_PATH": "PANDA_CONFIG_PATH",
+    "CLAWDBOT_GATEWAY_TOKEN": "PANDA_GATEWAY_TOKEN",
+    "CLAWDBOT_GATEWAY_PASSWORD": "PANDA_GATEWAY_PASSWORD",
+    "CLAWDBOT_GATEWAY_PORT": "PANDA_GATEWAY_PORT",
+    "CLAWDBOT_SKIP_CHANNELS": "PANDA_SKIP_CHANNELS",
+    "CLAWDBOT_SKIP_GMAIL_WATCHER": "PANDA_SKIP_GMAIL_WATCHER",
+    "CLAWDBOT_SKIP_CRON": "PANDA_SKIP_CRON",
+    "CLAWDBOT_SKIP_CANVAS_HOST": "PANDA_SKIP_CANVAS_HOST",
+    "CLAWDBOT_SKIP_BROWSER_CONTROL_SERVER": "PANDA_SKIP_BROWSER_CONTROL_SERVER",
+    "CLAWDBOT_LIVE_TEST": "PANDA_LIVE_TEST",
+    "CLAWDBOT_LIVE_GATEWAY": "PANDA_LIVE_GATEWAY",
+    "CLAWDBOT_TEST_FAST": "PANDA_TEST_FAST",
+    "CLAWDBOT_TEST_HOME": "PANDA_TEST_HOME",
+    "CLAWDBOT_BRIDGE_ENABLED": "PANDA_BRIDGE_ENABLED",
+    "CLAWDBOT_BRIDGE_HOST": "PANDA_BRIDGE_HOST",
+    "CLAWDBOT_BRIDGE_PORT": "PANDA_BRIDGE_PORT",
+    "CLAWDBOT_CANVAS_HOST_PORT": "PANDA_CANVAS_HOST_PORT",
+    "CLAWDBOT_PROFILE": "PANDA_PROFILE",
+    "CLAWDBOT_NIX_MODE": "PANDA_NIX_MODE",
+    "MOLTBOT_NIX_MODE": "PANDA_NIX_MODE",
+    "CLAWDBOT_LOAD_SHELL_ENV": "PANDA_LOAD_SHELL_ENV",
+    "CLAWDBOT_DEFER_SHELL_ENV_FALLBACK": "PANDA_DEFER_SHELL_ENV_FALLBACK",
+    "CLAWDBOT_SHELL_ENV_TIMEOUT_MS": "PANDA_SHELL_ENV_TIMEOUT_MS",
+    "CLAWDBOT_VERSION": "PANDA_VERSION",
+    "CLAWDBOT_AGENT_DIR": "PANDA_AGENT_DIR",
+    "CLAWDBOT_SYSTEMD_UNIT": "PANDA_SYSTEMD_UNIT",
+    "CLAWDBOT_LAUNCHD_LABEL": "PANDA_LAUNCHD_LABEL",
+    "CLAWDBOT_DISABLE_BONJOUR": "PANDA_DISABLE_BONJOUR",
+    "CLAWDBOT_UPDATE_IN_PROGRESS": "PANDA_UPDATE_IN_PROGRESS",
+    "CLAWDBOT_PATH_BOOTSTRAPPED": "PANDA_PATH_BOOTSTRAPPED",
+    "CLAWDBOT_E2E_MODELS": "PANDA_E2E_MODELS",
+    "CLAWDBOT_OAUTH_DIR": "PANDA_OAUTH_DIR",
+    "CLAWDBOT_TTS_PREFS": "PANDA_TTS_PREFS",
+    "CLAWDBOT_BUNDLED_VERSION": "PANDA_BUNDLED_VERSION",
+    "CLAWDBOT_BUNDLED_PLUGINS_DIR": "PANDA_BUNDLED_PLUGINS_DIR",
+    "CLAWDBOT_DIAGNOSTICS": "PANDA_DIAGNOSTICS",
+    "CLAWDBOT_PLUGIN_CATALOG_PATHS": "PANDA_PLUGIN_CATALOG_PATHS",
+    "CLAWDBOT_MPM_CATALOG_PATHS": "PANDA_MPM_CATALOG_PATHS",
+    "CLAWDBOT_RAW_STREAM": "PANDA_RAW_STREAM",
+    "CLAWDBOT_DEBUG_MEMORY_EMBEDDINGS": "PANDA_DEBUG_MEMORY_EMBEDDINGS",
+    "CLAWDBOT_NODE_EXEC_HOST": "PANDA_NODE_EXEC_HOST",
+    "CLAWDBOT_CONTROL_UI_BASE_PATH": "PANDA_CONTROL_UI_BASE_PATH",
+    "CLAWDBOT_ASSISTANT_NAME": "PANDA_ASSISTANT_NAME",
+    "CLAWDBOT_ASSISTANT_AVATAR": "PANDA_ASSISTANT_AVATAR",
+    "CLAWDBOT_LIVE_GATEWAY_ZAI_FALLBACK": "PANDA_LIVE_GATEWAY_ZAI_FALLBACK",
+    "CLAWDBOT_LIVE_GATEWAY_PROVIDERS": "PANDA_LIVE_GATEWAY_PROVIDERS",
+    "CLAWDBOT_LIVE_CLI_BACKEND": "PANDA_LIVE_CLI_BACKEND",
+    "CLAWDBOT_LIVE_CLI_BACKEND_IMAGE_PROBE": "PANDA_LIVE_CLI_BACKEND_IMAGE_PROBE",
+    "CLAWDBOT_LIVE_CLI_BACKEND_RESUME_PROBE": "PANDA_LIVE_CLI_BACKEND_RESUME_PROBE",
+    "CLAWDBOT_LIVE_MODELS": "PANDA_LIVE_MODELS",
+    "CLAWDBOT_LIVE_REQUIRE_PROFILE_KEYS": "PANDA_LIVE_REQUIRE_PROFILE_KEYS",
+    "CLAWDBOT_LIVE_SETUP_TOKEN": "PANDA_LIVE_SETUP_TOKEN",
+    "CLAWDBOT_LIVE_SETUP_TOKEN_VALUE": "PANDA_LIVE_SETUP_TOKEN_VALUE",
+    "CLAWDBOT_LIVE_SETUP_TOKEN_PROFILE": "PANDA_LIVE_SETUP_TOKEN_PROFILE",
+    "CLAWDBOT_LIVE_SETUP_TOKEN_MODEL": "PANDA_LIVE_SETUP_TOKEN_MODEL",
+    "CLAWDBOT_LIVE_BROWSER_CDP_URL": "PANDA_LIVE_BROWSER_CDP_URL",
+    "CLAWDBOT_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY": "PANDA_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY",
+    "__CLAWDBOT_VERSION__": "__PANDA_VERSION__",
+    "__CLAWDBOT_CONTROL_UI_BASE_PATH__": "__PANDA_CONTROL_UI_BASE_PATH__",
+    "__CLAWDBOT_ASSISTANT_NAME__": "__PANDA_ASSISTANT_NAME__",
+    "__CLAWDBOT_ASSISTANT_AVATAR__": "__PANDA_ASSISTANT_AVATAR__",
+}
+
+def process_file(file_path):
+    """处理单个文件"""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        original_content = content
+        
+        # 执行替换
+        for old_var, new_var in ENV_VAR_MAPPINGS.items():
+            content = content.replace(old_var, new_var)
+        
+        # 如果有变化则写回文件
+        if content != original_content:
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(content)
+            print(f"✓ {file_path}")
+            return 1
+        return 0
+    except Exception as e:
+        print(f"✗ {file_path}: {e}")
+        return 0
+
+def main():
+    base_dir = Path.cwd()
+    dirs_to_process = ['src', 'test', 'ui']
+    extensions = ['.ts', '.js', '.tsx']
+    
+    total_files = 0
+    updated_files = 0
+    
+    print("开始替换环境变量...")
+    
+    for dir_name in dirs_to_process:
+        dir_path = base_dir / dir_name
+        if not dir_path.exists():
+            continue
+            
+        for ext in extensions:
+            for file_path in dir_path.rglob(f'*{ext}'):
+                if file_path.is_file():
+                    total_files += 1
+                    updated_files += process_file(file_path)
+    
+    print(f"\n完成! 共处理 {total_files} 个文件, 更新了 {updated_files} 个文件")
+
+if __name__ == '__main__':
+    main()
