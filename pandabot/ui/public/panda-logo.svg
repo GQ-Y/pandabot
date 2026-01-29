@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="pandaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357ABD;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Panda head (white circle) -->
+  <circle cx="50" cy="50" r="35" fill="#FFFFFF" stroke="url(#pandaGradient)" stroke-width="2"/>
+  
+  <!-- Left ear (black) -->
+  <circle cx="30" cy="25" r="12" fill="#2C3E50"/>
+  
+  <!-- Right ear (black) -->
+  <circle cx="70" cy="25" r="12" fill="#2C3E50"/>
+  
+  <!-- Left eye patch (black) -->
+  <ellipse cx="38" cy="45" rx="10" ry="14" fill="#2C3E50" transform="rotate(-15 38 45)"/>
+  
+  <!-- Right eye patch (black) -->
+  <ellipse cx="62" cy="45" rx="10" ry="14" fill="#2C3E50" transform="rotate(15 62 45)"/>
+  
+  <!-- Left eye (white) -->
+  <circle cx="38" cy="44" r="5" fill="#FFFFFF"/>
+  <circle cx="39" cy="43" r="3" fill="#2C3E50"/>
+  <circle cx="40" cy="42" r="1.5" fill="#FFFFFF"/>
+  
+  <!-- Right eye (white) -->
+  <circle cx="62" cy="44" r="5" fill="#FFFFFF"/>
+  <circle cx="63" cy="43" r="3" fill="#2C3E50"/>
+  <circle cx="64" cy="42" r="1.5" fill="#FFFFFF"/>
+  
+  <!-- Nose (black) -->
+  <ellipse cx="50" cy="58" rx="5" ry="4" fill="#2C3E50"/>
+  
+  <!-- Mouth (curved line) -->
+  <path d="M 50 62 Q 45 65 42 64" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M 50 62 Q 55 65 58 64" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- Tech accent (circuit pattern on ear) -->
+  <circle cx="70" cy="25" r="4" fill="none" stroke="url(#pandaGradient)" stroke-width="1"/>
+  <line x1="68" y1="23" x2="72" y2="27" stroke="url(#pandaGradient)" stroke-width="1"/>
+  <line x1="68" y1="27" x2="72" y2="23" stroke="url(#pandaGradient)" stroke-width="1"/>
+</svg>
