@@ -78,10 +78,10 @@ async function promptManualModel(params: {
   initialValue?: string;
 }): Promise<PromptDefaultModelResult> {
   const modelInput = await params.prompter.text({
-    message: params.allowBlank ? "Default model (blank to keep)" : "Default model",
+    message: params.allowBlank ? "默认模型（留空保持现有）" : "默认模型",
     initialValue: params.initialValue,
     placeholder: "provider/model",
-    validate: params.allowBlank ? undefined : (value) => (value?.trim() ? undefined : "Required"),
+    validate: params.allowBlank ? undefined : (value) => (value?.trim() ? undefined : "必填"),
   });
   const model = String(modelInput ?? "").trim();
   if (!model) return {};
@@ -188,14 +188,14 @@ export async function promptDefaultModel(
     options.push({
       value: KEEP_VALUE,
       label: configuredRaw
-        ? `Keep current (${configuredRaw})`
-        : `Keep current (default: ${resolvedKey})`,
+        ? `保持当前（${configuredRaw}）`
+        : `保持当前（默认：${resolvedKey}）`,
       hint:
-        configuredRaw && configuredRaw !== resolvedKey ? `resolves to ${resolvedKey}` : undefined,
+        configuredRaw && configuredRaw !== resolvedKey ? `解析为 ${resolvedKey}` : undefined,
     });
   }
   if (includeManual) {
-    options.push({ value: MANUAL_VALUE, label: "Enter model manually" });
+    options.push({ value: MANUAL_VALUE, label: "手动输入模型" });
   }
 
   const seen = new Set<string>();
@@ -216,7 +216,7 @@ export async function promptDefaultModel(
     if (entry.reasoning) hints.push("reasoning");
     const aliases = aliasIndex.byKey.get(key);
     if (aliases?.length) hints.push(`alias: ${aliases.join(", ")}`);
-    if (!hasAuth(entry.provider)) hints.push("auth missing");
+    if (!hasAuth(entry.provider)) hints.push("缺少认证");
     options.push({
       value: key,
       label: key,
@@ -231,7 +231,7 @@ export async function promptDefaultModel(
     options.push({
       value: configuredKey,
       label: configuredKey,
-      hint: "current (not in catalog)",
+      hint: "当前（不在目录中）",
     });
   }
 
@@ -249,7 +249,7 @@ export async function promptDefaultModel(
   }
 
   const selection = await params.prompter.select({
-    message: params.message ?? "Default model",
+    message: params.message ?? "默认模型",
     options,
     initialValue,
   });
@@ -343,7 +343,7 @@ export async function promptModelAllowlist(params: {
     if (entry.reasoning) hints.push("reasoning");
     const aliases = aliasIndex.byKey.get(key);
     if (aliases?.length) hints.push(`alias: ${aliases.join(", ")}`);
-    if (!hasAuth(entry.provider)) hints.push("auth missing");
+    if (!hasAuth(entry.provider)) hints.push("缺少认证");
     options.push({
       value: key,
       label: key,

@@ -175,7 +175,7 @@ async function promptWhatsAppAllowFrom(
   const allowOptions =
     existingAllowFrom.length > 0
       ? ([
-          { value: "keep", label: "Keep current allowFrom" },
+          { value: "keep", label: "保持当前允许列表" },
           {
             value: "unset",
             label: "Unset allowFrom (use pairing approvals only)",

@@ -54,19 +54,19 @@ async function promptConfiguredAction(params: {
   const { prompter, label, supportsDisable, supportsDelete } = params;
   const updateOption: WizardSelectOption<ConfiguredChannelAction> = {
     value: "update",
-    label: "Modify settings",
+    label: "修改设置",
   };
   const disableOption: WizardSelectOption<ConfiguredChannelAction> = {
     value: "disable",
-    label: "Disable (keeps config)",
+    label: "禁用（保留配置）",
   };
   const deleteOption: WizardSelectOption<ConfiguredChannelAction> = {
     value: "delete",
-    label: "Delete config",
+    label: "删除配置",
   };
   const skipOption: WizardSelectOption<ConfiguredChannelAction> = {
     value: "skip",
-    label: "Skip (leave as-is)",
+    label: "跳过（保持原样）",
   };
   const options: Array<WizardSelectOption<ConfiguredChannelAction>> = [
     updateOption,
@@ -75,7 +75,7 @@ async function promptConfiguredAction(params: {
     skipOption,
   ];
   return (await prompter.select({
-    message: `${label} already configured. What do you want to do?`,
+    message: `${label} 已配置。你想怎么做？`,
     options,
     initialValue: "update",
   })) as ConfiguredChannelAction;
@@ -129,20 +129,20 @@ async function collectChannelStatus(params: {
     .filter((meta) => !statusByChannel.has(meta.id))
     .map((meta) => {
       const configured = isChannelConfigured(params.cfg, meta.id);
-      const statusLabel = configured ? "configured (plugin disabled)" : "not configured";
+      const statusLabel = configured ? "已配置（插件已禁用）" : "未配置";
       return {
         channel: meta.id,
         configured,
-        statusLines: [`${meta.label}: ${statusLabel}`],
-        selectionHint: configured ? "configured · plugin disabled" : "not configured",
+        statusLines: [`${meta.label}：${statusLabel}`],
+        selectionHint: configured ? "已配置 · 插件已禁用" : "未配置",
         quickstartScore: 0,
       };
     });
   const catalogStatuses = catalogEntries.map((entry) => ({
     channel: entry.id,
     configured: false,
-    statusLines: [`${entry.meta.label}: install plugin to enable`],
-    selectionHint: "plugin · install",
+    statusLines: [`${entry.meta.label}：安装插件以启用`],
+    selectionHint: "插件 · 安装",
     quickstartScore: 0,
   }));
   const combinedStatuses = [...statusEntries, ...fallbackStatuses, ...catalogStatuses];
@@ -168,7 +168,7 @@ export async function noteChannelStatus(params: {
     accountOverrides: params.accountOverrides ?? {},
   });
   if (statusLines.length > 0) {
-    await params.prompter.note(statusLines.join("\n"), "Channel status");
+    await params.prompter.note(statusLines.join("\n"), "渠道状态");
   }
 }
 
@@ -187,15 +187,15 @@ async function noteChannelPrimer(
   );
   await prompter.note(
     [
-      "DM security: default is pairing; unknown DMs get a pairing code.",
-      `Approve with: ${formatCliCommand("panda pairing approve <channel> <code>")}`,
-      'Public DMs require dmPolicy="open" + allowFrom=["*"].',
-      'Multi-user DMs: set session.dmScope="per-channel-peer" (or "per-account-channel-peer" for multi-account channels) to isolate sessions.',
-      `Docs: ${formatDocsLink("/start/pairing", "start/pairing")}`,
+      "私信安全：默认使用配对模式，未知私信将收到配对码。",
+      `批准配对：${formatCliCommand("panda pairing approve <channel> <code>")}`,
+      '公开私信需设置 dmPolicy="open" + allowFrom=["*"]。',
+      '多用户私信：设置 session.dmScope="per-channel-peer"（多账户渠道使用 "per-account-channel-peer"）以隔离会话。',
+      `文档：${formatDocsLink("/start/pairing", "start/pairing")}`,
       "",
       ...channelLines,
     ].join("\n"),
-    "How channels work",
+    "渠道工作原理",
   );
 }
 
@@ -225,7 +225,7 @@ async function maybeConfigureDmPolicies(params: {
   if (dmPolicies.length === 0) return params.cfg;
 
   const wants = await prompter.confirm({
-    message: "Configure DM access policies now? (default: pairing)",
+    message: "现在配置私信访问策略？（默认：配对模式）",
     initialValue: false,
   });
   if (!wants) return params.cfg;
@@ -234,22 +234,22 @@ async function maybeConfigureDmPolicies(params: {
   const selectPolicy = async (policy: ChannelOnboardingDmPolicy) => {
     await prompter.note(
       [
-        "Default: pairing (unknown DMs get a pairing code).",
-        `Approve: ${formatCliCommand(`panda pairing approve ${policy.channel} <code>`)}`,
-        `Allowlist DMs: ${policy.policyKey}="allowlist" + ${policy.allowFromKey} entries.`,
-        `Public DMs: ${policy.policyKey}="open" + ${policy.allowFromKey} includes "*".`,
-        'Multi-user DMs: set session.dmScope="per-channel-peer" (or "per-account-channel-peer" for multi-account channels) to isolate sessions.',
-        `Docs: ${formatDocsLink("/start/pairing", "start/pairing")}`,
+        "默认：配对模式（未知私信将收到配对码）。",
+        `批准：${formatCliCommand(`panda pairing approve ${policy.channel} <code>`)}`,
+        `允许列表私信：${policy.policyKey}="allowlist" + 添加 ${policy.allowFromKey} 条目。`,
+        `公开私信：${policy.policyKey}="open" + ${policy.allowFromKey} 包含 "*"。`,
+        '多用户私信：设置 session.dmScope="per-channel-peer"（多账户渠道使用 "per-account-channel-peer"）以隔离会话。',
+        `文档：${formatDocsLink("/start/pairing", "start/pairing")}`,
       ].join("\n"),
-      `${policy.label} DM access`,
+      `${policy.label} 私信访问`,
     );
     return (await prompter.select({
-      message: `${policy.label} DM policy`,
+      message: `${policy.label} 私信策略`,
       options: [
-        { value: "pairing", label: "Pairing (recommended)" },
-        { value: "allowlist", label: "Allowlist (specific users only)" },
-        { value: "open", label: "Open (public inbound DMs)" },
-        { value: "disabled", label: "Disabled (ignore DMs)" },
+        { value: "pairing", label: "配对模式（推荐）" },
+        { value: "allowlist", label: "允许列表（仅特定用户）" },
+        { value: "open", label: "公开（接受公开私信）" },
+        { value: "disabled", label: "禁用（忽略私信）" },
       ],
     })) as DmPolicy;
   };
@@ -292,13 +292,13 @@ export async function setupChannels(
   const { installedPlugins, catalogEntries, statusByChannel, statusLines } =
     await collectChannelStatus({ cfg: next, options, accountOverrides });
   if (!options?.skipStatusNote && statusLines.length > 0) {
-    await prompter.note(statusLines.join("\n"), "Channel status");
+    await prompter.note(statusLines.join("\n"), "渠道状态");
   }
 
   const shouldConfigure = options?.skipConfirm
     ? true
     : await prompter.confirm({
-        message: "Configure chat channels now?",
+        message: "现在配置聊天渠道？",
         initialValue: true,
       });
   if (!shouldConfigure) return cfg;
@@ -578,13 +578,13 @@ export async function setupChannels(
   if (options?.quickstartDefaults) {
     const { entries } = getChannelEntries();
     const choice = (await prompter.select({
-      message: "Select channel (QuickStart)",
+      message: "选择渠道（快速开始）",
       options: [
         ...buildSelectionOptions(entries),
         {
           value: "__skip__",
-          label: "Skip for now",
-          hint: `You can add channels later via \`${formatCliCommand("panda channels add")}\``,
+          label: "暂时跳过",
+          hint: `稍后可通过 \`${formatCliCommand("panda channels add")}\` 添加渠道`,
         },
       ],
       initialValue: quickstartDefault,
@@ -598,13 +598,13 @@ export async function setupChannels(
     while (true) {
       const { entries } = getChannelEntries();
       const choice = (await prompter.select({
-        message: "Select a channel",
+        message: "选择渠道",
         options: [
           ...buildSelectionOptions(entries),
           {
             value: doneValue,
-            label: "Finished",
-            hint: selection.length > 0 ? "Done" : "Skip for now",
+            label: "完成",
+            hint: selection.length > 0 ? "已完成" : "暂时跳过",
           },
         ],
         initialValue,

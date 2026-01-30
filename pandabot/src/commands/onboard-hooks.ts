@@ -12,12 +12,12 @@ export async function setupInternalHooks(
 ): Promise<PandaConfig> {
   await prompter.note(
     [
-      "Hooks let you automate actions when agent commands are issued.",
-      "Example: Save session context to memory when you issue /new.",
+      "钩子可让你在代理命令执行时自动触发操作。",
+      "示例：在你执行 /new 时将会话上下文保存到记忆。",
       "",
-      "Learn more: https://docs.pandabot.cc/hooks",
+      "了解更多：https://docs.pandabot.cc/hooks",
     ].join("\n"),
-    "Hooks",
+    "钩子",
   );
 
   // Discover available hooks using the hook discovery system
@@ -29,16 +29,16 @@ export async function setupInternalHooks(
 
   if (eligibleHooks.length === 0) {
     await prompter.note(
-      "No eligible hooks found. You can configure hooks later in your config.",
-      "No Hooks Available",
+      "未找到可用钩子。稍后可在配置中添加钩子。",
+      "无可用钩子",
     );
     return cfg;
   }
 
   const toEnable = await prompter.multiselect({
-    message: "Enable hooks?",
+    message: "启用钩子？",
     options: [
-      { value: "__skip__", label: "Skip for now" },
+      { value: "__skip__", label: "暂时跳过" },
       ...eligibleHooks.map((hook) => ({
         value: hook.name,
         label: `${hook.emoji ?? "🔗"} ${hook.name}`,

@@ -130,7 +130,7 @@ describe("onboard-hooks", () => {
       });
       expect(prompter.note).toHaveBeenCalledTimes(2);
       expect(prompter.multiselect).toHaveBeenCalledWith({
-        message: "Enable hooks?",
+        message: "启用钩子？",
         options: [
           { value: "__skip__", label: "Skip for now" },
           {

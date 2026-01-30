@@ -83,7 +83,7 @@ describe("setupChannels", () => {
     });
 
     expect(select).toHaveBeenCalledWith(
-      expect.objectContaining({ message: "Select channel (QuickStart)" }),
+      expect.objectContaining({ message: "选择渠道（快速开始）" }),
     );
     expect(multiselect).not.toHaveBeenCalled();
   });
@@ -91,7 +91,7 @@ describe("setupChannels", () => {
   it("prompts for configured channel action and skips configuration when told to skip", async () => {
     const select = vi.fn(async ({ message }: { message: string }) => {
       if (message === "Select channel (QuickStart)") return "telegram";
-      if (message.includes("already configured")) return "skip";
+      if (message.includes("已配置")) return "skip";
       throw new Error(`unexpected select prompt: ${message}`);
     });
     const multiselect = vi.fn(async () => {
@@ -137,10 +137,10 @@ describe("setupChannels", () => {
     );
 
     expect(select).toHaveBeenCalledWith(
-      expect.objectContaining({ message: "Select channel (QuickStart)" }),
+      expect.objectContaining({ message: "选择渠道（快速开始）" }),
     );
     expect(select).toHaveBeenCalledWith(
-      expect.objectContaining({ message: expect.stringContaining("already configured") }),
+      expect.objectContaining({ message: expect.stringContaining("已配置") }),
     );
     expect(multiselect).not.toHaveBeenCalled();
     expect(text).not.toHaveBeenCalled();
@@ -156,7 +156,7 @@ describe("setupChannels", () => {
         expect(telegram?.hint).toContain("disabled");
         return selectionCount === 1 ? "telegram" : "__done__";
       }
-      if (message.includes("already configured")) return "skip";
+      if (message.includes("已配置")) return "skip";
       return "__done__";
     });
     const multiselect = vi.fn(async () => {
@@ -197,7 +197,7 @@ describe("setupChannels", () => {
       },
     );
 
-    expect(select).toHaveBeenCalledWith(expect.objectContaining({ message: "Select a channel" }));
+    expect(select).toHaveBeenCalledWith(expect.objectContaining({ message: "选择渠道" }));
     expect(multiselect).not.toHaveBeenCalled();
   });
 });

@@ -1027,7 +1027,7 @@ export async function updateWizardCommand(opts: UpdateWizardOptions = {}): Promi
     options: [
       {
         value: "keep",
-        label: `Keep current (${channelInfo.channel})`,
+        label: `保持当前（${channelInfo.channel}）`,
         hint: channelLabel,
       },
       {
