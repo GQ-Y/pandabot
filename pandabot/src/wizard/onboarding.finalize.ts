@@ -304,20 +304,20 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
 
     await prompter.note(
       [
-        "Gateway token: shared auth for the Gateway + Control UI.",
-        "Stored in: ~/.panda/panda.json (gateway.auth.token) or PANDA_GATEWAY_TOKEN.",
-        "Web UI stores a copy in this browser's localStorage (moltbot.control.settings.v1).",
-        `Get the tokenized link anytime: ${formatCliCommand("moltbot dashboard --no-open")}`,
+        "Gateway Token：网关与控制面板的共享认证。",
+        "存储位置：~/.panda/panda.json (gateway.auth.token) 或环境变量 PANDA_GATEWAY_TOKEN。",
+        "Web UI 会在本浏览器 localStorage 中保存一份 (panda.control.settings.v1)。",
+        `随时获取带 token 的链接：${formatCliCommand("panda dashboard --no-open")}`,
       ].join("\n"),
       "Token",
     );
 
     hatchChoice = (await prompter.select({
-      message: "How do you want to hatch your bot?",
+      message: "如何启动你的机器人？",
       options: [
-        { value: "tui", label: "Hatch in TUI (recommended)" },
-        { value: "web", label: "Open the Web UI" },
-        { value: "later", label: "Do this later" },
+        { value: "tui", label: "在 TUI 中启动（推荐）" },
+        { value: "web", label: "打开 Web 控制面板" },
+        { value: "later", label: "稍后再说" },
       ],
       initialValue: "tui",
     })) as "tui" | "web" | "later";
@@ -336,8 +336,8 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
       }
       if (seededInBackground) {
         await prompter.note(
-          `Web UI seeded in the background. Open later with: ${formatCliCommand(
-            "moltbot dashboard --no-open",
+          `Web UI 已在后台打开。稍后可用此命令打开：${formatCliCommand(
+            "panda dashboard --no-open",
           )}`,
           "Web UI",
         );
@@ -362,36 +362,36 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
       }
       await prompter.note(
         [
-          `Dashboard link (with token): ${authedUrl}`,
+          `带 Token 的控制面板链接：${authedUrl}`,
           controlUiOpened
-            ? "Opened in your browser. Keep that tab to control Moltbot."
-            : "Copy/paste this URL in a browser on this machine to control Moltbot.",
+            ? "已在浏览器中打开，请保留该标签页以控制 Pandabot。"
+            : "请在本机浏览器中复制/粘贴此 URL 以控制 Pandabot。",
           controlUiOpenHint,
         ]
           .filter(Boolean)
           .join("\n"),
-        "Dashboard ready",
+        "控制面板就绪",
       );
     } else {
       await prompter.note(
-        `When you're ready: ${formatCliCommand("moltbot dashboard --no-open")}`,
-        "Later",
+        `准备好后执行：${formatCliCommand("panda dashboard --no-open")}`,
+        "稍后",
       );
     }
   } else if (opts.skipUi) {
-    await prompter.note("Skipping Control UI/TUI prompts.", "Control UI");
+    await prompter.note("跳过控制面板 / TUI 提示。", "控制面板");
   }
 
   await prompter.note(
-    ["Back up your agent workspace.", "Docs: https://docs.molt.bot/concepts/agent-workspace"].join(
+    ["请备份你的代理工作区。", "文档：https://docs.molt.bot/concepts/agent-workspace"].join(
       "\n",
     ),
-    "Workspace backup",
+    "工作区备份",
   );
 
   await prompter.note(
-    "Running agents on your computer is risky — harden your setup: https://docs.molt.bot/security",
-    "Security",
+    "在本机运行代理存在风险，请加固环境：https://docs.molt.bot/security",
+    "安全",
   );
 
   const shouldOpenControlUi =
@@ -420,15 +420,15 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
 
     await prompter.note(
       [
-        `Dashboard link (with token): ${authedUrl}`,
+        `带 Token 的控制面板链接：${authedUrl}`,
         controlUiOpened
-          ? "Opened in your browser. Keep that tab to control Moltbot."
-          : "Copy/paste this URL in a browser on this machine to control Moltbot.",
+          ? "已在浏览器中打开，请保留该标签页以控制 Pandabot。"
+          : "请在本机浏览器中复制/粘贴此 URL 以控制 Pandabot。",
         controlUiOpenHint,
       ]
         .filter(Boolean)
         .join("\n"),
-      "Dashboard ready",
+      "控制面板就绪",
     );
   }
 

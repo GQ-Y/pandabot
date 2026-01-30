@@ -52,7 +52,7 @@ Configure via CLI:
     mode: "merge",
     providers: {
       minimax: {
-        baseUrl: "https://api.minimax.io/anthropic",
+        baseUrl: "https://api.minimaxi.com/anthropic",
         apiKey: "${MINIMAX_API_KEY}",
         api: "anthropic-messages",
         models: [
@@ -145,7 +145,7 @@ Use the interactive config wizard to set MiniMax without editing JSON:
 
 ## Configuration options
 
-- `models.providers.minimax.baseUrl`: prefer `https://api.minimax.io/anthropic` (Anthropic-compatible); `https://api.minimax.io/v1` is optional for OpenAI-compatible payloads.
+- `models.providers.minimax.baseUrl`: 国内默认 `https://api.minimaxi.com/anthropic`（开放平台）；海外可设置环境变量 `MINIMAX_BASE_URL=https://api.minimax.io/anthropic`。OpenAI 兼容可用 `/v1` 路径。
 - `models.providers.minimax.api`: prefer `anthropic-messages`; `openai-completions` is optional for OpenAI-compatible payloads.
 - `models.providers.minimax.apiKey`: MiniMax API key (`MINIMAX_API_KEY`).
 - `models.providers.minimax.models`: define `id`, `name`, `reasoning`, `contextWindow`, `maxTokens`, `cost`.
@@ -154,6 +154,7 @@ Use the interactive config wizard to set MiniMax without editing JSON:
 
 ## Notes
 
+- **国内 / 海外**：默认使用国内开放平台 `api.minimaxi.com`，便于国内直连。海外用户请设置环境变量 `MINIMAX_BASE_URL=https://api.minimax.io/anthropic`（或 `https://api.minimax.chat/v1`）后再启动。
 - Model refs are `minimax/<model>`.
 - Coding Plan usage API: `https://api.minimaxi.com/v1/api/openplatform/coding_plan/remains` (requires a coding plan key).
 - Update pricing values in `models.json` if you need exact cost tracking.

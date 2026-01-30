@@ -69,7 +69,7 @@ export function printWizardHeader(runtime: RuntimeEnv) {
     "██░█░█░██░███░██░██████░████░▄▄▀██░███░███░████",
     "██░███░██░▀▀▀░██░▀▀░███░████░▀▀░██░▀▀▀░███░████",
     "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀",
-    "               🦞 FRESH DAILY 🦞                ",
+    "               🐼 PANDABOT 配置向导 🐼              ",
     " ",
   ].join("\n");
   runtime.log(header);

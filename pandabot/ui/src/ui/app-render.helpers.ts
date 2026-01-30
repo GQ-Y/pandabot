@@ -251,20 +251,11 @@ export function renderLanguageToggle(state: AppViewState) {
     }
   };
 
+  // 左 En (index 0)，右 Zh (index 1)；高亮与点击一致
   return html`
-    <div class="theme-toggle" style="--theme-index: ${state.language === 'zh' ? 0 : 1};">
+    <div class="theme-toggle" style="--theme-index: ${state.language === 'en' ? 0 : 1};">
       <div class="theme-toggle__track" role="group" aria-label="Language">
         <span class="theme-toggle__indicator"></span>
-        <button
-          class="theme-toggle__button ${state.language === 'zh' ? 'active' : ''}"
-          @click=${applyLanguage('zh')}
-          aria-pressed=${state.language === 'zh'}
-          aria-label="中文"
-          title="中文"
-          style="font-size: 0.9em;"
-        >
-          中
-        </button>
         <button
           class="theme-toggle__button ${state.language === 'en' ? 'active' : ''}"
           @click=${applyLanguage('en')}
@@ -274,6 +265,16 @@ export function renderLanguageToggle(state: AppViewState) {
           style="font-size: 0.9em;"
         >
           En
+        </button>
+        <button
+          class="theme-toggle__button ${state.language === 'zh' ? 'active' : ''}"
+          @click=${applyLanguage('zh')}
+          aria-pressed=${state.language === 'zh'}
+          aria-label="中文"
+          title="中文"
+          style="font-size: 0.9em;"
+        >
+          Zh
         </button>
       </div>
     </div>

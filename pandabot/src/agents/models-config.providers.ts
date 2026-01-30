@@ -17,7 +17,12 @@ import { discoverVeniceModels, VENICE_BASE_URL } from "./venice-models.js";
 type ModelsConfig = NonNullable<MoltbotConfig["models"]>;
 export type ProviderConfig = NonNullable<ModelsConfig["providers"]>[string];
 
-const MINIMAX_API_BASE_URL = "https://api.minimax.chat/v1";
+// 国内默认使用开放平台 api.minimaxi.com；海外可设置 MINIMAX_BASE_URL 如 https://api.minimax.chat/v1
+const MINIMAX_API_BASE_URL_DEFAULT = "https://api.minimaxi.com/v1";
+function getMinimaxApiBaseUrl(): string {
+  const env = process.env.MINIMAX_BASE_URL?.trim();
+  return env || MINIMAX_API_BASE_URL_DEFAULT;
+}
 const MINIMAX_DEFAULT_MODEL_ID = "MiniMax-M2.1";
 const MINIMAX_DEFAULT_VISION_MODEL_ID = "MiniMax-VL-01";
 const MINIMAX_DEFAULT_CONTEXT_WINDOW = 200000;
@@ -243,7 +248,7 @@ export function normalizeProviders(params: {
 
 function buildMinimaxProvider(): ProviderConfig {
   return {
-    baseUrl: MINIMAX_API_BASE_URL,
+    baseUrl: getMinimaxApiBaseUrl(),
     api: "openai-completions",
     models: [
       {

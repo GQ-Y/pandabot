@@ -9,11 +9,13 @@ function coerceApiHost(params: {
   env?: NodeJS.ProcessEnv;
 }): string {
   const env = params.env ?? process.env;
+  // 国内默认使用开放平台 api.minimaxi.com；海外可设 MINIMAX_BASE_URL 或 MINIMAX_API_HOST
   const raw =
     params.apiHost?.trim() ||
     env.MINIMAX_API_HOST?.trim() ||
+    env.MINIMAX_BASE_URL?.trim() ||
     params.modelBaseUrl?.trim() ||
-    "https://api.minimax.io";
+    "https://api.minimaxi.com";
 
   try {
     const url = new URL(raw);
@@ -24,7 +26,7 @@ function coerceApiHost(params: {
     const url = new URL(`https://${raw}`);
     return url.origin;
   } catch {
-    return "https://api.minimax.io";
+    return "https://api.minimaxi.com";
   }
 }
 

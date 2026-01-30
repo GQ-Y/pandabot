@@ -86,7 +86,7 @@ const logRunner = (message) => {
 };
 
 const runNode = () => {
-  const nodeProcess = spawn(process.execPath, ["moltbot.mjs", ...args], {
+  const nodeProcess = spawn(process.execPath, ["panda.mjs", ...args], {
     cwd,
     env,
     stdio: "inherit",
