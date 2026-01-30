@@ -45,7 +45,7 @@ cat > ~/.panda/panda.json <<EOF
   },
   "agents": {
     "defaults": {
-      "workspace": "~/clawd"
+      "workspace": "~/panda"
     }
   }
 }

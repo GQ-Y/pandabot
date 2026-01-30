@@ -1,4 +1,4 @@
-import type { MoltbotConfig } from "../../../config/config.js";
+import type { PandaConfig } from "../../../config/config.js";
 import type { DmPolicy } from "../../../config/types.js";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../../routing/session-key.js";
 import {
@@ -16,7 +16,7 @@ import { addWildcardAllowFrom, promptAccountId } from "./helpers.js";
 
 const channel = "slack" as const;
 
-function setSlackDmPolicy(cfg: MoltbotConfig, dmPolicy: DmPolicy) {
+function setSlackDmPolicy(cfg: PandaConfig, dmPolicy: DmPolicy) {
   const allowFrom =
     dmPolicy === "open" ? addWildcardAllowFrom(cfg.channels?.slack?.dm?.allowFrom) : undefined;
   return {
@@ -37,11 +37,11 @@ function setSlackDmPolicy(cfg: MoltbotConfig, dmPolicy: DmPolicy) {
 }
 
 function buildSlackManifest(botName: string) {
-  const safeName = botName.trim() || "Moltbot";
+  const safeName = botName.trim() || "Panda";
   const manifest = {
     display_information: {
       name: safeName,
-      description: `${safeName} connector for Moltbot`,
+      description: `${safeName} connector for Panda`,
     },
     features: {
       bot_user: {
@@ -54,8 +54,8 @@ function buildSlackManifest(botName: string) {
       },
       slash_commands: [
         {
-          command: "/clawd",
-          description: "Send a message to Moltbot",
+          command: "/panda",
+          description: "Send a message to Panda",
           should_escape: false,
         },
       ],
@@ -125,10 +125,10 @@ async function noteSlackTokenHelp(prompter: WizardPrompter, botName: string): Pr
 }
 
 function setSlackGroupPolicy(
-  cfg: MoltbotConfig,
+  cfg: PandaConfig,
   accountId: string,
   groupPolicy: "open" | "allowlist" | "disabled",
-): MoltbotConfig {
+): PandaConfig {
   if (accountId === DEFAULT_ACCOUNT_ID) {
     return {
       ...cfg,
@@ -163,10 +163,10 @@ function setSlackGroupPolicy(
 }
 
 function setSlackChannelAllowlist(
-  cfg: MoltbotConfig,
+  cfg: PandaConfig,
   accountId: string,
   channelKeys: string[],
-): MoltbotConfig {
+): PandaConfig {
   const channels = Object.fromEntries(channelKeys.map((key) => [key, { allow: true }]));
   if (accountId === DEFAULT_ACCOUNT_ID) {
     return {
@@ -201,7 +201,7 @@ function setSlackChannelAllowlist(
   };
 }
 
-function setSlackAllowFrom(cfg: MoltbotConfig, allowFrom: string[]): MoltbotConfig {
+function setSlackAllowFrom(cfg: PandaConfig, allowFrom: string[]): PandaConfig {
   return {
     ...cfg,
     channels: {
@@ -226,10 +226,10 @@ function parseSlackAllowFromInput(raw: string): string[] {
 }
 
 async function promptSlackAllowFrom(params: {
-  cfg: MoltbotConfig;
+  cfg: PandaConfig;
   prompter: WizardPrompter;
   accountId?: string;
-}): Promise<MoltbotConfig> {
+}): Promise<PandaConfig> {
   const accountId =
     params.accountId && normalizeAccountId(params.accountId)
       ? (normalizeAccountId(params.accountId) ?? DEFAULT_ACCOUNT_ID)
@@ -364,7 +364,7 @@ export const slackOnboardingAdapter: ChannelOnboardingAdapter = {
     const slackBotName = String(
       await prompter.text({
         message: "Slack bot display name (used for manifest)",
-        initialValue: "Moltbot",
+        initialValue: "Panda",
       }),
     ).trim();
     if (!accountConfigured) {

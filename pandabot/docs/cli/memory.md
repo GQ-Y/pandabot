@@ -1,11 +1,11 @@
 ---
-summary: "CLI reference for `moltbot memory` (status/index/search)"
+summary: "CLI reference for `panda memory` (status/index/search)"
 read_when:
   - You want to index or search semantic memory
   - You’re debugging memory availability or indexing
 ---
 
-# `moltbot memory`
+# `panda memory`
 
 Manage semantic memory indexing and search.
 Provided by the active memory plugin (default: `memory-core`; set `plugins.slots.memory = "none"` to disable).
@@ -17,15 +17,15 @@ Related:
 ## Examples
 
 ```bash
-moltbot memory status
-moltbot memory status --deep
-moltbot memory status --deep --index
-moltbot memory status --deep --index --verbose
-moltbot memory index
-moltbot memory index --verbose
-moltbot memory search "release checklist"
-moltbot memory status --agent main
-moltbot memory index --agent main --verbose
+panda memory status
+panda memory status --deep
+panda memory status --deep --index
+panda memory status --deep --index --verbose
+panda memory index
+panda memory index --verbose
+panda memory search "release checklist"
+panda memory status --agent main
+panda memory index --agent main --verbose
 ```
 
 ## Options

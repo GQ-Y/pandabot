@@ -41,7 +41,7 @@ import {
 import { createBrowserRouteDispatcher } from "../browser/routes/dispatcher.js";
 import { detectMime } from "../media/mime.js";
 import { resolveAgentConfig } from "../agents/agent-scope.js";
-import { ensureMoltbotCliOnPath } from "../infra/path-env.js";
+import { ensurePandaCliOnPath } from "../infra/path-env.js";
 import { VERSION } from "../version.js";
 import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../utils/message-channel.js";
 
@@ -153,7 +153,7 @@ const BROWSER_PROXY_MAX_FILE_BYTES = 10 * 1024 * 1024;
 
 const execHostEnforced = process.env.PANDA_NODE_EXEC_HOST?.trim().toLowerCase() === "app";
 const execHostFallbackAllowed =
-  process.env.CLAWDBOT_NODE_EXEC_FALLBACK?.trim().toLowerCase() !== "0";
+  process.env.PANDABOT_NODE_EXEC_FALLBACK?.trim().toLowerCase() !== "0";
 
 const blockedEnvKeys = new Set([
   "NODE_OPTIONS",
@@ -435,7 +435,7 @@ function resolveEnvPath(env?: Record<string, string>): string[] {
 }
 
 function ensureNodePathEnv(): string {
-  ensureMoltbotCliOnPath({ pathEnv: process.env.PATH ?? "" });
+  ensurePandaCliOnPath({ pathEnv: process.env.PATH ?? "" });
   const current = process.env.PATH ?? "";
   if (current.trim()) return current;
   process.env.PATH = DEFAULT_NODE_PATH;

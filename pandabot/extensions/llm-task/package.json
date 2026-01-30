@@ -1,8 +1,8 @@
 {
-  "name": "@moltbot/llm-task",
+  "name": "@pandabot/llm-task",
   "version": "2026.1.27-beta.1",
   "type": "module",
-  "description": "Moltbot JSON-only LLM task plugin",
+  "description": "Panda JSON-only LLM task plugin",
   "pandabot": {
     "extensions": [
       "./index.ts"

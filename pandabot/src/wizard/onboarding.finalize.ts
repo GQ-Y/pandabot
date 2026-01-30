@@ -20,7 +20,7 @@ import {
 } from "../commands/onboard-helpers.js";
 import { formatCliCommand } from "../cli/command-format.js";
 import type { OnboardOptions } from "../commands/onboard-types.js";
-import type { MoltbotConfig } from "../config/config.js";
+import type { PandaConfig } from "../config/config.js";
 import { resolveGatewayService } from "../daemon/service.js";
 import { isSystemdUserServiceAvailable } from "../daemon/systemd.js";
 import { ensureControlUiAssetsBuilt } from "../infra/control-ui-assets.js";
@@ -37,8 +37,8 @@ import type { WizardPrompter } from "./prompts.js";
 type FinalizeOnboardingOptions = {
   flow: WizardFlow;
   opts: OnboardOptions;
-  baseConfig: MoltbotConfig;
-  nextConfig: MoltbotConfig;
+  baseConfig: PandaConfig;
+  nextConfig: PandaConfig;
   workspaceDir: string;
   settings: GatewayWizardSettings;
   prompter: WizardPrompter;
@@ -65,7 +65,7 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
     process.platform === "linux" ? await isSystemdUserServiceAvailable() : true;
   if (process.platform === "linux" && !systemdAvailable) {
     await prompter.note(
-      "Systemd user services are unavailable. Skipping lingering checks and service install.",
+      "Systemd 用户服务不可用，跳过 lingering 检查和服务安装。",
       "Systemd",
     );
   }
@@ -79,7 +79,7 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
         note: prompter.note,
       },
       reason:
-        "Linux installs use a systemd user service by default. Without lingering, systemd stops the user session on logout/idle and kills the Gateway.",
+        "Linux 默认使用 systemd 用户服务。若无 lingering，systemd 会在用户登出/空闲时停止会话并终止网关。",
       requireConfirm: false,
     });
   }
@@ -95,15 +95,15 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
     installDaemon = true;
   } else {
     installDaemon = await prompter.confirm({
-      message: "Install Gateway service (recommended)",
+      message: "安装网关服务（推荐）",
       initialValue: true,
     });
   }
 
   if (process.platform === "linux" && !systemdAvailable && installDaemon) {
     await prompter.note(
-      "Systemd user services are unavailable; skipping service install. Use your container supervisor or `docker compose up -d`.",
-      "Gateway service",
+      "Systemd 用户服务不可用，跳过服务安装。请使用容器管理器或 `docker compose up -d`。",
+      "网关服务",
     );
     installDaemon = false;
   }
@@ -113,33 +113,33 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
       flow === "quickstart"
         ? (DEFAULT_GATEWAY_DAEMON_RUNTIME as GatewayDaemonRuntime)
         : ((await prompter.select({
-            message: "Gateway service runtime",
+            message: "网关服务运行时",
             options: GATEWAY_DAEMON_RUNTIME_OPTIONS,
             initialValue: opts.daemonRuntime ?? DEFAULT_GATEWAY_DAEMON_RUNTIME,
           })) as GatewayDaemonRuntime);
     if (flow === "quickstart") {
       await prompter.note(
-        "QuickStart uses Node for the Gateway service (stable + supported).",
-        "Gateway service runtime",
+        "QuickStart 使用 Node 运行网关服务（稳定且受支持）。",
+        "网关服务运行时",
       );
     }
     const service = resolveGatewayService();
     const loaded = await service.isLoaded({ env: process.env });
     if (loaded) {
       const action = (await prompter.select({
-        message: "Gateway service already installed",
+        message: "网关服务已安装",
         options: [
-          { value: "restart", label: "Restart" },
-          { value: "reinstall", label: "Reinstall" },
-          { value: "skip", label: "Skip" },
+          { value: "restart", label: "重启" },
+          { value: "reinstall", label: "重新安装" },
+          { value: "skip", label: "跳过" },
         ],
       })) as "restart" | "reinstall" | "skip";
       if (action === "restart") {
         await withWizardProgress(
-          "Gateway service",
-          { doneMessage: "Gateway service restarted." },
+          "网关服务",
+          { doneMessage: "网关服务已重启。" },
           async (progress) => {
-            progress.update("Restarting Gateway service…");
+            progress.update("正在重启网关服务…");
             await service.restart({
               env: process.env,
               stdout: process.stdout,
@@ -148,10 +148,10 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
         );
       } else if (action === "reinstall") {
         await withWizardProgress(
-          "Gateway service",
-          { doneMessage: "Gateway service uninstalled." },
+          "网关服务",
+          { doneMessage: "网关服务已卸载。" },
           async (progress) => {
-            progress.update("Uninstalling Gateway service…");
+            progress.update("正在卸载网关服务…");
             await service.uninstall({ env: process.env, stdout: process.stdout });
           },
         );
@@ -159,10 +159,10 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
     }
 
     if (!loaded || (loaded && (await service.isLoaded({ env: process.env })) === false)) {
-      const progress = prompter.progress("Gateway service");
+      const progress = prompter.progress("网关服务");
       let installError: string | null = null;
       try {
-        progress.update("Preparing Gateway service…");
+        progress.update("正在准备网关服务…");
         const { programArguments, workingDirectory, environment } = await buildGatewayInstallPlan({
           env: process.env,
           port: settings.port,
@@ -172,7 +172,7 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
           config: nextConfig,
         });
 
-        progress.update("Installing Gateway service…");
+        progress.update("正在安装网关服务…");
         await service.install({
           env: process.env,
           stdout: process.stdout,
@@ -184,12 +184,12 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
         installError = err instanceof Error ? err.message : String(err);
       } finally {
         progress.stop(
-          installError ? "Gateway service install failed." : "Gateway service installed.",
+          installError ? "网关服务安装失败。" : "网关服务已安装。",
         );
       }
       if (installError) {
-        await prompter.note(`Gateway service install failed: ${installError}`, "Gateway");
-        await prompter.note(gatewayInstallErrorHint(), "Gateway");
+        await prompter.note(`网关服务安装失败：${installError}`, "网关");
+        await prompter.note(gatewayInstallErrorHint(), "网关");
       }
     }
   }
@@ -213,11 +213,11 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
       runtime.error(formatHealthCheckFailure(err));
       await prompter.note(
         [
-          "Docs:",
-          "https://docs.molt.bot/gateway/health",
-          "https://docs.molt.bot/gateway/troubleshooting",
+          "文档：",
+          "https://docs.pandabot.cc/gateway/health",
+          "https://docs.pandabot.cc/gateway/troubleshooting",
         ].join("\n"),
-        "Health check help",
+        "健康检查帮助",
       );
     }
   }
@@ -233,12 +233,12 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
 
   await prompter.note(
     [
-      "Add nodes for extra features:",
-      "- macOS app (system + notifications)",
-      "- iOS app (camera/canvas)",
-      "- Android app (camera/canvas)",
+      "添加节点以获取更多功能：",
+      "- macOS 应用（系统 + 通知）",
+      "- iOS 应用（相机/画布）",
+      "- Android 应用（相机/画布）",
     ].join("\n"),
-    "Optional apps",
+    "可选应用",
   );
 
   const controlUiBasePath =
@@ -260,8 +260,8 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
     password: settings.authMode === "password" ? nextConfig.gateway?.auth?.password : "",
   });
   const gatewayStatusLine = gatewayProbe.ok
-    ? "Gateway: reachable"
-    : `Gateway: not detected${gatewayProbe.detail ? ` (${gatewayProbe.detail})` : ""}`;
+    ? "网关：可达"
+    : `网关：未检测到${gatewayProbe.detail ? `（${gatewayProbe.detail}）` : ""}`;
   const bootstrapPath = path.join(
     resolveUserPath(options.workspaceDir),
     DEFAULT_BOOTSTRAP_FILENAME,
@@ -273,15 +273,15 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
 
   await prompter.note(
     [
-      `Web UI: ${links.httpUrl}`,
-      tokenParam ? `Web UI (with token): ${authedUrl}` : undefined,
-      `Gateway WS: ${links.wsUrl}`,
+      `Web UI：${links.httpUrl}`,
+      tokenParam ? `带 Token 的 Web UI：${authedUrl}` : undefined,
+      `网关 WS：${links.wsUrl}`,
       gatewayStatusLine,
-      "Docs: https://docs.molt.bot/web/control-ui",
+      "文档：https://docs.pandabot.cc/web/control-ui",
     ]
       .filter(Boolean)
       .join("\n"),
-    "Control UI",
+    "控制面板",
   );
 
   let controlUiOpened = false;
@@ -293,12 +293,12 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
     if (hasBootstrap) {
       await prompter.note(
         [
-          "This is the defining action that makes your agent you.",
-          "Please take your time.",
-          "The more you tell it, the better the experience will be.",
-          'We will send: "Wake up, my friend!"',
+          "这是赋予你的代理个性的关键步骤。",
+          "请花点时间认真填写。",
+          "你提供的信息越多，体验越好。",
+          '我们将发送："Wake up, my friend!"',
         ].join("\n"),
-        "Start TUI (best option!)",
+        "启动 TUI（最佳选择！）",
       );
     }
 
@@ -379,18 +379,18 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
       );
     }
   } else if (opts.skipUi) {
-    await prompter.note("跳过控制面板 / TUI 提示。", "控制面板");
+    await prompter.note("跳过控制面板/TUI 提示。", "控制面板");
   }
 
   await prompter.note(
-    ["请备份你的代理工作区。", "文档：https://docs.molt.bot/concepts/agent-workspace"].join(
+    ["请备份你的代理工作区。", "文档：https://docs.pandabot.cc/concepts/agent-workspace"].join(
       "\n",
     ),
     "工作区备份",
   );
 
   await prompter.note(
-    "在本机运行代理存在风险，请加固环境：https://docs.molt.bot/security",
+    "在本机运行代理存在风险，请加固环境：https://docs.pandabot.cc/security",
     "安全",
   );
 
@@ -438,38 +438,38 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
   await prompter.note(
     hasWebSearchKey
       ? [
-          "Web search is enabled, so your agent can look things up online when needed.",
+          "网络搜索已启用，你的代理可以在需要时在线查找信息。",
           "",
           webSearchKey
-            ? "API key: stored in config (tools.web.search.apiKey)."
-            : "API key: provided via BRAVE_API_KEY env var (Gateway environment).",
-          "Docs: https://docs.molt.bot/tools/web",
+            ? "API 密钥：已存储在配置中（tools.web.search.apiKey）。"
+            : "API 密钥：通过 BRAVE_API_KEY 环境变量提供（网关环境）。",
+          "文档：https://docs.pandabot.cc/tools/web",
         ].join("\n")
       : [
           "If you want your agent to be able to search the web, you’ll need an API key.",
           "",
-          "Moltbot uses Brave Search for the `web_search` tool. Without a Brave Search API key, web search won’t work.",
+          "Pandabot uses Brave Search for the `web_search` tool. Without a Brave Search API key, web search won’t work.",
           "",
-          "Set it up interactively:",
-          `- Run: ${formatCliCommand("moltbot configure --section web")}`,
-          "- Enable web_search and paste your Brave Search API key",
+          "交互式配置：",
+          `- 运行：${formatCliCommand("panda configure --section web")}`,
+          "- 启用 web_search 并粘贴你的 Brave Search API 密钥",
           "",
-          "Alternative: set BRAVE_API_KEY in the Gateway environment (no config changes).",
-          "Docs: https://docs.molt.bot/tools/web",
+          "或者：在网关环境中设置 BRAVE_API_KEY（无需更改配置）。",
+          "文档：https://docs.pandabot.cc/tools/web",
         ].join("\n"),
-    "Web search (optional)",
+    "网络搜索（可选）",
   );
 
   await prompter.note(
-    'What now: https://molt.bot/showcase ("What People Are Building").',
-    "What now",
+    "接下来做什么：https://pandabot.cc/showcase（看看大家在构建什么）。",
+    "接下来",
   );
 
   await prompter.outro(
     controlUiOpened
-      ? "Onboarding complete. Dashboard opened with your token; keep that tab to control Moltbot."
+      ? "配置完成。控制面板已用你的 Token 打开；保留该标签页以控制 Pandabot。"
       : seededInBackground
-        ? "Onboarding complete. Web UI seeded in the background; open it anytime with the tokenized link above."
-        : "Onboarding complete. Use the tokenized dashboard link above to control Moltbot.",
+        ? "配置完成。Web UI 已在后台打开；随时可用上方带 Token 的链接打开。"
+        : "配置完成。请使用上方带 Token 的控制面板链接来控制 Pandabot。",
   );
 }

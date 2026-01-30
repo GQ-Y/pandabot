@@ -6,7 +6,7 @@ import { resolveModelAuthMode } from "../agents/model-auth.js";
 import { resolveConfiguredModelRef } from "../agents/model-selection.js";
 import { resolveSandboxRuntimeStatus } from "../agents/sandbox.js";
 import { derivePromptTokens, normalizeUsage, type UsageLike } from "../agents/usage.js";
-import type { MoltbotConfig } from "../config/config.js";
+import type { PandaConfig } from "../config/config.js";
 import {
   resolveMainSessionKey,
   resolveSessionFilePath,
@@ -40,7 +40,7 @@ import type { CommandCategory } from "./commands-registry.types.js";
 import type { ElevatedLevel, ReasoningLevel, ThinkLevel, VerboseLevel } from "./thinking.js";
 import type { MediaUnderstandingDecision } from "../media-understanding/types.js";
 
-type AgentConfig = Partial<NonNullable<NonNullable<MoltbotConfig["agents"]>["defaults"]>>;
+type AgentConfig = Partial<NonNullable<NonNullable<PandaConfig["agents"]>["defaults"]>>;
 
 export const formatTokenCount = formatTokenCountShared;
 
@@ -54,7 +54,7 @@ type QueueStatus = {
 };
 
 type StatusArgs = {
-  config?: MoltbotConfig;
+  config?: PandaConfig;
   agent: AgentConfig;
   sessionEntry?: SessionEntry;
   sessionKey?: string;
@@ -259,7 +259,7 @@ const formatMediaUnderstandingLine = (decisions?: MediaUnderstandingDecision[]) 
 };
 
 const formatVoiceModeLine = (
-  config?: MoltbotConfig,
+  config?: PandaConfig,
   sessionEntry?: SessionEntry,
 ): string | null => {
   if (!config) return null;
@@ -285,7 +285,7 @@ export function buildStatusMessage(args: StatusArgs): string {
       agents: {
         defaults: args.agent ?? {},
       },
-    } as MoltbotConfig,
+    } as PandaConfig,
     defaultProvider: DEFAULT_PROVIDER,
     defaultModel: DEFAULT_MODEL,
   });
@@ -468,7 +468,7 @@ function groupCommandsByCategory(
   return grouped;
 }
 
-export function buildHelpMessage(cfg?: MoltbotConfig): string {
+export function buildHelpMessage(cfg?: PandaConfig): string {
   const lines = ["ℹ️ Help", ""];
 
   lines.push("Session");
@@ -579,7 +579,7 @@ function formatCommandList(items: CommandsListItem[]): string {
 }
 
 export function buildCommandsMessage(
-  cfg?: MoltbotConfig,
+  cfg?: PandaConfig,
   skillCommands?: SkillCommandSpec[],
   options?: CommandsMessageOptions,
 ): string {
@@ -588,7 +588,7 @@ export function buildCommandsMessage(
 }
 
 export function buildCommandsMessagePaginated(
-  cfg?: MoltbotConfig,
+  cfg?: PandaConfig,
   skillCommands?: SkillCommandSpec[],
   options?: CommandsMessageOptions,
 ): CommandsMessageResult {

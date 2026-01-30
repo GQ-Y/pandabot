@@ -1,4 +1,4 @@
-import MoltbotKit
+import PandaKit
 import SwiftUI
 
 struct ScreenTab: View {

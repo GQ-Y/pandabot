@@ -40,7 +40,7 @@ describe("gateway e2e", () => {
 
       const { baseUrl: openaiBaseUrl, restore } = installOpenAiResponsesMock();
 
-      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-gw-mock-home-"));
+      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "panda-gw-mock-home-"));
       process.env.HOME = tempHome;
       process.env.PANDA_SKIP_CHANNELS = "1";
       process.env.PANDA_SKIP_GMAIL_WATCHER = "1";
@@ -51,17 +51,17 @@ describe("gateway e2e", () => {
       const token = `test-${randomUUID()}`;
       process.env.PANDA_GATEWAY_TOKEN = token;
 
-      const workspaceDir = path.join(tempHome, "clawd");
+      const workspaceDir = path.join(tempHome, "panda");
       await fs.mkdir(workspaceDir, { recursive: true });
 
       const nonceA = randomUUID();
       const nonceB = randomUUID();
-      const toolProbePath = path.join(workspaceDir, `.clawdbot-tool-probe.${nonceA}.txt`);
+      const toolProbePath = path.join(workspaceDir, `.pandabot-tool-probe.${nonceA}.txt`);
       await fs.writeFile(toolProbePath, `nonceA=${nonceA}\nnonceB=${nonceB}\n`);
 
-      const configDir = path.join(tempHome, ".clawdbot");
+      const configDir = path.join(tempHome, ".pandabot");
       await fs.mkdir(configDir, { recursive: true });
-      const configPath = path.join(configDir, "moltbot.json");
+      const configPath = path.join(configDir, "panda.json");
 
       const cfg = {
         agents: { defaults: { workspace: workspaceDir } },
@@ -172,7 +172,7 @@ describe("gateway e2e", () => {
     process.env.PANDA_SKIP_BROWSER_CONTROL_SERVER = "1";
     delete process.env.PANDA_GATEWAY_TOKEN;
 
-    const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-wizard-home-"));
+    const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "panda-wizard-home-"));
     process.env.HOME = tempHome;
     delete process.env.PANDA_STATE_DIR;
     delete process.env.PANDA_CONFIG_PATH;

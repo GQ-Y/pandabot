@@ -1,4 +1,4 @@
-# Clawdbot (iOS)
+# Panda (iOS)
 
 Internal-only SwiftUI app scaffold.
 
@@ -11,11 +11,11 @@ brew install swiftformat swiftlint
 ```bash
 cd apps/ios
 xcodegen generate
-open Clawdbot.xcodeproj
+open Panda.xcodeproj
 ```
 
 ## Shared packages
-- `../shared/MoltbotKit` — shared types/constants used by iOS (and later macOS bridge + gateway routing).
+- `../shared/PandaKit` — shared types/constants used by iOS (and later macOS bridge + gateway routing).
 
 ## fastlane
 ```bash

@@ -25,10 +25,10 @@ describe("onboard (non-interactive): Vercel AI Gateway", () => {
     delete process.env.PANDA_GATEWAY_TOKEN;
     delete process.env.PANDA_GATEWAY_PASSWORD;
 
-    const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-onboard-gateway-"));
+    const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "panda-onboard-gateway-"));
     process.env.HOME = tempHome;
     process.env.PANDA_STATE_DIR = tempHome;
-    process.env.PANDA_CONFIG_PATH = path.join(tempHome, "moltbot.json");
+    process.env.PANDA_CONFIG_PATH = path.join(tempHome, "panda.json");
     vi.resetModules();
 
     const runtime = {

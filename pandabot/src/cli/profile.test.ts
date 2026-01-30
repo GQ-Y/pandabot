@@ -7,42 +7,42 @@ describe("parseCliProfileArgs", () => {
   it("leaves gateway --dev for subcommands", () => {
     const res = parseCliProfileArgs([
       "node",
-      "moltbot",
+      "panda",
       "gateway",
       "--dev",
       "--allow-unconfigured",
     ]);
     if (!res.ok) throw new Error(res.error);
     expect(res.profile).toBeNull();
-    expect(res.argv).toEqual(["node", "moltbot", "gateway", "--dev", "--allow-unconfigured"]);
+    expect(res.argv).toEqual(["node", "panda", "gateway", "--dev", "--allow-unconfigured"]);
   });
 
   it("still accepts global --dev before subcommand", () => {
-    const res = parseCliProfileArgs(["node", "moltbot", "--dev", "gateway"]);
+    const res = parseCliProfileArgs(["node", "panda", "--dev", "gateway"]);
     if (!res.ok) throw new Error(res.error);
     expect(res.profile).toBe("dev");
-    expect(res.argv).toEqual(["node", "moltbot", "gateway"]);
+    expect(res.argv).toEqual(["node", "panda", "gateway"]);
   });
 
   it("parses --profile value and strips it", () => {
-    const res = parseCliProfileArgs(["node", "moltbot", "--profile", "work", "status"]);
+    const res = parseCliProfileArgs(["node", "panda", "--profile", "work", "status"]);
     if (!res.ok) throw new Error(res.error);
     expect(res.profile).toBe("work");
-    expect(res.argv).toEqual(["node", "moltbot", "status"]);
+    expect(res.argv).toEqual(["node", "panda", "status"]);
   });
 
   it("rejects missing profile value", () => {
-    const res = parseCliProfileArgs(["node", "moltbot", "--profile"]);
+    const res = parseCliProfileArgs(["node", "panda", "--profile"]);
     expect(res.ok).toBe(false);
   });
 
   it("rejects combining --dev with --profile (dev first)", () => {
-    const res = parseCliProfileArgs(["node", "moltbot", "--dev", "--profile", "work", "status"]);
+    const res = parseCliProfileArgs(["node", "panda", "--dev", "--profile", "work", "status"]);
     expect(res.ok).toBe(false);
   });
 
   it("rejects combining --dev with --profile (profile first)", () => {
-    const res = parseCliProfileArgs(["node", "moltbot", "--profile", "work", "--dev", "status"]);
+    const res = parseCliProfileArgs(["node", "panda", "--profile", "work", "--dev", "status"]);
     expect(res.ok).toBe(false);
   });
 });
@@ -55,10 +55,10 @@ describe("applyCliProfileEnv", () => {
       env,
       homedir: () => "/home/peter",
     });
-    const expectedStateDir = path.join("/home/peter", ".clawdbot-dev");
+    const expectedStateDir = path.join("/home/peter", ".pandabot-dev");
     expect(env.PANDA_PROFILE).toBe("dev");
     expect(env.PANDA_STATE_DIR).toBe(expectedStateDir);
-    expect(env.PANDA_CONFIG_PATH).toBe(path.join(expectedStateDir, "moltbot.json"));
+    expect(env.PANDA_CONFIG_PATH).toBe(path.join(expectedStateDir, "panda.json"));
     expect(env.PANDA_GATEWAY_PORT).toBe("19001");
   });
 
@@ -74,66 +74,66 @@ describe("applyCliProfileEnv", () => {
     });
     expect(env.PANDA_STATE_DIR).toBe("/custom");
     expect(env.PANDA_GATEWAY_PORT).toBe("19099");
-    expect(env.PANDA_CONFIG_PATH).toBe(path.join("/custom", "moltbot.json"));
+    expect(env.PANDA_CONFIG_PATH).toBe(path.join("/custom", "panda.json"));
   });
 });
 
 describe("formatCliCommand", () => {
   it("returns command unchanged when no profile is set", () => {
-    expect(formatCliCommand("moltbot doctor --fix", {})).toBe("moltbot doctor --fix");
+    expect(formatCliCommand("panda doctor --fix", {})).toBe("panda doctor --fix");
   });
 
   it("returns command unchanged when profile is default", () => {
-    expect(formatCliCommand("moltbot doctor --fix", { PANDA_PROFILE: "default" })).toBe(
-      "moltbot doctor --fix",
+    expect(formatCliCommand("panda doctor --fix", { PANDA_PROFILE: "default" })).toBe(
+      "panda doctor --fix",
     );
   });
 
   it("returns command unchanged when profile is Default (case-insensitive)", () => {
-    expect(formatCliCommand("moltbot doctor --fix", { PANDA_PROFILE: "Default" })).toBe(
-      "moltbot doctor --fix",
+    expect(formatCliCommand("panda doctor --fix", { PANDA_PROFILE: "Default" })).toBe(
+      "panda doctor --fix",
     );
   });
 
   it("returns command unchanged when profile is invalid", () => {
-    expect(formatCliCommand("moltbot doctor --fix", { PANDA_PROFILE: "bad profile" })).toBe(
-      "moltbot doctor --fix",
+    expect(formatCliCommand("panda doctor --fix", { PANDA_PROFILE: "bad profile" })).toBe(
+      "panda doctor --fix",
     );
   });
 
   it("returns command unchanged when --profile is already present", () => {
     expect(
-      formatCliCommand("moltbot --profile work doctor --fix", { PANDA_PROFILE: "work" }),
-    ).toBe("moltbot --profile work doctor --fix");
+      formatCliCommand("panda --profile work doctor --fix", { PANDA_PROFILE: "work" }),
+    ).toBe("panda --profile work doctor --fix");
   });
 
   it("returns command unchanged when --dev is already present", () => {
-    expect(formatCliCommand("moltbot --dev doctor", { PANDA_PROFILE: "dev" })).toBe(
-      "moltbot --dev doctor",
+    expect(formatCliCommand("panda --dev doctor", { PANDA_PROFILE: "dev" })).toBe(
+      "panda --dev doctor",
     );
   });
 
   it("inserts --profile flag when profile is set", () => {
-    expect(formatCliCommand("moltbot doctor --fix", { PANDA_PROFILE: "work" })).toBe(
-      "moltbot --profile work doctor --fix",
+    expect(formatCliCommand("panda doctor --fix", { PANDA_PROFILE: "work" })).toBe(
+      "panda --profile work doctor --fix",
     );
   });
 
   it("trims whitespace from profile", () => {
-    expect(formatCliCommand("moltbot doctor --fix", { PANDA_PROFILE: "  jbclawd  " })).toBe(
-      "moltbot --profile jbclawd doctor --fix",
+    expect(formatCliCommand("panda doctor --fix", { PANDA_PROFILE: "  jbclawd  " })).toBe(
+      "panda --profile jbclawd doctor --fix",
     );
   });
 
-  it("handles command with no args after moltbot", () => {
-    expect(formatCliCommand("moltbot", { PANDA_PROFILE: "test" })).toBe(
-      "moltbot --profile test",
+  it("handles command with no args after panda", () => {
+    expect(formatCliCommand("panda", { PANDA_PROFILE: "test" })).toBe(
+      "panda --profile test",
     );
   });
 
   it("handles pnpm wrapper", () => {
-    expect(formatCliCommand("pnpm moltbot doctor", { PANDA_PROFILE: "work" })).toBe(
-      "pnpm moltbot --profile work doctor",
+    expect(formatCliCommand("pnpm panda doctor", { PANDA_PROFILE: "work" })).toBe(
+      "pnpm panda --profile work doctor",
     );
   });
 });

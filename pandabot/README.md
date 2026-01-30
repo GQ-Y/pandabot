@@ -1,7 +1,7 @@
-# 🦞 Moltbot — Personal AI Assistant
+# 🐼 Pandabot — Personal AI Assistant
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/moltbot/moltbot/main/docs/whatsapp-clawd.jpg" alt="Clawdbot" width="400">
+  <img src="https://raw.githubusercontent.com/pandabot/pandabot/main/docs/whatsapp-panda.jpg" alt="Pandabot" width="400">
 </p>
 
 <p align="center">
@@ -9,68 +9,68 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/moltbot/moltbot/actions/workflows/ci.yml?branch=main"><img src="https://img.shields.io/github/actions/workflow/status/moltbot/moltbot/ci.yml?branch=main&style=for-the-badge" alt="CI status"></a>
-  <a href="https://github.com/moltbot/moltbot/releases"><img src="https://img.shields.io/github/v/release/moltbot/moltbot?include_prereleases&style=for-the-badge" alt="GitHub release"></a>
-  <a href="https://deepwiki.com/moltbot/moltbot"><img src="https://img.shields.io/badge/DeepWiki-moltbot-111111?style=for-the-badge" alt="DeepWiki"></a>
-  <a href="https://discord.gg/clawd"><img src="https://img.shields.io/discord/1456350064065904867?label=Discord&logo=discord&logoColor=white&color=5865F2&style=for-the-badge" alt="Discord"></a>
+  <a href="https://github.com/pandabot/pandabot/actions/workflows/ci.yml?branch=main"><img src="https://img.shields.io/github/actions/workflow/status/pandabot/pandabot/ci.yml?branch=main&style=for-the-badge" alt="CI status"></a>
+  <a href="https://github.com/pandabot/pandabot/releases"><img src="https://img.shields.io/github/v/release/pandabot/pandabot?include_prereleases&style=for-the-badge" alt="GitHub release"></a>
+  <a href="https://github.com/pandabot/pandabot"><img src="https://img.shields.io/badge/Repo-pandabot-111111?style=for-the-badge" alt="Pandabot"></a>
+  <a href="https://discord.gg/pandabot"><img src="https://img.shields.io/discord/1456350064065904867?label=Discord&logo=discord&logoColor=white&color=5865F2&style=for-the-badge" alt="Discord"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" alt="MIT License"></a>
 </p>
 
-**Moltbot** is a *personal AI assistant* you run on your own devices.
+**Pandabot** is a *personal AI assistant* you run on your own devices.
 It answers you on the channels you already use (WhatsApp, Telegram, Slack, Discord, Google Chat, Signal, iMessage, Microsoft Teams, WebChat), plus extension channels like BlueBubbles, Matrix, Zalo, and Zalo Personal. It can speak and listen on macOS/iOS/Android, and can render a live Canvas you control. The Gateway is just the control plane — the product is the assistant.
 
 If you want a personal, single-user assistant that feels local, fast, and always-on, this is it.
 
-[Website](https://molt.bot) · [Docs](https://docs.molt.bot) · [Getting Started](https://docs.molt.bot/start/getting-started) · [Updating](https://docs.molt.bot/install/updating) · [Showcase](https://docs.molt.bot/start/showcase) · [FAQ](https://docs.molt.bot/start/faq) · [Wizard](https://docs.molt.bot/start/wizard) · [Nix](https://github.com/moltbot/nix-clawdbot) · [Docker](https://docs.molt.bot/install/docker) · [Discord](https://discord.gg/clawd)
+[Website](https://pandabot.dev) · [Docs](https://docs.pandabot.dev/) · [Getting Started](https://docs.pandabot.dev/start/getting-started) · [Updating](https://docs.pandabot.dev/install/updating) · [Showcase](https://docs.pandabot.dev/start/showcase) · [FAQ](https://docs.pandabot.dev/start/faq) · [Wizard](https://docs.pandabot.dev/start/wizard) · [Docker](https://docs.pandabot.dev/install/docker) · [Discord](https://discord.gg/pandabot)
 
-Preferred setup: run the onboarding wizard (`moltbot onboard`). It walks through gateway, workspace, channels, and skills. The CLI wizard is the recommended path and works on **macOS, Linux, and Windows (via WSL2; strongly recommended)**.
+Preferred setup: run the onboarding wizard (`panda onboard`). It walks through gateway, workspace, channels, and skills. The CLI wizard is the recommended path and works on **macOS, Linux, and Windows (via WSL2; strongly recommended)**.
 Works with npm, pnpm, or bun.
-New install? Start here: [Getting started](https://docs.molt.bot/start/getting-started)
+New install? Start here: [Getting started](https://docs.pandabot.dev/start/getting-started)
 
 **Subscriptions (OAuth):**
 - **[Anthropic](https://www.anthropic.com/)** (Claude Pro/Max)
 - **[OpenAI](https://openai.com/)** (ChatGPT/Codex)
 
-Model note: while any model is supported, I strongly recommend **Anthropic Pro/Max (100/200) + Opus 4.5** for long‑context strength and better prompt‑injection resistance. See [Onboarding](https://docs.molt.bot/start/onboarding).
+Model note: while any model is supported, I strongly recommend **Anthropic Pro/Max (100/200) + Opus 4.5** for long‑context strength and better prompt‑injection resistance. See [Onboarding](https://docs.pandabot.dev/start/onboarding).
 
 ## Models (selection + auth)
 
-- Models config + CLI: [Models](https://docs.molt.bot/concepts/models)
-- Auth profile rotation (OAuth vs API keys) + fallbacks: [Model failover](https://docs.molt.bot/concepts/model-failover)
+- Models config + CLI: [Models](https://docs.pandabot.dev/concepts/models)
+- Auth profile rotation (OAuth vs API keys) + fallbacks: [Model failover](https://docs.pandabot.dev/concepts/model-failover)
 
 ## Install (recommended)
 
 Runtime: **Node ≥22**.
 
 ```bash
-npm install -g moltbot@latest
-# or: pnpm add -g moltbot@latest
+npm install -g pandabot@latest
+# or: pnpm add -g pandabot@latest
 
-moltbot onboard --install-daemon
+panda onboard --install-daemon
 ```
 
 The wizard installs the Gateway daemon (launchd/systemd user service) so it stays running.
-Legacy note: `clawdbot` remains available as a compatibility shim.
+CLI: `panda` (global install: `panda onboard`, `panda gateway`, etc.).
 
 ## Quick start (TL;DR)
 
 Runtime: **Node ≥22**.
 
-Full beginner guide (auth, pairing, channels): [Getting started](https://docs.molt.bot/start/getting-started)
+Full beginner guide (auth, pairing, channels): [Getting started](https://docs.pandabot.dev/start/getting-started)
 
 ```bash
-moltbot onboard --install-daemon
+panda onboard --install-daemon
 
-moltbot gateway --port 18789 --verbose
+panda gateway --port 18789 --verbose
 
 # Send a message
-moltbot message send --to +1234567890 --message "Hello from Moltbot"
+panda message send --to +1234567890 --message "Hello from Pandabot"
 
 # Talk to the assistant (optionally deliver back to any connected channel: WhatsApp/Telegram/Slack/Discord/Google Chat/Signal/iMessage/BlueBubbles/Microsoft Teams/Matrix/Zalo/Zalo Personal/WebChat)
-moltbot agent --message "Ship checklist" --thinking high
+panda agent --message "Ship checklist" --thinking high
 ```
 
-Upgrading? [Updating guide](https://docs.molt.bot/install/updating) (and run `moltbot doctor`).
+Upgrading? [Updating guide](https://docs.pandabot.dev/install/updating) (and run `panda doctor`).
 
 ## Development channels
 
@@ -78,94 +78,94 @@ Upgrading? [Updating guide](https://docs.molt.bot/install/updating) (and run `mo
 - **beta**: prerelease tags (`vYYYY.M.D-beta.N`), npm dist-tag `beta` (macOS app may be missing).
 - **dev**: moving head of `main`, npm dist-tag `dev` (when published).
 
-Switch channels (git + npm): `moltbot update --channel stable|beta|dev`.
-Details: [Development channels](https://docs.molt.bot/install/development-channels).
+Switch channels (git + npm): `panda update --channel stable|beta|dev`.
+Details: [Development channels](https://docs.pandabot.dev/install/development-channels).
 
 ## From source (development)
 
 Prefer `pnpm` for builds from source. Bun is optional for running TypeScript directly.
 
 ```bash
-git clone https://github.com/moltbot/moltbot.git
-cd moltbot
+git clone https://github.com/pandabot/pandabot.git
+cd pandabot
 
 pnpm install
 pnpm ui:build # auto-installs UI deps on first run
 pnpm build
 
-pnpm moltbot onboard --install-daemon
+pnpm panda onboard --install-daemon
 
 # Dev loop (auto-reload on TS changes)
 pnpm gateway:watch
 ```
 
-Note: `pnpm moltbot ...` runs TypeScript directly (via `tsx`). `pnpm build` produces `dist/` for running via Node / the packaged `moltbot` binary.
+Note: `pnpm panda ...` runs TypeScript directly (via `tsx`). `pnpm build` produces `dist/` for running via Node / the packaged `panda` binary.
 
 ## Security defaults (DM access)
 
-Moltbot connects to real messaging surfaces. Treat inbound DMs as **untrusted input**.
+Pandabot connects to real messaging surfaces. Treat inbound DMs as **untrusted input**.
 
-Full security guide: [Security](https://docs.molt.bot/gateway/security)
+Full security guide: [Security](https://docs.pandabot.dev/gateway/security)
 
 Default behavior on Telegram/WhatsApp/Signal/iMessage/Microsoft Teams/Discord/Google Chat/Slack:
 - **DM pairing** (`dmPolicy="pairing"` / `channels.discord.dm.policy="pairing"` / `channels.slack.dm.policy="pairing"`): unknown senders receive a short pairing code and the bot does not process their message.
-- Approve with: `moltbot pairing approve <channel> <code>` (then the sender is added to a local allowlist store).
+- Approve with: `panda pairing approve <channel> <code>` (then the sender is added to a local allowlist store).
 - Public inbound DMs require an explicit opt-in: set `dmPolicy="open"` and include `"*"` in the channel allowlist (`allowFrom` / `channels.discord.dm.allowFrom` / `channels.slack.dm.allowFrom`).
 
-Run `moltbot doctor` to surface risky/misconfigured DM policies.
+Run `panda doctor` to surface risky/misconfigured DM policies.
 
 ## Highlights
 
-- **[Local-first Gateway](https://docs.molt.bot/gateway)** — single control plane for sessions, channels, tools, and events.
-- **[Multi-channel inbox](https://docs.molt.bot/channels)** — WhatsApp, Telegram, Slack, Discord, Google Chat, Signal, iMessage, BlueBubbles, Microsoft Teams, Matrix, Zalo, Zalo Personal, WebChat, macOS, iOS/Android.
-- **[Multi-agent routing](https://docs.molt.bot/gateway/configuration)** — route inbound channels/accounts/peers to isolated agents (workspaces + per-agent sessions).
-- **[Voice Wake](https://docs.molt.bot/nodes/voicewake) + [Talk Mode](https://docs.molt.bot/nodes/talk)** — always-on speech for macOS/iOS/Android with ElevenLabs.
-- **[Live Canvas](https://docs.molt.bot/platforms/mac/canvas)** — agent-driven visual workspace with [A2UI](https://docs.molt.bot/platforms/mac/canvas#canvas-a2ui).
-- **[First-class tools](https://docs.molt.bot/tools)** — browser, canvas, nodes, cron, sessions, and Discord/Slack actions.
-- **[Companion apps](https://docs.molt.bot/platforms/macos)** — macOS menu bar app + iOS/Android [nodes](https://docs.molt.bot/nodes).
-- **[Onboarding](https://docs.molt.bot/start/wizard) + [skills](https://docs.molt.bot/tools/skills)** — wizard-driven setup with bundled/managed/workspace skills.
+- **[Local-first Gateway](https://docs.pandabot.dev/gateway)** — single control plane for sessions, channels, tools, and events.
+- **[Multi-channel inbox](https://docs.pandabot.dev/channels)** — WhatsApp, Telegram, Slack, Discord, Google Chat, Signal, iMessage, BlueBubbles, Microsoft Teams, Matrix, Zalo, Zalo Personal, WebChat, macOS, iOS/Android.
+- **[Multi-agent routing](https://docs.pandabot.dev/gateway/configuration)** — route inbound channels/accounts/peers to isolated agents (workspaces + per-agent sessions).
+- **[Voice Wake](https://docs.pandabot.dev/nodes/voicewake) + [Talk Mode](https://docs.pandabot.dev/nodes/talk)** — always-on speech for macOS/iOS/Android with ElevenLabs.
+- **[Live Canvas](https://docs.pandabot.dev/platforms/mac/canvas)** — agent-driven visual workspace with [A2UI](https://docs.pandabot.dev/platforms/mac/canvas#canvas-a2ui).
+- **[First-class tools](https://docs.pandabot.dev/tools)** — browser, canvas, nodes, cron, sessions, and Discord/Slack actions.
+- **[Companion apps](https://docs.pandabot.dev/platforms/macos)** — macOS menu bar app + iOS/Android [nodes](https://docs.pandabot.dev/nodes).
+- **[Onboarding](https://docs.pandabot.dev/start/wizard) + [skills](https://docs.pandabot.dev/tools/skills)** — wizard-driven setup with bundled/managed/workspace skills.
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=moltbot/moltbot&type=date&legend=top-left)](https://www.star-history.com/#moltbot/moltbot&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=pandabot/pandabot&type=date&legend=top-left)](https://www.star-history.com/#pandabot/pandabot&type=date&legend=top-left)
 
 ## Everything we built so far
 
 ### Core platform
-- [Gateway WS control plane](https://docs.molt.bot/gateway) with sessions, presence, config, cron, webhooks, [Control UI](https://docs.molt.bot/web), and [Canvas host](https://docs.molt.bot/platforms/mac/canvas#canvas-a2ui).
-- [CLI surface](https://docs.molt.bot/tools/agent-send): gateway, agent, send, [wizard](https://docs.molt.bot/start/wizard), and [doctor](https://docs.molt.bot/gateway/doctor).
-- [Pi agent runtime](https://docs.molt.bot/concepts/agent) in RPC mode with tool streaming and block streaming.
-- [Session model](https://docs.molt.bot/concepts/session): `main` for direct chats, group isolation, activation modes, queue modes, reply-back. Group rules: [Groups](https://docs.molt.bot/concepts/groups).
-- [Media pipeline](https://docs.molt.bot/nodes/images): images/audio/video, transcription hooks, size caps, temp file lifecycle. Audio details: [Audio](https://docs.molt.bot/nodes/audio).
+- [Gateway WS control plane](https://docs.pandabot.dev/gateway) with sessions, presence, config, cron, webhooks, [Control UI](https://docs.pandabot.dev/web), and [Canvas host](https://docs.pandabot.dev/platforms/mac/canvas#canvas-a2ui).
+- [CLI surface](https://docs.pandabot.dev/tools/agent-send): gateway, agent, send, [wizard](https://docs.pandabot.dev/start/wizard), and [doctor](https://docs.pandabot.dev/gateway/doctor).
+- [Pi agent runtime](https://docs.pandabot.dev/concepts/agent) in RPC mode with tool streaming and block streaming.
+- [Session model](https://docs.pandabot.dev/concepts/session): `main` for direct chats, group isolation, activation modes, queue modes, reply-back. Group rules: [Groups](https://docs.pandabot.dev/concepts/groups).
+- [Media pipeline](https://docs.pandabot.dev/nodes/images): images/audio/video, transcription hooks, size caps, temp file lifecycle. Audio details: [Audio](https://docs.pandabot.dev/nodes/audio).
 
 ### Channels
-- [Channels](https://docs.molt.bot/channels): [WhatsApp](https://docs.molt.bot/channels/whatsapp) (Baileys), [Telegram](https://docs.molt.bot/channels/telegram) (grammY), [Slack](https://docs.molt.bot/channels/slack) (Bolt), [Discord](https://docs.molt.bot/channels/discord) (discord.js), [Google Chat](https://docs.molt.bot/channels/googlechat) (Chat API), [Signal](https://docs.molt.bot/channels/signal) (signal-cli), [iMessage](https://docs.molt.bot/channels/imessage) (imsg), [BlueBubbles](https://docs.molt.bot/channels/bluebubbles) (extension), [Microsoft Teams](https://docs.molt.bot/channels/msteams) (extension), [Matrix](https://docs.molt.bot/channels/matrix) (extension), [Zalo](https://docs.molt.bot/channels/zalo) (extension), [Zalo Personal](https://docs.molt.bot/channels/zalouser) (extension), [WebChat](https://docs.molt.bot/web/webchat).
-- [Group routing](https://docs.molt.bot/concepts/group-messages): mention gating, reply tags, per-channel chunking and routing. Channel rules: [Channels](https://docs.molt.bot/channels).
+- [Channels](https://docs.pandabot.dev/channels): [WhatsApp](https://docs.pandabot.dev/channels/whatsapp) (Baileys), [Telegram](https://docs.pandabot.dev/channels/telegram) (grammY), [Slack](https://docs.pandabot.dev/channels/slack) (Bolt), [Discord](https://docs.pandabot.dev/channels/discord) (discord.js), [Google Chat](https://docs.pandabot.dev/channels/googlechat) (Chat API), [Signal](https://docs.pandabot.dev/channels/signal) (signal-cli), [iMessage](https://docs.pandabot.dev/channels/imessage) (imsg), [BlueBubbles](https://docs.pandabot.dev/channels/bluebubbles) (extension), [Microsoft Teams](https://docs.pandabot.dev/channels/msteams) (extension), [Matrix](https://docs.pandabot.dev/channels/matrix) (extension), [Zalo](https://docs.pandabot.dev/channels/zalo) (extension), [Zalo Personal](https://docs.pandabot.dev/channels/zalouser) (extension), [WebChat](https://docs.pandabot.dev/web/webchat).
+- [Group routing](https://docs.pandabot.dev/concepts/group-messages): mention gating, reply tags, per-channel chunking and routing. Channel rules: [Channels](https://docs.pandabot.dev/channels).
 
 ### Apps + nodes
-- [macOS app](https://docs.molt.bot/platforms/macos): menu bar control plane, [Voice Wake](https://docs.molt.bot/nodes/voicewake)/PTT, [Talk Mode](https://docs.molt.bot/nodes/talk) overlay, [WebChat](https://docs.molt.bot/web/webchat), debug tools, [remote gateway](https://docs.molt.bot/gateway/remote) control.
-- [iOS node](https://docs.molt.bot/platforms/ios): [Canvas](https://docs.molt.bot/platforms/mac/canvas), [Voice Wake](https://docs.molt.bot/nodes/voicewake), [Talk Mode](https://docs.molt.bot/nodes/talk), camera, screen recording, Bonjour pairing.
-- [Android node](https://docs.molt.bot/platforms/android): [Canvas](https://docs.molt.bot/platforms/mac/canvas), [Talk Mode](https://docs.molt.bot/nodes/talk), camera, screen recording, optional SMS.
-- [macOS node mode](https://docs.molt.bot/nodes): system.run/notify + canvas/camera exposure.
+- [macOS app](https://docs.pandabot.dev/platforms/macos): menu bar control plane, [Voice Wake](https://docs.pandabot.dev/nodes/voicewake)/PTT, [Talk Mode](https://docs.pandabot.dev/nodes/talk) overlay, [WebChat](https://docs.pandabot.dev/web/webchat), debug tools, [remote gateway](https://docs.pandabot.dev/gateway/remote) control.
+- [iOS node](https://docs.pandabot.dev/platforms/ios): [Canvas](https://docs.pandabot.dev/platforms/mac/canvas), [Voice Wake](https://docs.pandabot.dev/nodes/voicewake), [Talk Mode](https://docs.pandabot.dev/nodes/talk), camera, screen recording, Bonjour pairing.
+- [Android node](https://docs.pandabot.dev/platforms/android): [Canvas](https://docs.pandabot.dev/platforms/mac/canvas), [Talk Mode](https://docs.pandabot.dev/nodes/talk), camera, screen recording, optional SMS.
+- [macOS node mode](https://docs.pandabot.dev/nodes): system.run/notify + canvas/camera exposure.
 
 ### Tools + automation
-- [Browser control](https://docs.molt.bot/tools/browser): dedicated moltbot Chrome/Chromium, snapshots, actions, uploads, profiles.
-- [Canvas](https://docs.molt.bot/platforms/mac/canvas): [A2UI](https://docs.molt.bot/platforms/mac/canvas#canvas-a2ui) push/reset, eval, snapshot.
-- [Nodes](https://docs.molt.bot/nodes): camera snap/clip, screen record, [location.get](https://docs.molt.bot/nodes/location-command), notifications.
-- [Cron + wakeups](https://docs.molt.bot/automation/cron-jobs); [webhooks](https://docs.molt.bot/automation/webhook); [Gmail Pub/Sub](https://docs.molt.bot/automation/gmail-pubsub).
-- [Skills platform](https://docs.molt.bot/tools/skills): bundled, managed, and workspace skills with install gating + UI.
+- [Browser control](https://docs.pandabot.dev/tools/browser): dedicated Pandabot Chrome/Chromium, snapshots, actions, uploads, profiles.
+- [Canvas](https://docs.pandabot.dev/platforms/mac/canvas): [A2UI](https://docs.pandabot.dev/platforms/mac/canvas#canvas-a2ui) push/reset, eval, snapshot.
+- [Nodes](https://docs.pandabot.dev/nodes): camera snap/clip, screen record, [location.get](https://docs.pandabot.dev/nodes/location-command), notifications.
+- [Cron + wakeups](https://docs.pandabot.dev/automation/cron-jobs); [webhooks](https://docs.pandabot.dev/automation/webhook); [Gmail Pub/Sub](https://docs.pandabot.dev/automation/gmail-pubsub).
+- [Skills platform](https://docs.pandabot.dev/tools/skills): bundled, managed, and workspace skills with install gating + UI.
 
 ### Runtime + safety
-- [Channel routing](https://docs.molt.bot/concepts/channel-routing), [retry policy](https://docs.molt.bot/concepts/retry), and [streaming/chunking](https://docs.molt.bot/concepts/streaming).
-- [Presence](https://docs.molt.bot/concepts/presence), [typing indicators](https://docs.molt.bot/concepts/typing-indicators), and [usage tracking](https://docs.molt.bot/concepts/usage-tracking).
-- [Models](https://docs.molt.bot/concepts/models), [model failover](https://docs.molt.bot/concepts/model-failover), and [session pruning](https://docs.molt.bot/concepts/session-pruning).
-- [Security](https://docs.molt.bot/gateway/security) and [troubleshooting](https://docs.molt.bot/channels/troubleshooting).
+- [Channel routing](https://docs.pandabot.dev/concepts/channel-routing), [retry policy](https://docs.pandabot.dev/concepts/retry), and [streaming/chunking](https://docs.pandabot.dev/concepts/streaming).
+- [Presence](https://docs.pandabot.dev/concepts/presence), [typing indicators](https://docs.pandabot.dev/concepts/typing-indicators), and [usage tracking](https://docs.pandabot.dev/concepts/usage-tracking).
+- [Models](https://docs.pandabot.dev/concepts/models), [model failover](https://docs.pandabot.dev/concepts/model-failover), and [session pruning](https://docs.pandabot.dev/concepts/session-pruning).
+- [Security](https://docs.pandabot.dev/gateway/security) and [troubleshooting](https://docs.pandabot.dev/channels/troubleshooting).
 
 ### Ops + packaging
-- [Control UI](https://docs.molt.bot/web) + [WebChat](https://docs.molt.bot/web/webchat) served directly from the Gateway.
-- [Tailscale Serve/Funnel](https://docs.molt.bot/gateway/tailscale) or [SSH tunnels](https://docs.molt.bot/gateway/remote) with token/password auth.
-- [Nix mode](https://docs.molt.bot/install/nix) for declarative config; [Docker](https://docs.molt.bot/install/docker)-based installs.
-- [Doctor](https://docs.molt.bot/gateway/doctor) migrations, [logging](https://docs.molt.bot/logging).
+- [Control UI](https://docs.pandabot.dev/web) + [WebChat](https://docs.pandabot.dev/web/webchat) served directly from the Gateway.
+- [Tailscale Serve/Funnel](https://docs.pandabot.dev/gateway/tailscale) or [SSH tunnels](https://docs.pandabot.dev/gateway/remote) with token/password auth.
+- [Nix mode](https://docs.pandabot.dev/install/nix) for declarative config; [Docker](https://docs.pandabot.dev/install/docker)-based installs.
+- [Doctor](https://docs.pandabot.dev/gateway/doctor) migrations, [logging](https://docs.pandabot.dev/logging).
 
 ## How it works (short)
 
@@ -180,7 +180,7 @@ WhatsApp / Telegram / Slack / Discord / Google Chat / Signal / iMessage / BlueBu
 └──────────────┬────────────────┘
                │
                ├─ Pi agent (RPC)
-               ├─ CLI (moltbot …)
+               ├─ CLI (panda …)
                ├─ WebChat UI
                ├─ macOS app
                └─ iOS / Android nodes
@@ -188,28 +188,28 @@ WhatsApp / Telegram / Slack / Discord / Google Chat / Signal / iMessage / BlueBu
 
 ## Key subsystems
 
-- **[Gateway WebSocket network](https://docs.molt.bot/concepts/architecture)** — single WS control plane for clients, tools, and events (plus ops: [Gateway runbook](https://docs.molt.bot/gateway)).
-- **[Tailscale exposure](https://docs.molt.bot/gateway/tailscale)** — Serve/Funnel for the Gateway dashboard + WS (remote access: [Remote](https://docs.molt.bot/gateway/remote)).
-- **[Browser control](https://docs.molt.bot/tools/browser)** — moltbot‑managed Chrome/Chromium with CDP control.
-- **[Canvas + A2UI](https://docs.molt.bot/platforms/mac/canvas)** — agent‑driven visual workspace (A2UI host: [Canvas/A2UI](https://docs.molt.bot/platforms/mac/canvas#canvas-a2ui)).
-- **[Voice Wake](https://docs.molt.bot/nodes/voicewake) + [Talk Mode](https://docs.molt.bot/nodes/talk)** — always‑on speech and continuous conversation.
-- **[Nodes](https://docs.molt.bot/nodes)** — Canvas, camera snap/clip, screen record, `location.get`, notifications, plus macOS‑only `system.run`/`system.notify`.
+- **[Gateway WebSocket network](https://docs.pandabot.dev/concepts/architecture)** — single WS control plane for clients, tools, and events (plus ops: [Gateway runbook](https://docs.pandabot.dev/gateway)).
+- **[Tailscale exposure](https://docs.pandabot.dev/gateway/tailscale)** — Serve/Funnel for the Gateway dashboard + WS (remote access: [Remote](https://docs.pandabot.dev/gateway/remote)).
+- **[Browser control](https://docs.pandabot.dev/tools/browser)** — Pandabot‑managed Chrome/Chromium with CDP control.
+- **[Canvas + A2UI](https://docs.pandabot.dev/platforms/mac/canvas)** — agent‑driven visual workspace (A2UI host: [Canvas/A2UI](https://docs.pandabot.dev/platforms/mac/canvas#canvas-a2ui)).
+- **[Voice Wake](https://docs.pandabot.dev/nodes/voicewake) + [Talk Mode](https://docs.pandabot.dev/nodes/talk)** — always‑on speech and continuous conversation.
+- **[Nodes](https://docs.pandabot.dev/nodes)** — Canvas, camera snap/clip, screen record, `location.get`, notifications, plus macOS‑only `system.run`/`system.notify`.
 
 ## Tailscale access (Gateway dashboard)
 
-Moltbot can auto-configure Tailscale **Serve** (tailnet-only) or **Funnel** (public) while the Gateway stays bound to loopback. Configure `gateway.tailscale.mode`:
+Panda can auto-configure Tailscale **Serve** (tailnet-only) or **Funnel** (public) while the Gateway stays bound to loopback. Configure `gateway.tailscale.mode`:
 
 - `off`: no Tailscale automation (default).
 - `serve`: tailnet-only HTTPS via `tailscale serve` (uses Tailscale identity headers by default).
 - `funnel`: public HTTPS via `tailscale funnel` (requires shared password auth).
 
 Notes:
-- `gateway.bind` must stay `loopback` when Serve/Funnel is enabled (Moltbot enforces this).
+- `gateway.bind` must stay `loopback` when Serve/Funnel is enabled (Pandabot enforces this).
 - Serve can be forced to require a password by setting `gateway.auth.mode: "password"` or `gateway.auth.allowTailscale: false`.
 - Funnel refuses to start unless `gateway.auth.mode: "password"` is set.
 - Optional: `gateway.tailscale.resetOnExit` to undo Serve/Funnel on shutdown.
 
-Details: [Tailscale guide](https://docs.molt.bot/gateway/tailscale) · [Web surfaces](https://docs.molt.bot/web)
+Details: [Tailscale guide](https://docs.pandabot.dev/gateway/tailscale) · [Web surfaces](https://docs.pandabot.dev/web)
 
 ## Remote Gateway (Linux is great)
 
@@ -219,7 +219,7 @@ It’s perfectly fine to run the Gateway on a small Linux instance. Clients (mac
 - **Device nodes** run device‑local actions (`system.run`, camera, screen recording, notifications) via `node.invoke`.
 In short: exec runs where the Gateway lives; device actions run where the device lives.
 
-Details: [Remote access](https://docs.molt.bot/gateway/remote) · [Nodes](https://docs.molt.bot/nodes) · [Security](https://docs.molt.bot/gateway/security)
+Details: [Remote access](https://docs.pandabot.dev/gateway/remote) · [Nodes](https://docs.pandabot.dev/nodes) · [Security](https://docs.pandabot.dev/gateway/security)
 
 ## macOS permissions via the Gateway protocol
 
@@ -234,7 +234,7 @@ Elevated bash (host permissions) is separate from macOS TCC:
 - Use `/elevated on|off` to toggle per‑session elevated access when enabled + allowlisted.
 - Gateway persists the per‑session toggle via `sessions.patch` (WS method) alongside `thinkingLevel`, `verboseLevel`, `model`, `sendPolicy`, and `groupActivation`.
 
-Details: [Nodes](https://docs.molt.bot/nodes) · [macOS app](https://docs.molt.bot/platforms/macos) · [Gateway protocol](https://docs.molt.bot/concepts/architecture)
+Details: [Nodes](https://docs.pandabot.dev/nodes) · [macOS app](https://docs.pandabot.dev/platforms/macos) · [Gateway protocol](https://docs.pandabot.dev/concepts/architecture)
 
 ## Agent to Agent (sessions_* tools)
 
@@ -243,7 +243,7 @@ Details: [Nodes](https://docs.molt.bot/nodes) · [macOS app](https://docs.molt.b
 - `sessions_history` — fetch transcript logs for a session.
 - `sessions_send` — message another session; optional reply‑back ping‑pong + announce step (`REPLY_SKIP`, `ANNOUNCE_SKIP`).
 
-Details: [Session tools](https://docs.molt.bot/concepts/session-tool)
+Details: [Session tools](https://docs.pandabot.dev/concepts/session-tool)
 
 ## Skills registry (ClawdHub)
 
@@ -270,7 +270,7 @@ The Gateway alone delivers a great experience. All apps are optional and add ext
 
 If you plan to build/run companion apps, follow the platform runbooks below.
 
-### macOS (Moltbot.app) (optional)
+### macOS (Pandabot.app) (optional)
 
 - Menu bar control for the Gateway and health.
 - Voice Wake + push-to-talk overlay.
@@ -283,25 +283,25 @@ Note: signed builds required for macOS permissions to stick across rebuilds (see
 
 - Pairs as a node via the Bridge.
 - Voice trigger forwarding + Canvas surface.
-- Controlled via `moltbot nodes …`.
+- Controlled via `panda nodes …`.
 
-Runbook: [iOS connect](https://docs.molt.bot/platforms/ios).
+Runbook: [iOS connect](https://docs.pandabot.dev/platforms/ios).
 
 ### Android node (optional)
 
 - Pairs via the same Bridge + pairing flow as iOS.
 - Exposes Canvas, Camera, and Screen capture commands.
-- Runbook: [Android connect](https://docs.molt.bot/platforms/android).
+- Runbook: [Android connect](https://docs.pandabot.dev/platforms/android).
 
 ## Agent workspace + skills
 
-- Workspace root: `~/clawd` (configurable via `agents.defaults.workspace`).
+- Workspace root: `~/panda` (configurable via `agents.defaults.workspace`).
 - Injected prompt files: `AGENTS.md`, `SOUL.md`, `TOOLS.md`.
-- Skills: `~/clawd/skills/<skill>/SKILL.md`.
+- Skills: `~/panda/skills/<skill>/SKILL.md`.
 
 ## Configuration
 
-Minimal `~/.clawdbot/moltbot.json` (model + defaults):
+Minimal `~/.panda/panda.json` (model + defaults):
 
 ```json5
 {
@@ -311,7 +311,7 @@ Minimal `~/.clawdbot/moltbot.json` (model + defaults):
 }
 ```
 
-[Full configuration reference (all keys + examples).](https://docs.molt.bot/gateway/configuration)
+[Full configuration reference (all keys + examples).](https://docs.pandabot.dev/gateway/configuration)
 
 ## Security model (important)
 
@@ -319,15 +319,15 @@ Minimal `~/.clawdbot/moltbot.json` (model + defaults):
 - **Group/channel safety:** set `agents.defaults.sandbox.mode: "non-main"` to run **non‑main sessions** (groups/channels) inside per‑session Docker sandboxes; bash then runs in Docker for those sessions.
 - **Sandbox defaults:** allowlist `bash`, `process`, `read`, `write`, `edit`, `sessions_list`, `sessions_history`, `sessions_send`, `sessions_spawn`; denylist `browser`, `canvas`, `nodes`, `cron`, `discord`, `gateway`.
 
-Details: [Security guide](https://docs.molt.bot/gateway/security) · [Docker + sandboxing](https://docs.molt.bot/install/docker) · [Sandbox config](https://docs.molt.bot/gateway/configuration)
+Details: [Security guide](https://docs.pandabot.dev/gateway/security) · [Docker + sandboxing](https://docs.pandabot.dev/install/docker) · [Sandbox config](https://docs.pandabot.dev/gateway/configuration)
 
-### [WhatsApp](https://docs.molt.bot/channels/whatsapp)
+### [WhatsApp](https://docs.pandabot.dev/channels/whatsapp)
 
-- Link the device: `pnpm moltbot channels login` (stores creds in `~/.clawdbot/credentials`).
+- Link the device: `panda channels login` (stores creds in `~/.panda/credentials`).
 - Allowlist who can talk to the assistant via `channels.whatsapp.allowFrom`.
 - If `channels.whatsapp.groups` is set, it becomes a group allowlist; include `"*"` to allow all.
 
-### [Telegram](https://docs.molt.bot/channels/telegram)
+### [Telegram](https://docs.pandabot.dev/channels/telegram)
 
 - Set `TELEGRAM_BOT_TOKEN` or `channels.telegram.botToken` (env wins).
 - Optional: set `channels.telegram.groups` (with `channels.telegram.groups."*".requireMention`); when set, it is a group allowlist (include `"*"` to allow all). Also `channels.telegram.allowFrom` or `channels.telegram.webhookUrl` as needed.
@@ -342,11 +342,11 @@ Details: [Security guide](https://docs.molt.bot/gateway/security) · [Docker + s
 }
 ```
 
-### [Slack](https://docs.molt.bot/channels/slack)
+### [Slack](https://docs.pandabot.dev/channels/slack)
 
 - Set `SLACK_BOT_TOKEN` + `SLACK_APP_TOKEN` (or `channels.slack.botToken` + `channels.slack.appToken`).
 
-### [Discord](https://docs.molt.bot/channels/discord)
+### [Discord](https://docs.pandabot.dev/channels/discord)
 
 - Set `DISCORD_BOT_TOKEN` or `channels.discord.token` (env wins).
 - Optional: set `commands.native`, `commands.text`, or `commands.useAccessGroups`, plus `channels.discord.dm.allowFrom`, `channels.discord.guilds`, or `channels.discord.mediaMaxMb` as needed.
@@ -361,21 +361,21 @@ Details: [Security guide](https://docs.molt.bot/gateway/security) · [Docker + s
 }
 ```
 
-### [Signal](https://docs.molt.bot/channels/signal)
+### [Signal](https://docs.pandabot.dev/channels/signal)
 
 - Requires `signal-cli` and a `channels.signal` config section.
 
-### [iMessage](https://docs.molt.bot/channels/imessage)
+### [iMessage](https://docs.pandabot.dev/channels/imessage)
 
 - macOS only; Messages must be signed in.
 - If `channels.imessage.groups` is set, it becomes a group allowlist; include `"*"` to allow all.
 
-### [Microsoft Teams](https://docs.molt.bot/channels/msteams)
+### [Microsoft Teams](https://docs.pandabot.dev/channels/msteams)
 
 - Configure a Teams app + Bot Framework, then add a `msteams` config section.
 - Allowlist who can talk via `msteams.allowFrom`; group access via `msteams.groupAllowFrom` or `msteams.groupPolicy: "open"`.
 
-### [WebChat](https://docs.molt.bot/web/webchat)
+### [WebChat](https://docs.pandabot.dev/web/webchat)
 
 - Uses the Gateway WebSocket; no separate WebChat port/config.
 
@@ -393,79 +393,76 @@ Browser control (optional):
 ## Docs
 
 Use these when you’re past the onboarding flow and want the deeper reference.
-- [Start with the docs index for navigation and “what’s where.”](https://docs.molt.bot)
-- [Read the architecture overview for the gateway + protocol model.](https://docs.molt.bot/concepts/architecture)
-- [Use the full configuration reference when you need every key and example.](https://docs.molt.bot/gateway/configuration)
-- [Run the Gateway by the book with the operational runbook.](https://docs.molt.bot/gateway)
-- [Learn how the Control UI/Web surfaces work and how to expose them safely.](https://docs.molt.bot/web)
-- [Understand remote access over SSH tunnels or tailnets.](https://docs.molt.bot/gateway/remote)
-- [Follow the onboarding wizard flow for a guided setup.](https://docs.molt.bot/start/wizard)
-- [Wire external triggers via the webhook surface.](https://docs.molt.bot/automation/webhook)
-- [Set up Gmail Pub/Sub triggers.](https://docs.molt.bot/automation/gmail-pubsub)
-- [Learn the macOS menu bar companion details.](https://docs.molt.bot/platforms/mac/menu-bar)
-- [Platform guides: Windows (WSL2)](https://docs.molt.bot/platforms/windows), [Linux](https://docs.molt.bot/platforms/linux), [macOS](https://docs.molt.bot/platforms/macos), [iOS](https://docs.molt.bot/platforms/ios), [Android](https://docs.molt.bot/platforms/android)
-- [Debug common failures with the troubleshooting guide.](https://docs.molt.bot/channels/troubleshooting)
-- [Review security guidance before exposing anything.](https://docs.molt.bot/gateway/security)
+- [Start with the docs index for navigation and “what’s where.”](https://docs.pandabot.dev/)
+- [Read the architecture overview for the gateway + protocol model.](https://docs.pandabot.dev/concepts/architecture)
+- [Use the full configuration reference when you need every key and example.](https://docs.pandabot.dev/gateway/configuration)
+- [Run the Gateway by the book with the operational runbook.](https://docs.pandabot.dev/gateway)
+- [Learn how the Control UI/Web surfaces work and how to expose them safely.](https://docs.pandabot.dev/web)
+- [Understand remote access over SSH tunnels or tailnets.](https://docs.pandabot.dev/gateway/remote)
+- [Follow the onboarding wizard flow for a guided setup.](https://docs.pandabot.dev/start/wizard)
+- [Wire external triggers via the webhook surface.](https://docs.pandabot.dev/automation/webhook)
+- [Set up Gmail Pub/Sub triggers.](https://docs.pandabot.dev/automation/gmail-pubsub)
+- [Learn the macOS menu bar companion details.](https://docs.pandabot.dev/platforms/mac/menu-bar)
+- [Platform guides: Windows (WSL2)](https://docs.pandabot.dev/platforms/windows), [Linux](https://docs.pandabot.dev/platforms/linux), [macOS](https://docs.pandabot.dev/platforms/macos), [iOS](https://docs.pandabot.dev/platforms/ios), [Android](https://docs.pandabot.dev/platforms/android)
+- [Debug common failures with the troubleshooting guide.](https://docs.pandabot.dev/channels/troubleshooting)
+- [Review security guidance before exposing anything.](https://docs.pandabot.dev/gateway/security)
 
 ## Advanced docs (discovery + control)
 
-- [Discovery + transports](https://docs.molt.bot/gateway/discovery)
-- [Bonjour/mDNS](https://docs.molt.bot/gateway/bonjour)
-- [Gateway pairing](https://docs.molt.bot/gateway/pairing)
-- [Remote gateway README](https://docs.molt.bot/gateway/remote-gateway-readme)
-- [Control UI](https://docs.molt.bot/web/control-ui)
-- [Dashboard](https://docs.molt.bot/web/dashboard)
+- [Discovery + transports](https://docs.pandabot.dev/gateway/discovery)
+- [Bonjour/mDNS](https://docs.pandabot.dev/gateway/bonjour)
+- [Gateway pairing](https://docs.pandabot.dev/gateway/pairing)
+- [Remote gateway README](https://docs.pandabot.dev/gateway/remote-gateway-readme)
+- [Control UI](https://docs.pandabot.dev/web/control-ui)
+- [Dashboard](https://docs.pandabot.dev/web/dashboard)
 
 ## Operations & troubleshooting
 
-- [Health checks](https://docs.molt.bot/gateway/health)
-- [Gateway lock](https://docs.molt.bot/gateway/gateway-lock)
-- [Background process](https://docs.molt.bot/gateway/background-process)
-- [Browser troubleshooting (Linux)](https://docs.molt.bot/tools/browser-linux-troubleshooting)
-- [Logging](https://docs.molt.bot/logging)
+- [Health checks](https://docs.pandabot.dev/gateway/health)
+- [Gateway lock](https://docs.pandabot.dev/gateway/gateway-lock)
+- [Background process](https://docs.pandabot.dev/gateway/background-process)
+- [Browser troubleshooting (Linux)](https://docs.pandabot.dev/tools/browser-linux-troubleshooting)
+- [Logging](https://docs.pandabot.dev/logging)
 
 ## Deep dives
 
-- [Agent loop](https://docs.molt.bot/concepts/agent-loop)
-- [Presence](https://docs.molt.bot/concepts/presence)
-- [TypeBox schemas](https://docs.molt.bot/concepts/typebox)
-- [RPC adapters](https://docs.molt.bot/reference/rpc)
-- [Queue](https://docs.molt.bot/concepts/queue)
+- [Agent loop](https://docs.pandabot.dev/concepts/agent-loop)
+- [Presence](https://docs.pandabot.dev/concepts/presence)
+- [TypeBox schemas](https://docs.pandabot.dev/concepts/typebox)
+- [RPC adapters](https://docs.pandabot.dev/reference/rpc)
+- [Queue](https://docs.pandabot.dev/concepts/queue)
 
 ## Workspace & skills
 
-- [Skills config](https://docs.molt.bot/tools/skills-config)
-- [Default AGENTS](https://docs.molt.bot/reference/AGENTS.default)
-- [Templates: AGENTS](https://docs.molt.bot/reference/templates/AGENTS)
-- [Templates: BOOTSTRAP](https://docs.molt.bot/reference/templates/BOOTSTRAP)
-- [Templates: IDENTITY](https://docs.molt.bot/reference/templates/IDENTITY)
-- [Templates: SOUL](https://docs.molt.bot/reference/templates/SOUL)
-- [Templates: TOOLS](https://docs.molt.bot/reference/templates/TOOLS)
-- [Templates: USER](https://docs.molt.bot/reference/templates/USER)
+- [Skills config](https://docs.pandabot.dev/tools/skills-config)
+- [Default AGENTS](https://docs.pandabot.dev/reference/AGENTS.default)
+- [Templates: AGENTS](https://docs.pandabot.dev/reference/templates/AGENTS)
+- [Templates: BOOTSTRAP](https://docs.pandabot.dev/reference/templates/BOOTSTRAP)
+- [Templates: IDENTITY](https://docs.pandabot.dev/reference/templates/IDENTITY)
+- [Templates: SOUL](https://docs.pandabot.dev/reference/templates/SOUL)
+- [Templates: TOOLS](https://docs.pandabot.dev/reference/templates/TOOLS)
+- [Templates: USER](https://docs.pandabot.dev/reference/templates/USER)
 
 ## Platform internals
 
-- [macOS dev setup](https://docs.molt.bot/platforms/mac/dev-setup)
-- [macOS menu bar](https://docs.molt.bot/platforms/mac/menu-bar)
-- [macOS voice wake](https://docs.molt.bot/platforms/mac/voicewake)
-- [iOS node](https://docs.molt.bot/platforms/ios)
-- [Android node](https://docs.molt.bot/platforms/android)
-- [Windows (WSL2)](https://docs.molt.bot/platforms/windows)
-- [Linux app](https://docs.molt.bot/platforms/linux)
+- [macOS dev setup](https://docs.pandabot.dev/platforms/mac/dev-setup)
+- [macOS menu bar](https://docs.pandabot.dev/platforms/mac/menu-bar)
+- [macOS voice wake](https://docs.pandabot.dev/platforms/mac/voicewake)
+- [iOS node](https://docs.pandabot.dev/platforms/ios)
+- [Android node](https://docs.pandabot.dev/platforms/android)
+- [Windows (WSL2)](https://docs.pandabot.dev/platforms/windows)
+- [Linux app](https://docs.pandabot.dev/platforms/linux)
 
 ## Email hooks (Gmail)
 
-- [docs.molt.bot/gmail-pubsub](https://docs.molt.bot/automation/gmail-pubsub)
+- [docs.pandabot.dev/gmail-pubsub](https://docs.pandabot.dev/automation/gmail-pubsub)
 
-## Molty
+## Pandabot
 
-Moltbot was built for **Molty**, a space lobster AI assistant. 🦞
-by Peter Steinberger and the community.
+Pandabot is a personal AI assistant you run on your own devices. 🐼
 
-- [clawd.me](https://clawd.me)
-- [soul.md](https://soul.md)
-- [steipete.me](https://steipete.me)
-- [@moltbot](https://x.com/moltbot)
+- [pandabot.dev](https://pandabot.dev)
+- [Documentation](https://docs.pandabot.dev/)
 
 ## Community
 
@@ -475,7 +472,7 @@ AI/vibe-coded PRs welcome! 🤖
 Special thanks to [Mario Zechner](https://mariozechner.at/) for his support and for
 [pi-mono](https://github.com/badlogic/pi-mono).
 
-Thanks to all clawtributors:
+Thanks to all contributors:
 
 <p align="left">
   <a href="https://github.com/steipete"><img src="https://avatars.githubusercontent.com/u/58493?v=4&s=48" width="48" height="48" alt="steipete" title="steipete"/></a> <a href="https://github.com/plum-dawg"><img src="https://avatars.githubusercontent.com/u/5909950?v=4&s=48" width="48" height="48" alt="plum-dawg" title="plum-dawg"/></a> <a href="https://github.com/bohdanpodvirnyi"><img src="https://avatars.githubusercontent.com/u/31819391?v=4&s=48" width="48" height="48" alt="bohdanpodvirnyi" title="bohdanpodvirnyi"/></a> <a href="https://github.com/iHildy"><img src="https://avatars.githubusercontent.com/u/25069719?v=4&s=48" width="48" height="48" alt="iHildy" title="iHildy"/></a> <a href="https://github.com/jaydenfyi"><img src="https://avatars.githubusercontent.com/u/213395523?v=4&s=48" width="48" height="48" alt="jaydenfyi" title="jaydenfyi"/></a> <a href="https://github.com/joaohlisboa"><img src="https://avatars.githubusercontent.com/u/8200873?v=4&s=48" width="48" height="48" alt="joaohlisboa" title="joaohlisboa"/></a> <a href="https://github.com/mneves75"><img src="https://avatars.githubusercontent.com/u/2423436?v=4&s=48" width="48" height="48" alt="mneves75" title="mneves75"/></a> <a href="https://github.com/MatthieuBizien"><img src="https://avatars.githubusercontent.com/u/173090?v=4&s=48" width="48" height="48" alt="MatthieuBizien" title="MatthieuBizien"/></a> <a href="https://github.com/MaudeBot"><img src="https://avatars.githubusercontent.com/u/255777700?v=4&s=48" width="48" height="48" alt="MaudeBot" title="MaudeBot"/></a> <a href="https://github.com/Glucksberg"><img src="https://avatars.githubusercontent.com/u/80581902?v=4&s=48" width="48" height="48" alt="Glucksberg" title="Glucksberg"/></a>
@@ -503,7 +500,7 @@ Thanks to all clawtributors:
   <a href="https://github.com/search?q=jeffersonwarrior"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="jeffersonwarrior" title="jeffersonwarrior"/></a> <a href="https://github.com/jverdi"><img src="https://avatars.githubusercontent.com/u/345050?v=4&s=48" width="48" height="48" alt="jverdi" title="jverdi"/></a> <a href="https://github.com/longmaba"><img src="https://avatars.githubusercontent.com/u/9361500?v=4&s=48" width="48" height="48" alt="longmaba" title="longmaba"/></a> <a href="https://github.com/MarvinCui"><img src="https://avatars.githubusercontent.com/u/130876763?v=4&s=48" width="48" height="48" alt="MarvinCui" title="MarvinCui"/></a> <a href="https://github.com/mickahouan"><img src="https://avatars.githubusercontent.com/u/31423109?v=4&s=48" width="48" height="48" alt="mickahouan" title="mickahouan"/></a> <a href="https://github.com/mjrussell"><img src="https://avatars.githubusercontent.com/u/1641895?v=4&s=48" width="48" height="48" alt="mjrussell" title="mjrussell"/></a> <a href="https://github.com/odnxe"><img src="https://avatars.githubusercontent.com/u/403141?v=4&s=48" width="48" height="48" alt="odnxe" title="odnxe"/></a> <a href="https://github.com/p6l-richard"><img src="https://avatars.githubusercontent.com/u/18185649?v=4&s=48" width="48" height="48" alt="p6l-richard" title="p6l-richard"/></a> <a href="https://github.com/philipp-spiess"><img src="https://avatars.githubusercontent.com/u/458591?v=4&s=48" width="48" height="48" alt="philipp-spiess" title="philipp-spiess"/></a> <a href="https://github.com/search?q=Pocket%20Clawd"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Pocket Clawd" title="Pocket Clawd"/></a>
   <a href="https://github.com/robaxelsen"><img src="https://avatars.githubusercontent.com/u/13132899?v=4&s=48" width="48" height="48" alt="robaxelsen" title="robaxelsen"/></a> <a href="https://github.com/search?q=Sash%20Catanzarite"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Sash Catanzarite" title="Sash Catanzarite"/></a> <a href="https://github.com/Suksham-sharma"><img src="https://avatars.githubusercontent.com/u/94667656?v=4&s=48" width="48" height="48" alt="Suksham-sharma" title="Suksham-sharma"/></a> <a href="https://github.com/T5-AndyML"><img src="https://avatars.githubusercontent.com/u/22801233?v=4&s=48" width="48" height="48" alt="T5-AndyML" title="T5-AndyML"/></a> <a href="https://github.com/tewatia"><img src="https://avatars.githubusercontent.com/u/22875334?v=4&s=48" width="48" height="48" alt="tewatia" title="tewatia"/></a> <a href="https://github.com/travisp"><img src="https://avatars.githubusercontent.com/u/165698?v=4&s=48" width="48" height="48" alt="travisp" title="travisp"/></a> <a href="https://github.com/search?q=VAC"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="VAC" title="VAC"/></a> <a href="https://github.com/search?q=william%20arzt"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="william arzt" title="william arzt"/></a> <a href="https://github.com/zknicker"><img src="https://avatars.githubusercontent.com/u/1164085?v=4&s=48" width="48" height="48" alt="zknicker" title="zknicker"/></a> <a href="https://github.com/0oAstro"><img src="https://avatars.githubusercontent.com/u/79555780?v=4&s=48" width="48" height="48" alt="0oAstro" title="0oAstro"/></a>
   <a href="https://github.com/abhaymundhara"><img src="https://avatars.githubusercontent.com/u/62872231?v=4&s=48" width="48" height="48" alt="abhaymundhara" title="abhaymundhara"/></a> <a href="https://github.com/aduk059"><img src="https://avatars.githubusercontent.com/u/257603478?v=4&s=48" width="48" height="48" alt="aduk059" title="aduk059"/></a> <a href="https://github.com/search?q=alejandro%20maza"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="alejandro maza" title="alejandro maza"/></a> <a href="https://github.com/Alex-Alaniz"><img src="https://avatars.githubusercontent.com/u/88956822?v=4&s=48" width="48" height="48" alt="Alex-Alaniz" title="Alex-Alaniz"/></a> <a href="https://github.com/alexstyl"><img src="https://avatars.githubusercontent.com/u/1665273?v=4&s=48" width="48" height="48" alt="alexstyl" title="alexstyl"/></a> <a href="https://github.com/andrewting19"><img src="https://avatars.githubusercontent.com/u/10536704?v=4&s=48" width="48" height="48" alt="andrewting19" title="andrewting19"/></a> <a href="https://github.com/anpoirier"><img src="https://avatars.githubusercontent.com/u/1245729?v=4&s=48" width="48" height="48" alt="anpoirier" title="anpoirier"/></a> <a href="https://github.com/araa47"><img src="https://avatars.githubusercontent.com/u/22760261?v=4&s=48" width="48" height="48" alt="araa47" title="araa47"/></a> <a href="https://github.com/arthyn"><img src="https://avatars.githubusercontent.com/u/5466421?v=4&s=48" width="48" height="48" alt="arthyn" title="arthyn"/></a> <a href="https://github.com/Asleep123"><img src="https://avatars.githubusercontent.com/u/122379135?v=4&s=48" width="48" height="48" alt="Asleep123" title="Asleep123"/></a>
-  <a href="https://github.com/bguidolim"><img src="https://avatars.githubusercontent.com/u/987360?v=4&s=48" width="48" height="48" alt="bguidolim" title="bguidolim"/></a> <a href="https://github.com/bolismauro"><img src="https://avatars.githubusercontent.com/u/771999?v=4&s=48" width="48" height="48" alt="bolismauro" title="bolismauro"/></a> <a href="https://github.com/chenyuan99"><img src="https://avatars.githubusercontent.com/u/25518100?v=4&s=48" width="48" height="48" alt="chenyuan99" title="chenyuan99"/></a> <a href="https://github.com/search?q=Clawdbot%20Maintainers"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Clawdbot Maintainers" title="Clawdbot Maintainers"/></a> <a href="https://github.com/conhecendoia"><img src="https://avatars.githubusercontent.com/u/82890727?v=4&s=48" width="48" height="48" alt="conhecendoia" title="conhecendoia"/></a> <a href="https://github.com/dasilva333"><img src="https://avatars.githubusercontent.com/u/947827?v=4&s=48" width="48" height="48" alt="dasilva333" title="dasilva333"/></a> <a href="https://github.com/David-Marsh-Photo"><img src="https://avatars.githubusercontent.com/u/228404527?v=4&s=48" width="48" height="48" alt="David-Marsh-Photo" title="David-Marsh-Photo"/></a> <a href="https://github.com/search?q=Developer"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Developer" title="Developer"/></a> <a href="https://github.com/search?q=Dimitrios%20Ploutarchos"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Dimitrios Ploutarchos" title="Dimitrios Ploutarchos"/></a> <a href="https://github.com/search?q=Drake%20Thomsen"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Drake Thomsen" title="Drake Thomsen"/></a>
+  <a href="https://github.com/bguidolim"><img src="https://avatars.githubusercontent.com/u/987360?v=4&s=48" width="48" height="48" alt="bguidolim" title="bguidolim"/></a> <a href="https://github.com/bolismauro"><img src="https://avatars.githubusercontent.com/u/771999?v=4&s=48" width="48" height="48" alt="bolismauro" title="bolismauro"/></a> <a href="https://github.com/chenyuan99"><img src="https://avatars.githubusercontent.com/u/25518100?v=4&s=48" width="48" height="48" alt="chenyuan99" title="chenyuan99"/></a> <a href="https://github.com/search?q=Pandabot%20Maintainers"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Pandabot Maintainers" title="Pandabot Maintainers"/></a> <a href="https://github.com/conhecendoia"><img src="https://avatars.githubusercontent.com/u/82890727?v=4&s=48" width="48" height="48" alt="conhecendoia" title="conhecendoia"/></a> <a href="https://github.com/dasilva333"><img src="https://avatars.githubusercontent.com/u/947827?v=4&s=48" width="48" height="48" alt="dasilva333" title="dasilva333"/></a> <a href="https://github.com/David-Marsh-Photo"><img src="https://avatars.githubusercontent.com/u/228404527?v=4&s=48" width="48" height="48" alt="David-Marsh-Photo" title="David-Marsh-Photo"/></a> <a href="https://github.com/search?q=Developer"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Developer" title="Developer"/></a> <a href="https://github.com/search?q=Dimitrios%20Ploutarchos"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Dimitrios Ploutarchos" title="Dimitrios Ploutarchos"/></a> <a href="https://github.com/search?q=Drake%20Thomsen"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Drake Thomsen" title="Drake Thomsen"/></a>
   <a href="https://github.com/dylanneve1"><img src="https://avatars.githubusercontent.com/u/31746704?v=4&s=48" width="48" height="48" alt="dylanneve1" title="dylanneve1"/></a> <a href="https://github.com/search?q=Felix%20Krause"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Felix Krause" title="Felix Krause"/></a> <a href="https://github.com/foeken"><img src="https://avatars.githubusercontent.com/u/13864?v=4&s=48" width="48" height="48" alt="foeken" title="foeken"/></a> <a href="https://github.com/frankekn"><img src="https://avatars.githubusercontent.com/u/4488090?v=4&s=48" width="48" height="48" alt="frankekn" title="frankekn"/></a> <a href="https://github.com/search?q=ganghyun%20kim"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="ganghyun kim" title="ganghyun kim"/></a> <a href="https://github.com/grrowl"><img src="https://avatars.githubusercontent.com/u/907140?v=4&s=48" width="48" height="48" alt="grrowl" title="grrowl"/></a> <a href="https://github.com/gtsifrikas"><img src="https://avatars.githubusercontent.com/u/8904378?v=4&s=48" width="48" height="48" alt="gtsifrikas" title="gtsifrikas"/></a> <a href="https://github.com/HazAT"><img src="https://avatars.githubusercontent.com/u/363802?v=4&s=48" width="48" height="48" alt="HazAT" title="HazAT"/></a> <a href="https://github.com/hrdwdmrbl"><img src="https://avatars.githubusercontent.com/u/554881?v=4&s=48" width="48" height="48" alt="hrdwdmrbl" title="hrdwdmrbl"/></a> <a href="https://github.com/hugobarauna"><img src="https://avatars.githubusercontent.com/u/2719?v=4&s=48" width="48" height="48" alt="hugobarauna" title="hugobarauna"/></a>
   <a href="https://github.com/search?q=Jamie%20Openshaw"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Jamie Openshaw" title="Jamie Openshaw"/></a> <a href="https://github.com/search?q=Jane"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Jane" title="Jane"/></a> <a href="https://github.com/search?q=Jarvis%20Deploy"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Jarvis Deploy" title="Jarvis Deploy"/></a> <a href="https://github.com/search?q=Jefferson%20Nunn"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Jefferson Nunn" title="Jefferson Nunn"/></a> <a href="https://github.com/jogi47"><img src="https://avatars.githubusercontent.com/u/1710139?v=4&s=48" width="48" height="48" alt="jogi47" title="jogi47"/></a> <a href="https://github.com/kentaro"><img src="https://avatars.githubusercontent.com/u/3458?v=4&s=48" width="48" height="48" alt="kentaro" title="kentaro"/></a> <a href="https://github.com/search?q=Kevin%20Lin"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Kevin Lin" title="Kevin Lin"/></a> <a href="https://github.com/kira-ariaki"><img src="https://avatars.githubusercontent.com/u/257352493?v=4&s=48" width="48" height="48" alt="kira-ariaki" title="kira-ariaki"/></a> <a href="https://github.com/kitze"><img src="https://avatars.githubusercontent.com/u/1160594?v=4&s=48" width="48" height="48" alt="kitze" title="kitze"/></a> <a href="https://github.com/Kiwitwitter"><img src="https://avatars.githubusercontent.com/u/25277769?v=4&s=48" width="48" height="48" alt="Kiwitwitter" title="Kiwitwitter"/></a>
   <a href="https://github.com/levifig"><img src="https://avatars.githubusercontent.com/u/1605?v=4&s=48" width="48" height="48" alt="levifig" title="levifig"/></a> <a href="https://github.com/search?q=Lloyd"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Lloyd" title="Lloyd"/></a> <a href="https://github.com/longjos"><img src="https://avatars.githubusercontent.com/u/740160?v=4&s=48" width="48" height="48" alt="longjos" title="longjos"/></a> <a href="https://github.com/loukotal"><img src="https://avatars.githubusercontent.com/u/18210858?v=4&s=48" width="48" height="48" alt="loukotal" title="loukotal"/></a> <a href="https://github.com/louzhixian"><img src="https://avatars.githubusercontent.com/u/7994361?v=4&s=48" width="48" height="48" alt="louzhixian" title="louzhixian"/></a> <a href="https://github.com/martinpucik"><img src="https://avatars.githubusercontent.com/u/5503097?v=4&s=48" width="48" height="48" alt="martinpucik" title="martinpucik"/></a> <a href="https://github.com/search?q=Matt%20mini"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Matt mini" title="Matt mini"/></a> <a href="https://github.com/mertcicekci0"><img src="https://avatars.githubusercontent.com/u/179321902?v=4&s=48" width="48" height="48" alt="mertcicekci0" title="mertcicekci0"/></a> <a href="https://github.com/search?q=Miles"><img src="assets/avatar-placeholder.svg" width="48" height="48" alt="Miles" title="Miles"/></a> <a href="https://github.com/mrdbstn"><img src="https://avatars.githubusercontent.com/u/58957632?v=4&s=48" width="48" height="48" alt="mrdbstn" title="mrdbstn"/></a>

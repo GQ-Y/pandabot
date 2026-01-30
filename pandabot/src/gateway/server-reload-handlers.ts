@@ -110,10 +110,10 @@ export function createGatewayReloadHandlers(params: {
     if (plan.restartChannels.size > 0) {
       if (
         isTruthyEnvValue(process.env.PANDA_SKIP_CHANNELS) ||
-        isTruthyEnvValue(process.env.CLAWDBOT_SKIP_PROVIDERS)
+        isTruthyEnvValue(process.env.PANDABOT_SKIP_PROVIDERS)
       ) {
         params.logChannels.info(
-          "skipping channel reload (PANDA_SKIP_CHANNELS=1 or CLAWDBOT_SKIP_PROVIDERS=1)",
+          "skipping channel reload (PANDA_SKIP_CHANNELS=1 or PANDABOT_SKIP_PROVIDERS=1)",
         );
       } else {
         const restartChannel = async (name: ChannelKind) => {

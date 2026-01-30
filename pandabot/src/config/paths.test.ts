@@ -37,51 +37,48 @@ describe("oauth paths", () => {
 });
 
 describe("state + config path candidates", () => {
-  it("prefers PANDA_STATE_DIR over legacy state dir env", () => {
+  it("uses PANDA_STATE_DIR when set", () => {
     const env = {
       PANDA_STATE_DIR: "/new/state",
-      PANDA_STATE_DIR: "/legacy/state",
     } as NodeJS.ProcessEnv;
 
     expect(resolveStateDir(env, () => "/home/test")).toBe(path.resolve("/new/state"));
   });
 
-  it("orders default config candidates as new then legacy", () => {
+  it("orders default config candidates with panda first then legacy", () => {
     const home = "/home/test";
     const candidates = resolveDefaultConfigCandidates({} as NodeJS.ProcessEnv, () => home);
-    expect(candidates[0]).toBe(path.join(home, ".moltbot", "moltbot.json"));
-    expect(candidates[1]).toBe(path.join(home, ".moltbot", "clawdbot.json"));
-    expect(candidates[2]).toBe(path.join(home, ".clawdbot", "moltbot.json"));
-    expect(candidates[3]).toBe(path.join(home, ".clawdbot", "clawdbot.json"));
+    expect(candidates).toHaveLength(3);
+    expect(candidates[0]).toBe(path.join(home, ".panda", "panda.json"));
+    expect(candidates[1]).toBe(path.join(home, ".pandabot", "panda.json"));
+    expect(candidates[2]).toBe(path.join(home, ".pandabot", "pandabot.json"));
   });
 
-  it("prefers ~/.panda when it exists and legacy dir is missing", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-state-"));
+  it("returns ~/.panda as default state dir", async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "panda-state-"));
     try {
-      const newDir = path.join(root, ".moltbot");
-      await fs.mkdir(newDir, { recursive: true });
+      const pandaDir = path.join(root, ".panda");
+      await fs.mkdir(pandaDir, { recursive: true });
       const resolved = resolveStateDir({} as NodeJS.ProcessEnv, () => root);
-      expect(resolved).toBe(newDir);
+      expect(resolved).toBe(pandaDir);
     } finally {
       await fs.rm(root, { recursive: true, force: true });
     }
   });
 
-  it("CONFIG_PATH prefers existing legacy filename when present", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-config-"));
+  it("CONFIG_PATH uses ~/.panda/panda.json when present", async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "panda-config-"));
     const previousHome = process.env.HOME;
     const previousUserProfile = process.env.USERPROFILE;
     const previousHomeDrive = process.env.HOMEDRIVE;
     const previousHomePath = process.env.HOMEPATH;
-    const previousMoltbotConfig = process.env.PANDA_CONFIG_PATH;
-    const previousClawdbotConfig = process.env.PANDA_CONFIG_PATH;
-    const previousMoltbotState = process.env.PANDA_STATE_DIR;
-    const previousClawdbotState = process.env.PANDA_STATE_DIR;
+    const previousConfig = process.env.PANDA_CONFIG_PATH;
+    const previousState = process.env.PANDA_STATE_DIR;
     try {
-      const legacyDir = path.join(root, ".clawdbot");
-      await fs.mkdir(legacyDir, { recursive: true });
-      const legacyPath = path.join(legacyDir, "clawdbot.json");
-      await fs.writeFile(legacyPath, "{}", "utf-8");
+      const pandaDir = path.join(root, ".panda");
+      await fs.mkdir(pandaDir, { recursive: true });
+      const configPath = path.join(pandaDir, "panda.json");
+      await fs.writeFile(configPath, "{}", "utf-8");
 
       process.env.HOME = root;
       if (process.platform === "win32") {
@@ -91,50 +88,37 @@ describe("state + config path candidates", () => {
         process.env.HOMEPATH = root.slice(parsed.root.length - 1);
       }
       delete process.env.PANDA_CONFIG_PATH;
-      delete process.env.PANDA_CONFIG_PATH;
-      delete process.env.PANDA_STATE_DIR;
       delete process.env.PANDA_STATE_DIR;
 
       vi.resetModules();
       const { CONFIG_PATH } = await import("./paths.js");
-      expect(CONFIG_PATH).toBe(legacyPath);
+      expect(CONFIG_PATH).toBe(configPath);
     } finally {
-      if (previousHome === undefined) {
-        delete process.env.HOME;
-      } else {
-        process.env.HOME = previousHome;
-      }
+      if (previousHome === undefined) delete process.env.HOME;
+      else process.env.HOME = previousHome;
       if (previousUserProfile === undefined) delete process.env.USERPROFILE;
       else process.env.USERPROFILE = previousUserProfile;
       if (previousHomeDrive === undefined) delete process.env.HOMEDRIVE;
       else process.env.HOMEDRIVE = previousHomeDrive;
       if (previousHomePath === undefined) delete process.env.HOMEPATH;
       else process.env.HOMEPATH = previousHomePath;
-      if (previousMoltbotConfig === undefined) delete process.env.PANDA_CONFIG_PATH;
-      else process.env.PANDA_CONFIG_PATH = previousMoltbotConfig;
-      if (previousClawdbotConfig === undefined) delete process.env.PANDA_CONFIG_PATH;
-      else process.env.PANDA_CONFIG_PATH = previousClawdbotConfig;
-      if (previousMoltbotState === undefined) delete process.env.PANDA_STATE_DIR;
-      else process.env.PANDA_STATE_DIR = previousMoltbotState;
-      if (previousClawdbotState === undefined) delete process.env.PANDA_STATE_DIR;
-      else process.env.PANDA_STATE_DIR = previousClawdbotState;
+      if (previousConfig === undefined) delete process.env.PANDA_CONFIG_PATH;
+      else process.env.PANDA_CONFIG_PATH = previousConfig;
+      if (previousState === undefined) delete process.env.PANDA_STATE_DIR;
+      else process.env.PANDA_STATE_DIR = previousState;
       await fs.rm(root, { recursive: true, force: true });
       vi.resetModules();
     }
   });
 
   it("respects state dir overrides when config is missing", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-config-override-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "panda-config-override-"));
     try {
-      const legacyDir = path.join(root, ".clawdbot");
-      await fs.mkdir(legacyDir, { recursive: true });
-      const legacyConfig = path.join(legacyDir, "moltbot.json");
-      await fs.writeFile(legacyConfig, "{}", "utf-8");
-
       const overrideDir = path.join(root, "override");
+      await fs.mkdir(overrideDir, { recursive: true });
       const env = { PANDA_STATE_DIR: overrideDir } as NodeJS.ProcessEnv;
       const resolved = resolveConfigPath(env, overrideDir, () => root);
-      expect(resolved).toBe(path.join(overrideDir, "moltbot.json"));
+      expect(resolved).toBe(path.join(overrideDir, "panda.json"));
     } finally {
       await fs.rm(root, { recursive: true, force: true });
     }

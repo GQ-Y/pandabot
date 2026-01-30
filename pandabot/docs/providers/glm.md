@@ -1,18 +1,18 @@
 ---
-summary: "GLM model family overview + how to use it in Moltbot"
+summary: "GLM model family overview + how to use it in Panda"
 read_when:
-  - You want GLM models in Moltbot
+  - You want GLM models in Panda
   - You need the model naming convention and setup
 ---
 # GLM models
 
-GLM is a **model family** (not a company) available through the Z.AI platform. In Moltbot, GLM
+GLM is a **model family** (not a company) available through the Z.AI platform. In Panda, GLM
 models are accessed via the `zai` provider and model IDs like `zai/glm-4.7`.
 
 ## CLI setup
 
 ```bash
-moltbot onboard --auth-choice zai-api-key
+panda onboard --auth-choice zai-api-key
 ```
 
 ## Config snippet

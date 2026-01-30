@@ -27,7 +27,7 @@ import type {
   ResetScope,
 } from "../commands/onboard-types.js";
 import { formatCliCommand } from "../cli/command-format.js";
-import type { MoltbotConfig } from "../config/config.js";
+import type { PandaConfig } from "../config/config.js";
 import {
   DEFAULT_GATEWAY_PORT,
   readConfigFileSnapshot,
@@ -70,7 +70,7 @@ async function requireRiskAcknowledgement(params: {
       "panda security audit --deep",
       "panda security audit --fix",
       "",
-      "必读：https://docs.molt.bot/gateway/security",
+      "必读：https://docs.pandabot.cc/gateway/security",
     ].join("\n"),
     "安全",
   );
@@ -94,7 +94,7 @@ export async function runOnboardingWizard(
   await requireRiskAcknowledgement({ opts, prompter });
 
   const snapshot = await readConfigFileSnapshot();
-  let baseConfig: MoltbotConfig = snapshot.valid ? snapshot.config : {};
+  let baseConfig: PandaConfig = snapshot.valid ? snapshot.config : {};
 
   if (snapshot.exists && !snapshot.valid) {
     await prompter.note(summarizeExistingConfig(baseConfig), "配置无效");
@@ -103,7 +103,7 @@ export async function runOnboardingWizard(
         [
           ...snapshot.issues.map((iss) => `- ${iss.path}: ${iss.message}`),
           "",
-          "Docs: https://docs.molt.bot/gateway/configuration",
+          "Docs: https://docs.pandabot.cc/gateway/configuration",
         ].join("\n"),
         "配置问题",
       );
@@ -335,7 +335,7 @@ export async function runOnboardingWizard(
 
   const workspaceDir = resolveUserPath(workspaceInput.trim() || DEFAULT_WORKSPACE);
 
-  let nextConfig: MoltbotConfig = {
+  let nextConfig: PandaConfig = {
     ...baseConfig,
     agents: {
       ...baseConfig.agents,

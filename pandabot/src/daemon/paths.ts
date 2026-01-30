@@ -33,5 +33,5 @@ export function resolveGatewayStateDir(env: Record<string, string | undefined>):
   }
   const home = resolveHomeDir(env);
   const suffix = resolveGatewayProfileSuffix(env.PANDA_PROFILE);
-  return path.join(home, `.clawdbot${suffix}`);
+  return path.join(home, `.pandabot${suffix}`);
 }

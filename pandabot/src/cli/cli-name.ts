@@ -1,22 +1,19 @@
 import path from "node:path";
 
 export const DEFAULT_CLI_NAME = "panda";
-export const LEGACY_CLI_NAME_MOLTBOT = "moltbot";
-export const LEGACY_CLI_NAME_CLAWDBOT = "clawdbot";
 
-const KNOWN_CLI_NAMES = new Set([DEFAULT_CLI_NAME, LEGACY_CLI_NAME_MOLTBOT, LEGACY_CLI_NAME_CLAWDBOT]);
-const CLI_PREFIX_RE = /^(?:((?:pnpm|npm|bunx|npx)\s+))?(panda|moltbot|clawdbot)\b/;
+const CLI_PREFIX_RE = /^(?:((?:pnpm|npm|bunx|npx)\s+))?panda\b/;
 
 export function resolveCliName(
   argv: string[] = process.argv,
   env: Record<string, string | undefined> = process.env as Record<string, string | undefined>,
 ): string {
-  const override = env.PANDA_CLI_NAME?.trim() || env.MOLTBOT_CLI_NAME?.trim() || env.CLAWDBOT_CLI_NAME?.trim();
+  const override = env.PANDA_CLI_NAME?.trim();
   if (override) return override;
   const argv1 = argv[1];
   if (!argv1) return DEFAULT_CLI_NAME;
   const base = path.basename(argv1).trim();
-  if (KNOWN_CLI_NAMES.has(base)) return base;
+  if (base === "panda") return base;
   return DEFAULT_CLI_NAME;
 }
 

@@ -1,8 +1,8 @@
 {
-  "name": "@moltbot/google-gemini-cli-auth",
+  "name": "@pandabot/google-gemini-cli-auth",
   "version": "2026.1.27-beta.1",
   "type": "module",
-  "description": "Moltbot Gemini CLI OAuth provider plugin",
+  "description": "Panda Gemini CLI OAuth provider plugin",
   "pandabot": {
     "extensions": [
       "./index.ts"

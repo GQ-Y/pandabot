@@ -1,4 +1,4 @@
-import MoltbotKit
+import PandaKit
 import Darwin
 import Foundation
 import Network
@@ -283,7 +283,7 @@ final class GatewayConnectionController {
             caps: self.currentCaps(),
             commands: self.currentCommands(),
             permissions: [:],
-            clientId: "moltbot-ios",
+            clientId: "panda-ios",
             clientMode: "node",
             clientDisplayName: displayName)
     }
@@ -304,51 +304,51 @@ final class GatewayConnectionController {
     }
 
     private func currentCaps() -> [String] {
-        var caps = [MoltbotCapability.canvas.rawValue, MoltbotCapability.screen.rawValue]
+        var caps = [PandaCapability.canvas.rawValue, PandaCapability.screen.rawValue]
 
         // Default-on: if the key doesn't exist yet, treat it as enabled.
         let cameraEnabled =
             UserDefaults.standard.object(forKey: "camera.enabled") == nil
                 ? true
                 : UserDefaults.standard.bool(forKey: "camera.enabled")
-        if cameraEnabled { caps.append(MoltbotCapability.camera.rawValue) }
+        if cameraEnabled { caps.append(PandaCapability.camera.rawValue) }
 
         let voiceWakeEnabled = UserDefaults.standard.bool(forKey: VoiceWakePreferences.enabledKey)
-        if voiceWakeEnabled { caps.append(MoltbotCapability.voiceWake.rawValue) }
+        if voiceWakeEnabled { caps.append(PandaCapability.voiceWake.rawValue) }
 
         let locationModeRaw = UserDefaults.standard.string(forKey: "location.enabledMode") ?? "off"
-        let locationMode = MoltbotLocationMode(rawValue: locationModeRaw) ?? .off
-        if locationMode != .off { caps.append(MoltbotCapability.location.rawValue) }
+        let locationMode = PandaLocationMode(rawValue: locationModeRaw) ?? .off
+        if locationMode != .off { caps.append(PandaCapability.location.rawValue) }
 
         return caps
     }
 
     private func currentCommands() -> [String] {
         var commands: [String] = [
-            MoltbotCanvasCommand.present.rawValue,
-            MoltbotCanvasCommand.hide.rawValue,
-            MoltbotCanvasCommand.navigate.rawValue,
-            MoltbotCanvasCommand.evalJS.rawValue,
-            MoltbotCanvasCommand.snapshot.rawValue,
-            MoltbotCanvasA2UICommand.push.rawValue,
-            MoltbotCanvasA2UICommand.pushJSONL.rawValue,
-            MoltbotCanvasA2UICommand.reset.rawValue,
-            MoltbotScreenCommand.record.rawValue,
-            MoltbotSystemCommand.notify.rawValue,
-            MoltbotSystemCommand.which.rawValue,
-            MoltbotSystemCommand.run.rawValue,
-            MoltbotSystemCommand.execApprovalsGet.rawValue,
-            MoltbotSystemCommand.execApprovalsSet.rawValue,
+            PandaCanvasCommand.present.rawValue,
+            PandaCanvasCommand.hide.rawValue,
+            PandaCanvasCommand.navigate.rawValue,
+            PandaCanvasCommand.evalJS.rawValue,
+            PandaCanvasCommand.snapshot.rawValue,
+            PandaCanvasA2UICommand.push.rawValue,
+            PandaCanvasA2UICommand.pushJSONL.rawValue,
+            PandaCanvasA2UICommand.reset.rawValue,
+            PandaScreenCommand.record.rawValue,
+            PandaSystemCommand.notify.rawValue,
+            PandaSystemCommand.which.rawValue,
+            PandaSystemCommand.run.rawValue,
+            PandaSystemCommand.execApprovalsGet.rawValue,
+            PandaSystemCommand.execApprovalsSet.rawValue,
         ]
 
         let caps = Set(self.currentCaps())
-        if caps.contains(MoltbotCapability.camera.rawValue) {
-            commands.append(MoltbotCameraCommand.list.rawValue)
-            commands.append(MoltbotCameraCommand.snap.rawValue)
-            commands.append(MoltbotCameraCommand.clip.rawValue)
+        if caps.contains(PandaCapability.camera.rawValue) {
+            commands.append(PandaCameraCommand.list.rawValue)
+            commands.append(PandaCameraCommand.snap.rawValue)
+            commands.append(PandaCameraCommand.clip.rawValue)
         }
-        if caps.contains(MoltbotCapability.location.rawValue) {
-            commands.append(MoltbotLocationCommand.get.rawValue)
+        if caps.contains(PandaCapability.location.rawValue) {
+            commands.append(PandaLocationCommand.get.rawValue)
         }
 
         return commands

@@ -1,8 +1,8 @@
 {
-  "name": "@moltbot/bluebubbles",
+  "name": "@pandabot/bluebubbles",
   "version": "2026.1.27-beta.1",
   "type": "module",
-  "description": "Moltbot BlueBubbles channel plugin",
+  "description": "Panda BlueBubbles channel plugin",
   "pandabot": {
     "extensions": [
       "./index.ts"
@@ -25,7 +25,7 @@
       "order": 75
     },
     "install": {
-      "npmSpec": "@moltbot/bluebubbles",
+      "npmSpec": "@pandabot/bluebubbles",
       "localPath": "extensions/bluebubbles",
       "defaultChoice": "npm"
     }

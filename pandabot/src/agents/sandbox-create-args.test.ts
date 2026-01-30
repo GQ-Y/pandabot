@@ -5,8 +5,8 @@ import { buildSandboxCreateArgs, type SandboxDockerConfig } from "./sandbox.js";
 describe("buildSandboxCreateArgs", () => {
   it("includes hardening and resource flags", () => {
     const cfg: SandboxDockerConfig = {
-      image: "moltbot-sandbox:bookworm-slim",
-      containerPrefix: "moltbot-sbx-",
+      image: "panda-sandbox:bookworm-slim",
+      containerPrefix: "panda-sbx-",
       workdir: "/workspace",
       readOnlyRoot: true,
       tmpfs: ["/tmp"],
@@ -24,32 +24,32 @@ describe("buildSandboxCreateArgs", () => {
         core: "0",
       },
       seccompProfile: "/tmp/seccomp.json",
-      apparmorProfile: "moltbot-sandbox",
+      apparmorProfile: "panda-sandbox",
       dns: ["1.1.1.1"],
       extraHosts: ["internal.service:10.0.0.5"],
     };
 
     const args = buildSandboxCreateArgs({
-      name: "moltbot-sbx-test",
+      name: "panda-sbx-test",
       cfg,
       scopeKey: "main",
       createdAtMs: 1700000000000,
-      labels: { "moltbot.sandboxBrowser": "1" },
+      labels: { "panda.sandboxBrowser": "1" },
     });
 
     expect(args).toEqual(
       expect.arrayContaining([
         "create",
         "--name",
-        "moltbot-sbx-test",
+        "panda-sbx-test",
         "--label",
-        "moltbot.sandbox=1",
+        "panda.sandbox=1",
         "--label",
-        "moltbot.sessionKey=main",
+        "panda.sessionKey=main",
         "--label",
-        "moltbot.createdAtMs=1700000000000",
+        "panda.createdAtMs=1700000000000",
         "--label",
-        "moltbot.sandboxBrowser=1",
+        "panda.sandboxBrowser=1",
         "--read-only",
         "--tmpfs",
         "/tmp",
@@ -64,7 +64,7 @@ describe("buildSandboxCreateArgs", () => {
         "--security-opt",
         "seccomp=/tmp/seccomp.json",
         "--security-opt",
-        "apparmor=moltbot-sandbox",
+        "apparmor=panda-sandbox",
         "--dns",
         "1.1.1.1",
         "--add-host",
@@ -94,8 +94,8 @@ describe("buildSandboxCreateArgs", () => {
 
   it("emits -v flags for custom binds", () => {
     const cfg: SandboxDockerConfig = {
-      image: "moltbot-sandbox:bookworm-slim",
-      containerPrefix: "moltbot-sbx-",
+      image: "panda-sandbox:bookworm-slim",
+      containerPrefix: "panda-sbx-",
       workdir: "/workspace",
       readOnlyRoot: false,
       tmpfs: [],
@@ -105,7 +105,7 @@ describe("buildSandboxCreateArgs", () => {
     };
 
     const args = buildSandboxCreateArgs({
-      name: "moltbot-sbx-binds",
+      name: "panda-sbx-binds",
       cfg,
       scopeKey: "main",
       createdAtMs: 1700000000000,
@@ -125,8 +125,8 @@ describe("buildSandboxCreateArgs", () => {
 
   it("omits -v flags when binds is empty or undefined", () => {
     const cfg: SandboxDockerConfig = {
-      image: "moltbot-sandbox:bookworm-slim",
-      containerPrefix: "moltbot-sbx-",
+      image: "panda-sandbox:bookworm-slim",
+      containerPrefix: "panda-sbx-",
       workdir: "/workspace",
       readOnlyRoot: false,
       tmpfs: [],
@@ -136,7 +136,7 @@ describe("buildSandboxCreateArgs", () => {
     };
 
     const args = buildSandboxCreateArgs({
-      name: "moltbot-sbx-no-binds",
+      name: "panda-sbx-no-binds",
       cfg,
       scopeKey: "main",
       createdAtMs: 1700000000000,

@@ -1,4 +1,4 @@
-import type { MoltbotConfig } from "../config/config.js";
+import type { PandaConfig } from "../config/config.js";
 import { resolveGatewayPort } from "../config/config.js";
 import { findTailscaleBinary } from "../infra/tailscale.js";
 import type { RuntimeEnv } from "../runtime.js";
@@ -10,10 +10,10 @@ import { guardCancel, randomToken } from "./onboard-helpers.js";
 type GatewayAuthChoice = "token" | "password";
 
 export async function promptGatewayConfig(
-  cfg: MoltbotConfig,
+  cfg: PandaConfig,
   runtime: RuntimeEnv,
 ): Promise<{
-  config: MoltbotConfig;
+  config: PandaConfig;
   port: number;
   token?: string;
 }> {
@@ -139,7 +139,7 @@ export async function promptGatewayConfig(
   let tailscaleResetOnExit = false;
   if (tailscaleMode !== "off") {
     note(
-      ["Docs:", "https://docs.molt.bot/gateway/tailscale", "https://docs.molt.bot/web"].join("\n"),
+      ["Docs:", "https://docs.pandabot.cc/gateway/tailscale", "https://docs.pandabot.cc/web"].join("\n"),
       "Tailscale",
     );
     tailscaleResetOnExit = Boolean(

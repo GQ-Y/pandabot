@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="920" viewBox="0 0 1100 920" role="img" aria-label="Moltbot &#x7CFB;&#x7EDF;&#x67B6;&#x6784;">
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="920" viewBox="0 0 1100 920" role="img" aria-label="Panda &#x7CFB;&#x7EDF;&#x67B6;&#x6784;">
   <defs>
     <style>
       .box { fill: #f6f5f3; stroke: #2b2b2b; stroke-width: 1.5; }
@@ -19,7 +19,7 @@
   </defs>
 
   <!-- &#x6807;&#x9898; -->
-  <text class="title" x="550" y="28" text-anchor="middle">Moltbot &#x7CFB;&#x7EDF;&#x6D41;&#x7A0B;&#x67B6;&#x6784;&#x56FE;</text>
+  <text class="title" x="550" y="28" text-anchor="middle">Panda &#x7CFB;&#x7EDF;&#x6D41;&#x7A0B;&#x67B6;&#x6784;&#x56FE;</text>
   <text class="text-small" x="550" y="46" text-anchor="middle">Gateway &#x63A7;&#x5236;&#x9762; &#xB7; &#x591A;&#x6E20;&#x9053; &#xB7; Pi Agent &#x8FD0;&#x884C;&#x65F6;</text>
 
   <!-- &#x7B2C;&#x4E00;&#x5C42;&#xFF1A;&#x5165;&#x53E3;&#x4E0E;&#x5BA2;&#x6237;&#x7AEF; -->
@@ -186,7 +186,7 @@
   <text class="text" x="706" y="640" text-anchor="middle">&#x5DE5;&#x5177;</text>
   <text class="text-small" x="706" y="656" text-anchor="middle">bash&#x3001;browser&#x3001;canvas&#x3001;skills&#x3001;plugins</text>
   <text class="text-small" x="706" y="670" text-anchor="middle">exec&#x3001;cron&#x3001;sessions&#x3001;&#x6269;&#x5C55; tool</text>
-  <text class="text-small" x="706" y="684" text-anchor="middle">moltbot-tools (send/memory &#x7B49;)</text>
+  <text class="text-small" x="706" y="684" text-anchor="middle">panda-tools (send/memory &#x7B49;)</text>
 
   <rect class="box-agent" x="836" y="622" width="224" height="72" rx="4" />
   <text class="text" x="948" y="640" text-anchor="middle">&#x6C99;&#x7BB1; / &#x7B56;&#x7565;</text>
@@ -202,7 +202,7 @@
   <text class="title" x="36" y="758" fill="#5a3a8a">&#x914D;&#x7F6E;&#x4E0E;&#x57FA;&#x7840;&#x8BBE;&#x65BD;</text>
   <rect class="box-infra" x="36" y="772" width="140" height="72" rx="4" />
   <text class="text" x="106" y="792" text-anchor="middle">&#x914D;&#x7F6E;</text>
-  <text class="text-small" x="106" y="808" text-anchor="middle">MoltbotConfig</text>
+  <text class="text-small" x="106" y="808" text-anchor="middle">PandaConfig</text>
   <text class="text-small" x="106" y="822" text-anchor="middle">loadConfig&#x3001;&#x70ED;&#x91CD;&#x8F7D;</text>
 
   <rect class="box-infra" x="196" y="772" width="120" height="72" rx="4" />

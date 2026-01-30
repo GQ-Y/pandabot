@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "name": "Moltbot",
+  "name": "Panda",
   "theme": "mint",
   "logo": {
     "light": "/assets/pixel-lobster.svg",
@@ -13,11 +13,11 @@
   "topbarLinks": [
     {
       "name": "GitHub",
-      "url": "https://github.com/moltbot/moltbot"
+      "url": "https://github.com/pandabot/pandabot"
     },
     {
       "name": "Releases",
-      "url": "https://github.com/moltbot/moltbot/releases"
+      "url": "https://github.com/pandabot/pandabot/releases"
     }
   ],
   "redirects": [
@@ -354,8 +354,8 @@
       "destination": "/start/clawd"
     },
     {
-      "source": "/clawdhub",
-      "destination": "/tools/clawdhub"
+      "source": "/pandahub",
+      "destination": "/tools/pandahub"
     },
     {
       "source": "/configuration",
@@ -1057,7 +1057,7 @@
           "tools/reactions",
           "tools/skills",
           "tools/skills-config",
-          "tools/clawdhub"
+          "tools/pandahub"
         ]
       },
       {

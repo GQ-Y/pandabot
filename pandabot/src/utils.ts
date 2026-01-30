@@ -218,15 +218,12 @@ export function resolveConfigDir(
   const override = env.PANDA_STATE_DIR?.trim() || env.PANDA_STATE_DIR?.trim() || env.PANDA_STATE_DIR?.trim();
   if (override) return resolveUserPath(override);
   const pandaDir = path.join(homedir(), ".panda");
-  const moltbotDir = path.join(homedir(), ".moltbot");
-  const clawdbotDir = path.join(homedir(), ".clawdbot");
+  const pandabotDir = path.join(homedir(), ".pandabot");
   try {
     const hasPanda = fs.existsSync(pandaDir);
-    const hasMoltbot = fs.existsSync(moltbotDir);
-    const hasClawdbot = fs.existsSync(clawdbotDir);
+    const hasPandabot = fs.existsSync(pandabotDir);
     if (hasPanda) return pandaDir;
-    if (hasMoltbot) return moltbotDir;
-    if (hasClawdbot) return clawdbotDir;
+    if (hasPandabot) return pandabotDir;
   } catch {
     // best-effort
   }

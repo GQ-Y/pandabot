@@ -1,8 +1,8 @@
 {
-  "name": "@moltbot/diagnostics-otel",
+  "name": "@pandabot/diagnostics-otel",
   "version": "2026.1.27-beta.1",
   "type": "module",
-  "description": "Moltbot diagnostics OpenTelemetry exporter",
+  "description": "Panda diagnostics OpenTelemetry exporter",
   "pandabot": {
     "extensions": [
       "./index.ts"

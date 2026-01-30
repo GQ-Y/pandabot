@@ -1,12 +1,12 @@
-import type { MoltbotConfig, WizardPrompter } from "clawdbot/plugin-sdk";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "clawdbot/plugin-sdk";
+import type { PandaConfig, WizardPrompter } from "pandabot/plugin-sdk";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "pandabot/plugin-sdk";
 
 type PromptAccountIdParams = {
-  cfg: MoltbotConfig;
+  cfg: PandaConfig;
   prompter: WizardPrompter;
   label: string;
   currentId?: string;
-  listAccountIds: (cfg: MoltbotConfig) => string[];
+  listAccountIds: (cfg: PandaConfig) => string[];
   defaultAccountId: string;
 };
 

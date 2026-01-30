@@ -4,7 +4,7 @@ import { isTruthyEnvValue } from "../infra/env.js";
 import type { TelegramNetworkConfig } from "../config/types.telegram.js";
 
 export const TELEGRAM_DISABLE_AUTO_SELECT_FAMILY_ENV =
-  "CLAWDBOT_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY";
+  "PANDABOT_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY";
 export const TELEGRAM_ENABLE_AUTO_SELECT_FAMILY_ENV = "PANDA_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY";
 
 export type TelegramAutoSelectFamilyDecision = {

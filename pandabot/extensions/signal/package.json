@@ -1,8 +1,8 @@
 {
-  "name": "@moltbot/signal",
+  "name": "@pandabot/signal",
   "version": "2026.1.27-beta.1",
   "type": "module",
-  "description": "Moltbot Signal channel plugin",
+  "description": "Panda Signal channel plugin",
   "pandabot": {
     "extensions": [
       "./index.ts"

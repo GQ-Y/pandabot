@@ -151,7 +151,7 @@ describe("provider timeouts (e2e)", () => {
       };
       (globalThis as unknown as { fetch: unknown }).fetch = fetchImpl;
 
-      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-timeout-e2e-"));
+      const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "panda-timeout-e2e-"));
       process.env.HOME = tempHome;
       process.env.PANDA_SKIP_CHANNELS = "1";
       process.env.PANDA_SKIP_GMAIL_WATCHER = "1";
@@ -161,9 +161,9 @@ describe("provider timeouts (e2e)", () => {
       const token = `test-${randomUUID()}`;
       process.env.PANDA_GATEWAY_TOKEN = token;
 
-      const configDir = path.join(tempHome, ".clawdbot");
+      const configDir = path.join(tempHome, ".pandabot");
       await fs.mkdir(configDir, { recursive: true });
-      const configPath = path.join(configDir, "moltbot.json");
+      const configPath = path.join(configDir, "panda.json");
 
       const cfg = {
         agents: {

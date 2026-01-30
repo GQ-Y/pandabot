@@ -8,7 +8,7 @@ read_when:
 
 # Logging
 
-Moltbot logs in two places:
+Panda logs in two places:
 
 - **File logs** (JSON lines) written by the Gateway.
 - **Console output** shown in terminals and the Control UI.
@@ -20,16 +20,16 @@ levels and formats.
 
 By default, the Gateway writes a rolling log file under:
 
-`/tmp/moltbot/moltbot-YYYY-MM-DD.log`
+`/tmp/panda/panda-YYYY-MM-DD.log`
 
 The date uses the gateway host's local timezone.
 
-You can override this in `~/.clawdbot/moltbot.json`:
+You can override this in `~/.pandabot/panda.json`:
 
 ```json
 {
   "logging": {
-    "file": "/path/to/moltbot.log"
+    "file": "/path/to/panda.log"
   }
 }
 ```
@@ -41,7 +41,7 @@ You can override this in `~/.clawdbot/moltbot.json`:
 Use the CLI to tail the gateway log file via RPC:
 
 ```bash
-moltbot logs --follow
+panda logs --follow
 ```
 
 Output modes:
@@ -62,7 +62,7 @@ In JSON mode, the CLI emits `type`-tagged objects:
 If the Gateway is unreachable, the CLI prints a short hint to run:
 
 ```bash
-moltbot doctor
+panda doctor
 ```
 
 ### Control UI (web)
@@ -75,7 +75,7 @@ See [/web/control-ui](/web/control-ui) for how to open it.
 To filter channel activity (WhatsApp/Telegram/etc), use:
 
 ```bash
-moltbot channels logs --channel whatsapp
+panda channels logs --channel whatsapp
 ```
 
 ## Log formats
@@ -97,13 +97,13 @@ Console formatting is controlled by `logging.consoleStyle`.
 
 ## Configuring logging
 
-All logging configuration lives under `logging` in `~/.clawdbot/moltbot.json`.
+All logging configuration lives under `logging` in `~/.pandabot/panda.json`.
 
 ```json
 {
   "logging": {
     "level": "info",
-    "file": "/tmp/moltbot/moltbot-YYYY-MM-DD.log",
+    "file": "/tmp/panda/panda-YYYY-MM-DD.log",
     "consoleLevel": "info",
     "consoleStyle": "pretty",
     "redactSensitive": "tools",
@@ -151,7 +151,7 @@ diagnostics + the exporter plugin are enabled.
 
 - **OpenTelemetry (OTel)**: the data model + SDKs for traces, metrics, and logs.
 - **OTLP**: the wire protocol used to export OTel data to a collector/backend.
-- Moltbot exports via **OTLP/HTTP (protobuf)** today.
+- Panda exports via **OTLP/HTTP (protobuf)** today.
 
 ### Signals exported
 
@@ -208,7 +208,7 @@ Flags are case-insensitive and support wildcards (e.g. `telegram.*` or `*`).
 Env override (one-off):
 
 ```
-CLAWDBOT_DIAGNOSTICS=telegram.http,telegram.payload
+PANDABOT_DIAGNOSTICS=telegram.http,telegram.payload
 ```
 
 Notes:
@@ -237,7 +237,7 @@ works with any OpenTelemetry collector/backend that accepts OTLP/HTTP.
       "enabled": true,
       "endpoint": "http://otel-collector:4318",
       "protocol": "http/protobuf",
-      "serviceName": "moltbot-gateway",
+      "serviceName": "panda-gateway",
       "traces": true,
       "metrics": true,
       "logs": true,
@@ -249,7 +249,7 @@ works with any OpenTelemetry collector/backend that accepts OTLP/HTTP.
 ```
 
 Notes:
-- You can also enable the plugin with `moltbot plugins enable diagnostics-otel`.
+- You can also enable the plugin with `panda plugins enable diagnostics-otel`.
 - `protocol` currently supports `http/protobuf` only. `grpc` is ignored.
 - Metrics include token usage, cost, context size, run duration, and message-flow
   counters/histograms (webhooks, queueing, session state, queue depth/wait).
@@ -262,58 +262,58 @@ Notes:
 ### Exported metrics (names + types)
 
 Model usage:
-- `moltbot.tokens` (counter, attrs: `moltbot.token`, `moltbot.channel`,
-  `moltbot.provider`, `moltbot.model`)
-- `moltbot.cost.usd` (counter, attrs: `moltbot.channel`, `moltbot.provider`,
-  `moltbot.model`)
-- `moltbot.run.duration_ms` (histogram, attrs: `moltbot.channel`,
-  `moltbot.provider`, `moltbot.model`)
-- `moltbot.context.tokens` (histogram, attrs: `moltbot.context`,
-  `moltbot.channel`, `moltbot.provider`, `moltbot.model`)
+- `panda.tokens` (counter, attrs: `panda.token`, `panda.channel`,
+  `panda.provider`, `panda.model`)
+- `panda.cost.usd` (counter, attrs: `panda.channel`, `panda.provider`,
+  `panda.model`)
+- `panda.run.duration_ms` (histogram, attrs: `panda.channel`,
+  `panda.provider`, `panda.model`)
+- `panda.context.tokens` (histogram, attrs: `panda.context`,
+  `panda.channel`, `panda.provider`, `panda.model`)
 
 Message flow:
-- `moltbot.webhook.received` (counter, attrs: `moltbot.channel`,
-  `moltbot.webhook`)
-- `moltbot.webhook.error` (counter, attrs: `moltbot.channel`,
-  `moltbot.webhook`)
-- `moltbot.webhook.duration_ms` (histogram, attrs: `moltbot.channel`,
-  `moltbot.webhook`)
-- `moltbot.message.queued` (counter, attrs: `moltbot.channel`,
-  `moltbot.source`)
-- `moltbot.message.processed` (counter, attrs: `moltbot.channel`,
-  `moltbot.outcome`)
-- `moltbot.message.duration_ms` (histogram, attrs: `moltbot.channel`,
-  `moltbot.outcome`)
+- `panda.webhook.received` (counter, attrs: `panda.channel`,
+  `panda.webhook`)
+- `panda.webhook.error` (counter, attrs: `panda.channel`,
+  `panda.webhook`)
+- `panda.webhook.duration_ms` (histogram, attrs: `panda.channel`,
+  `panda.webhook`)
+- `panda.message.queued` (counter, attrs: `panda.channel`,
+  `panda.source`)
+- `panda.message.processed` (counter, attrs: `panda.channel`,
+  `panda.outcome`)
+- `panda.message.duration_ms` (histogram, attrs: `panda.channel`,
+  `panda.outcome`)
 
 Queues + sessions:
-- `moltbot.queue.lane.enqueue` (counter, attrs: `moltbot.lane`)
-- `moltbot.queue.lane.dequeue` (counter, attrs: `moltbot.lane`)
-- `moltbot.queue.depth` (histogram, attrs: `moltbot.lane` or
-  `moltbot.channel=heartbeat`)
-- `moltbot.queue.wait_ms` (histogram, attrs: `moltbot.lane`)
-- `moltbot.session.state` (counter, attrs: `moltbot.state`, `moltbot.reason`)
-- `moltbot.session.stuck` (counter, attrs: `moltbot.state`)
-- `moltbot.session.stuck_age_ms` (histogram, attrs: `moltbot.state`)
-- `moltbot.run.attempt` (counter, attrs: `moltbot.attempt`)
+- `panda.queue.lane.enqueue` (counter, attrs: `panda.lane`)
+- `panda.queue.lane.dequeue` (counter, attrs: `panda.lane`)
+- `panda.queue.depth` (histogram, attrs: `panda.lane` or
+  `panda.channel=heartbeat`)
+- `panda.queue.wait_ms` (histogram, attrs: `panda.lane`)
+- `panda.session.state` (counter, attrs: `panda.state`, `panda.reason`)
+- `panda.session.stuck` (counter, attrs: `panda.state`)
+- `panda.session.stuck_age_ms` (histogram, attrs: `panda.state`)
+- `panda.run.attempt` (counter, attrs: `panda.attempt`)
 
 ### Exported spans (names + key attributes)
 
-- `moltbot.model.usage`
-  - `moltbot.channel`, `moltbot.provider`, `moltbot.model`
-  - `moltbot.sessionKey`, `moltbot.sessionId`
-  - `moltbot.tokens.*` (input/output/cache_read/cache_write/total)
-- `moltbot.webhook.processed`
-  - `moltbot.channel`, `moltbot.webhook`, `moltbot.chatId`
-- `moltbot.webhook.error`
-  - `moltbot.channel`, `moltbot.webhook`, `moltbot.chatId`,
-    `moltbot.error`
-- `moltbot.message.processed`
-  - `moltbot.channel`, `moltbot.outcome`, `moltbot.chatId`,
-    `moltbot.messageId`, `moltbot.sessionKey`, `moltbot.sessionId`,
-    `moltbot.reason`
-- `moltbot.session.stuck`
-  - `moltbot.state`, `moltbot.ageMs`, `moltbot.queueDepth`,
-    `moltbot.sessionKey`, `moltbot.sessionId`
+- `panda.model.usage`
+  - `panda.channel`, `panda.provider`, `panda.model`
+  - `panda.sessionKey`, `panda.sessionId`
+  - `panda.tokens.*` (input/output/cache_read/cache_write/total)
+- `panda.webhook.processed`
+  - `panda.channel`, `panda.webhook`, `panda.chatId`
+- `panda.webhook.error`
+  - `panda.channel`, `panda.webhook`, `panda.chatId`,
+    `panda.error`
+- `panda.message.processed`
+  - `panda.channel`, `panda.outcome`, `panda.chatId`,
+    `panda.messageId`, `panda.sessionKey`, `panda.sessionId`,
+    `panda.reason`
+- `panda.session.stuck`
+  - `panda.state`, `panda.ageMs`, `panda.queueDepth`,
+    `panda.sessionKey`, `panda.sessionId`
 
 ### Sampling + flushing
 
@@ -337,7 +337,7 @@ Queues + sessions:
 
 ## Troubleshooting tips
 
-- **Gateway not reachable?** Run `moltbot doctor` first.
+- **Gateway not reachable?** Run `panda doctor` first.
 - **Logs empty?** Check that the Gateway is running and writing to the file path
   in `logging.file`.
 - **Need more detail?** Set `logging.level` to `debug` or `trace` and retry.

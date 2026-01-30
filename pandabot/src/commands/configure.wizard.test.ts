@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-import type { MoltbotConfig } from "../config/config.js";
+import type { PandaConfig } from "../config/config.js";
 
 const mocks = vi.hoisted(() => ({
   clackIntro: vi.fn(),
@@ -50,7 +50,7 @@ vi.mock("../terminal/note.js", () => ({
 
 vi.mock("./onboard-helpers.js", () => ({
   DEFAULT_WORKSPACE: "~/.panda/workspace",
-  applyWizardMetadata: (cfg: MoltbotConfig) => cfg,
+  applyWizardMetadata: (cfg: PandaConfig) => cfg,
   ensureWorkspaceAndSessions: vi.fn(),
   guardCancel: <T>(value: T) => value,
   printWizardHeader: mocks.printWizardHeader,

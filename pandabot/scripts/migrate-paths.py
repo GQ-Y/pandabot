@@ -6,16 +6,16 @@ from pathlib import Path
 
 # 路径映射表
 PATH_MAPPINGS = [
-    (r'~/.clawdbot/moltbot\.json', '~/.panda/panda.json'),
-    (r'~/.moltbot/moltbot\.json', '~/.panda/panda.json'),
-    (r'~/.clawdbot/clawdbot\.json', '~/.panda/panda.json'),
-    (r'~/.clawdbot-dev', '~/.panda-dev'),
-    (r'~/.moltbot-dev', '~/.panda-dev'),
-    (r'~/.clawdbot-', '~/.panda-'),
-    (r'~/.moltbot-', '~/.panda-'),
-    (r'~/.clawdbot', '~/.panda'),
-    (r'~/.moltbot', '~/.panda'),
-    (r'Moltbot status', 'Pandabot status'),
+    (r'~/.pandabot/panda\.json', '~/.panda/panda.json'),
+    (r'~/.panda/panda\.json', '~/.panda/panda.json'),
+    (r'~/.pandabot/pandabot\.json', '~/.panda/panda.json'),
+    (r'~/.pandabot-dev', '~/.panda-dev'),
+    (r'~/.panda-dev', '~/.panda-dev'),
+    (r'~/.pandabot-', '~/.panda-'),
+    (r'~/.panda-', '~/.panda-'),
+    (r'~/.pandabot', '~/.panda'),
+    (r'~/.panda', '~/.panda'),
+    (r'Panda status', 'Pandabot status'),
 ]
 
 def process_file(file_path):

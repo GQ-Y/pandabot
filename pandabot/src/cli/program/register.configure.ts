@@ -12,11 +12,11 @@ import { runCommandWithRuntime } from "../cli-utils.js";
 export function registerConfigureCommand(program: Command) {
   program
     .command("configure")
-    .description("Interactive prompt to set up credentials, devices, and agent defaults")
+    .description("交互式配置：凭证、设备与代理默认项")
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/configure", "docs.molt.bot/cli/configure")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/configure", "docs.pandabot.cc/cli/configure")}\n`,
     )
     .option(
       "--section <section>",

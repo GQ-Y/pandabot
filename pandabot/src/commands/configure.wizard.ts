@@ -1,5 +1,5 @@
 import { formatCliCommand } from "../cli/command-format.js";
-import type { MoltbotConfig } from "../config/config.js";
+import type { PandaConfig } from "../config/config.js";
 import { readConfigFileSnapshot, resolveGatewayPort, writeConfigFile } from "../config/config.js";
 import { logConfigUpdated } from "../config/logging.js";
 import { ensureControlUiAssetsBuilt } from "../infra/control-ui-assets.js";
@@ -79,7 +79,7 @@ async function promptChannelMode(runtime: RuntimeEnv): Promise<ChannelsWizardMod
         {
           value: "remove",
           label: "Remove channel config",
-          hint: "Delete channel tokens/settings from moltbot.json",
+          hint: "Delete channel tokens/settings from panda.json",
         },
       ],
       initialValue: "configure",
@@ -89,9 +89,9 @@ async function promptChannelMode(runtime: RuntimeEnv): Promise<ChannelsWizardMod
 }
 
 async function promptWebToolsConfig(
-  nextConfig: MoltbotConfig,
+  nextConfig: PandaConfig,
   runtime: RuntimeEnv,
-): Promise<MoltbotConfig> {
+): Promise<PandaConfig> {
   const existingSearch = nextConfig.tools?.web?.search;
   const existingFetch = nextConfig.tools?.web?.fetch;
   const hasSearchKey = Boolean(existingSearch?.apiKey);
@@ -100,7 +100,7 @@ async function promptWebToolsConfig(
     [
       "Web search lets your agent look things up online using the `web_search` tool.",
       "It requires a Brave Search API key (you can store it in the config or set BRAVE_API_KEY in the Gateway environment).",
-      "Docs: https://docs.molt.bot/tools/web",
+      "Docs: https://docs.pandabot.cc/tools/web",
     ].join("\n"),
     "Web search",
   );
@@ -136,7 +136,7 @@ async function promptWebToolsConfig(
         [
           "No key stored yet, so web_search will stay unavailable.",
           "Store a key here or set BRAVE_API_KEY in the Gateway environment.",
-          "Docs: https://docs.molt.bot/tools/web",
+          "Docs: https://docs.pandabot.cc/tools/web",
         ].join("\n"),
         "Web search",
       );
@@ -175,11 +175,11 @@ export async function runConfigureWizard(
 ) {
   try {
     printWizardHeader(runtime);
-    intro(opts.command === "update" ? "Moltbot update wizard" : "Moltbot configure");
+    intro(opts.command === "update" ? "Pandabot update wizard" : "Pandabot configure");
     const prompter = createClackPrompter();
 
     const snapshot = await readConfigFileSnapshot();
-    const baseConfig: MoltbotConfig = snapshot.valid ? snapshot.config : {};
+    const baseConfig: PandaConfig = snapshot.valid ? snapshot.config : {};
 
     if (snapshot.exists) {
       const title = snapshot.valid ? "Existing config detected" : "Invalid config";
@@ -189,14 +189,14 @@ export async function runConfigureWizard(
           [
             ...snapshot.issues.map((iss) => `- ${iss.path}: ${iss.message}`),
             "",
-            "Docs: https://docs.molt.bot/gateway/configuration",
+            "Docs: https://docs.pandabot.cc/gateway/configuration",
           ].join("\n"),
           "Config issues",
         );
       }
       if (!snapshot.valid) {
         outro(
-          `Config invalid. Run \`${formatCliCommand("moltbot doctor")}\` to repair it, then re-run configure.`,
+          `Config invalid. Run \`${formatCliCommand("panda doctor")}\` to repair it, then re-run configure.`,
         );
         runtime.exit(1);
         return;
@@ -393,8 +393,8 @@ export async function runConfigureWizard(
           note(
             [
               "Docs:",
-              "https://docs.molt.bot/gateway/health",
-              "https://docs.molt.bot/gateway/troubleshooting",
+              "https://docs.pandabot.cc/gateway/health",
+              "https://docs.pandabot.cc/gateway/troubleshooting",
             ].join("\n"),
             "Health check help",
           );
@@ -518,8 +518,8 @@ export async function runConfigureWizard(
             note(
               [
                 "Docs:",
-                "https://docs.molt.bot/gateway/health",
-                "https://docs.molt.bot/gateway/troubleshooting",
+                "https://docs.pandabot.cc/gateway/health",
+                "https://docs.pandabot.cc/gateway/troubleshooting",
               ].join("\n"),
               "Health check help",
             );
@@ -577,7 +577,7 @@ export async function runConfigureWizard(
         `Web UI: ${links.httpUrl}`,
         `Gateway WS: ${links.wsUrl}`,
         gatewayStatusLine,
-        "Docs: https://docs.molt.bot/web/control-ui",
+        "Docs: https://docs.pandabot.cc/web/control-ui",
       ].join("\n"),
       "Control UI",
     );

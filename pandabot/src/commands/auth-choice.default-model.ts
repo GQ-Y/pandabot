@@ -1,16 +1,16 @@
-import type { MoltbotConfig } from "../config/config.js";
+import type { PandaConfig } from "../config/config.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
 
 export async function applyDefaultModelChoice(params: {
-  config: MoltbotConfig;
+  config: PandaConfig;
   setDefaultModel: boolean;
   defaultModel: string;
-  applyDefaultConfig: (config: MoltbotConfig) => MoltbotConfig;
-  applyProviderConfig: (config: MoltbotConfig) => MoltbotConfig;
+  applyDefaultConfig: (config: PandaConfig) => PandaConfig;
+  applyProviderConfig: (config: PandaConfig) => PandaConfig;
   noteDefault?: string;
   noteAgentModel: (model: string) => Promise<void>;
   prompter: WizardPrompter;
-}): Promise<{ config: MoltbotConfig; agentModelOverride?: string }> {
+}): Promise<{ config: PandaConfig; agentModelOverride?: string }> {
   if (params.setDefaultModel) {
     const next = params.applyDefaultConfig(params.config);
     if (params.noteDefault) {

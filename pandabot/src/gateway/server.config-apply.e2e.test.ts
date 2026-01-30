@@ -49,7 +49,7 @@ describe("gateway config.apply", () => {
           id,
           method: "config.apply",
           params: {
-            raw: '{ "agents": { "list": [{ "id": "main", "workspace": "~/clawd" }] } }',
+            raw: '{ "agents": { "list": [{ "id": "main", "workspace": "~/panda" }] } }',
             sessionKey: "agent:main:whatsapp:dm:+15555550123",
             restartDelayMs: 0,
           },
@@ -62,7 +62,7 @@ describe("gateway config.apply", () => {
       expect(res.ok).toBe(true);
 
       // Verify sentinel file was created (restart was scheduled)
-      const sentinelPath = path.join(os.homedir(), ".clawdbot", "restart-sentinel.json");
+      const sentinelPath = path.join(os.homedir(), ".pandabot", "restart-sentinel.json");
 
       // Wait for file to be written
       await new Promise((resolve) => setTimeout(resolve, 100));

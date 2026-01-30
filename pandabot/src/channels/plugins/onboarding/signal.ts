@@ -1,6 +1,6 @@
 import { detectBinary } from "../../../commands/onboard-helpers.js";
 import { installSignalCli } from "../../../commands/signal-install.js";
-import type { MoltbotConfig } from "../../../config/config.js";
+import type { PandaConfig } from "../../../config/config.js";
 import type { DmPolicy } from "../../../config/types.js";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../../routing/session-key.js";
 import {
@@ -17,7 +17,7 @@ import { addWildcardAllowFrom, promptAccountId } from "./helpers.js";
 
 const channel = "signal" as const;
 
-function setSignalDmPolicy(cfg: MoltbotConfig, dmPolicy: DmPolicy) {
+function setSignalDmPolicy(cfg: PandaConfig, dmPolicy: DmPolicy) {
   const allowFrom =
     dmPolicy === "open" ? addWildcardAllowFrom(cfg.channels?.signal?.allowFrom) : undefined;
   return {
@@ -34,10 +34,10 @@ function setSignalDmPolicy(cfg: MoltbotConfig, dmPolicy: DmPolicy) {
 }
 
 function setSignalAllowFrom(
-  cfg: MoltbotConfig,
+  cfg: PandaConfig,
   accountId: string,
   allowFrom: string[],
-): MoltbotConfig {
+): PandaConfig {
   if (accountId === DEFAULT_ACCOUNT_ID) {
     return {
       ...cfg,
@@ -80,10 +80,10 @@ function isUuidLike(value: string): boolean {
 }
 
 async function promptSignalAllowFrom(params: {
-  cfg: MoltbotConfig;
+  cfg: PandaConfig;
   prompter: WizardPrompter;
   accountId?: string;
-}): Promise<MoltbotConfig> {
+}): Promise<PandaConfig> {
   const accountId =
     params.accountId && normalizeAccountId(params.accountId)
       ? (normalizeAccountId(params.accountId) ?? DEFAULT_ACCOUNT_ID)
@@ -282,9 +282,9 @@ export const signalOnboardingAdapter: ChannelOnboardingAdapter = {
 
     await prompter.note(
       [
-        'Link device with: signal-cli link -n "Moltbot"',
+        'Link device with: signal-cli link -n "Pandabot"',
         "Scan QR in Signal → Linked Devices",
-        `Then run: ${formatCliCommand("moltbot gateway call channels.status --params '{\"probe\":true}'")}`,
+        `Then run: ${formatCliCommand("panda gateway call channels.status --params '{\"probe\":true}'")}`,
         `Docs: ${formatDocsLink("/signal", "signal")}`,
       ].join("\n"),
       "Signal next steps",

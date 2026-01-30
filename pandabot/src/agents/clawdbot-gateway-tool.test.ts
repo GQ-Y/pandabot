@@ -4,7 +4,7 @@ import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
 
 import "./test-helpers/fast-core-tools.js";
-import { createMoltbotTools } from "./moltbot-tools.js";
+import { createPandaTools } from "./panda-tools.js";
 
 vi.mock("./tools/gateway.js", () => ({
   callGatewayTool: vi.fn(async (method: string) => {
@@ -21,12 +21,12 @@ describe("gateway tool", () => {
     const kill = vi.spyOn(process, "kill").mockImplementation(() => true);
     const previousStateDir = process.env.PANDA_STATE_DIR;
     const previousProfile = process.env.PANDA_PROFILE;
-    const stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-test-"));
+    const stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "panda-test-"));
     process.env.PANDA_STATE_DIR = stateDir;
     process.env.PANDA_PROFILE = "isolated";
 
     try {
-      const tool = createMoltbotTools({
+      const tool = createPandaTools({
         config: { commands: { restart: true } },
       }).find((candidate) => candidate.name === "gateway");
       expect(tool).toBeDefined();
@@ -50,7 +50,7 @@ describe("gateway tool", () => {
       };
       expect(parsed.payload?.kind).toBe("restart");
       expect(parsed.payload?.doctorHint).toBe(
-        "Run: moltbot --profile isolated doctor --non-interactive",
+        "Run: panda --profile isolated doctor --non-interactive",
       );
 
       expect(kill).not.toHaveBeenCalled();
@@ -74,13 +74,13 @@ describe("gateway tool", () => {
 
   it("passes config.apply through gateway call", async () => {
     const { callGatewayTool } = await import("./tools/gateway.js");
-    const tool = createMoltbotTools({
+    const tool = createPandaTools({
       agentSessionKey: "agent:main:whatsapp:dm:+15555550123",
     }).find((candidate) => candidate.name === "gateway");
     expect(tool).toBeDefined();
     if (!tool) throw new Error("missing gateway tool");
 
-    const raw = '{\n  agents: { defaults: { workspace: "~/clawd" } }\n}\n';
+    const raw = '{\n  agents: { defaults: { workspace: "~/panda" } }\n}\n';
     await tool.execute("call2", {
       action: "config.apply",
       raw,
@@ -100,7 +100,7 @@ describe("gateway tool", () => {
 
   it("passes config.patch through gateway call", async () => {
     const { callGatewayTool } = await import("./tools/gateway.js");
-    const tool = createMoltbotTools({
+    const tool = createPandaTools({
       agentSessionKey: "agent:main:whatsapp:dm:+15555550123",
     }).find((candidate) => candidate.name === "gateway");
     expect(tool).toBeDefined();
@@ -126,7 +126,7 @@ describe("gateway tool", () => {
 
   it("passes update.run through gateway call", async () => {
     const { callGatewayTool } = await import("./tools/gateway.js");
-    const tool = createMoltbotTools({
+    const tool = createPandaTools({
       agentSessionKey: "agent:main:whatsapp:dm:+15555550123",
     }).find((candidate) => candidate.name === "gateway");
     expect(tool).toBeDefined();

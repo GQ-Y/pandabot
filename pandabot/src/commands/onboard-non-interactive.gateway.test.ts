@@ -110,7 +110,7 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
     delete process.env.PANDA_GATEWAY_TOKEN;
     delete process.env.PANDA_GATEWAY_PASSWORD;
 
-    tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-onboard-"));
+    tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "panda-onboard-"));
     process.env.HOME = tempHome;
   });
 
@@ -133,7 +133,7 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
   it("writes gateway token auth into config and gateway enforces it", async () => {
     const stateDir = await initStateDir("state-noninteractive-");
     const token = "tok_test_123";
-    const workspace = path.join(stateDir, "clawd");
+    const workspace = path.join(stateDir, "panda");
 
     const { runNonInteractiveOnboarding } = await import("./onboard-non-interactive.js");
     await runNonInteractiveOnboarding(
@@ -217,10 +217,10 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
     }
     const stateDir = await initStateDir("state-lan-");
     process.env.PANDA_STATE_DIR = stateDir;
-    process.env.PANDA_CONFIG_PATH = path.join(stateDir, "moltbot.json");
+    process.env.PANDA_CONFIG_PATH = path.join(stateDir, "panda.json");
 
     const port = await getFreeGatewayPort();
-    const workspace = path.join(stateDir, "clawd");
+    const workspace = path.join(stateDir, "panda");
 
     // Other test files mock ../config/config.js. This onboarding flow needs the real
     // implementation so it can persist the config and then read it back (Windows CI

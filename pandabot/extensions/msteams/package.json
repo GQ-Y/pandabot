@@ -1,8 +1,8 @@
 {
-  "name": "@moltbot/msteams",
+  "name": "@pandabot/msteams",
   "version": "2026.1.27-beta.1",
   "type": "module",
-  "description": "Moltbot Microsoft Teams channel plugin",
+  "description": "Panda Microsoft Teams channel plugin",
   "pandabot": {
     "extensions": [
       "./index.ts"
@@ -20,7 +20,7 @@
       "order": 60
     },
     "install": {
-      "npmSpec": "@moltbot/msteams",
+      "npmSpec": "@pandabot/msteams",
       "localPath": "extensions/msteams",
       "defaultChoice": "npm"
     }

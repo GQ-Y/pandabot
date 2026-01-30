@@ -8,7 +8,7 @@ import { parseTimeoutMs } from "./parse-timeout.js";
 export function registerTuiCli(program: Command) {
   program
     .command("tui")
-    .description("Open a terminal UI connected to the Gateway")
+    .description("打开连接网关的终端界面")
     .option("--url <url>", "Gateway WebSocket URL (defaults to gateway.remote.url when configured)")
     .option("--token <token>", "Gateway token (if required)")
     .option("--password <password>", "Gateway password (if required)")
@@ -20,7 +20,7 @@ export function registerTuiCli(program: Command) {
     .option("--history-limit <n>", "History entries to load", "200")
     .addHelpText(
       "after",
-      () => `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/tui", "docs.molt.bot/cli/tui")}\n`,
+      () => `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/tui", "docs.pandabot.cc/cli/tui")}\n`,
     )
     .action(async (opts) => {
       try {

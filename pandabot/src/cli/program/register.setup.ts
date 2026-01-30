@@ -10,15 +10,15 @@ import { runCommandWithRuntime } from "../cli-utils.js";
 export function registerSetupCommand(program: Command) {
   program
     .command("setup")
-    .description("Initialize ~/.panda/panda.json and the agent workspace")
+    .description("初始化 ~/.panda/panda.json 与代理工作区")
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/setup", "docs.molt.bot/cli/setup")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/setup", "docs.pandabot.cc/cli/setup")}\n`,
     )
     .option(
       "--workspace <dir>",
-      "Agent workspace directory (default: ~/clawd; stored as agents.defaults.workspace)",
+      "Agent workspace directory (default: ~/panda; stored as agents.defaults.workspace)",
     )
     .option("--wizard", "Run the interactive onboarding wizard", false)
     .option("--non-interactive", "Run the wizard without prompts", false)

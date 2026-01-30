@@ -1,5 +1,5 @@
 ---
-summary: "Setup guide: keep your Moltbot setup tailored while staying up-to-date"
+summary: "Setup guide: keep your Pandabot setup tailored while staying up-to-date"
 read_when:
   - Setting up a new machine
   - You want “latest + greatest” without breaking your personal setup
@@ -10,7 +10,7 @@ read_when:
 Last updated: 2026-01-01
 
 ## TL;DR
-- **Tailoring lives outside the repo:** `~/clawd` (workspace) + `~/.clawdbot/moltbot.json` (config).
+- **Tailoring lives outside the repo:** `~/panda` (workspace) + `~/.pandabot/panda.json` (config).
 - **Stable workflow:** install the macOS app; let it run the bundled Gateway.
 - **Bleeding edge workflow:** run the Gateway yourself via `pnpm gateway:watch`, then let the macOS app attach in Local mode.
 
@@ -23,42 +23,42 @@ Last updated: 2026-01-01
 
 If you want “100% tailored to me” *and* easy updates, keep your customization in:
 
-- **Config:** `~/.clawdbot/moltbot.json` (JSON/JSON5-ish)
-- **Workspace:** `~/clawd` (skills, prompts, memories; make it a private git repo)
+- **Config:** `~/.pandabot/panda.json` (JSON/JSON5-ish)
+- **Workspace:** `~/panda` (skills, prompts, memories; make it a private git repo)
 
 Bootstrap once:
 
 ```bash
-moltbot setup
+panda setup
 ```
 
 From inside this repo, use the local CLI entry:
 
 ```bash
-moltbot setup
+panda setup
 ```
 
-If you don’t have a global install yet, run it via `pnpm moltbot setup`.
+If you don’t have a global install yet, run it via `pnpm panda setup`.
 
 ## Stable workflow (macOS app first)
 
-1) Install + launch **Moltbot.app** (menu bar).
+1) Install + launch **Pandabot.app** (menu bar).
 2) Complete the onboarding/permissions checklist (TCC prompts).
 3) Ensure Gateway is **Local** and running (the app manages it).
 4) Link surfaces (example: WhatsApp):
 
 ```bash
-moltbot channels login
+panda channels login
 ```
 
 5) Sanity check:
 
 ```bash
-moltbot health
+panda health
 ```
 
 If onboarding is not available in your build:
-- Run `moltbot setup`, then `moltbot channels login`, then start the Gateway manually (`moltbot gateway`).
+- Run `panda setup`, then `panda channels login`, then start the Gateway manually (`panda gateway`).
 
 ## Bleeding edge workflow (Gateway in a terminal)
 
@@ -83,7 +83,7 @@ pnpm gateway:watch
 
 ### 2) Point the macOS app at your running Gateway
 
-In **Moltbot.app**:
+In **Pandabot.app**:
 
 - Connection Mode: **Local**
 The app will attach to the running gateway on the configured port.
@@ -94,32 +94,32 @@ The app will attach to the running gateway on the configured port.
 - Or via CLI:
 
 ```bash
-moltbot health
+panda health
 ```
 
 ### Common footguns
 - **Wrong port:** Gateway WS defaults to `ws://127.0.0.1:18789`; keep app + CLI on the same port.
 - **Where state lives:**
-  - Credentials: `~/.clawdbot/credentials/`
-  - Sessions: `~/.clawdbot/agents/<agentId>/sessions/`
-  - Logs: `/tmp/moltbot/`
+  - Credentials: `~/.pandabot/credentials/`
+  - Sessions: `~/.pandabot/agents/<agentId>/sessions/`
+  - Logs: `/tmp/panda/`
 
 ## Credential storage map
 
 Use this when debugging auth or deciding what to back up:
 
-- **WhatsApp**: `~/.clawdbot/credentials/whatsapp/<accountId>/creds.json`
+- **WhatsApp**: `~/.pandabot/credentials/whatsapp/<accountId>/creds.json`
 - **Telegram bot token**: config/env or `channels.telegram.tokenFile`
 - **Discord bot token**: config/env (token file not yet supported)
 - **Slack tokens**: config/env (`channels.slack.*`)
-- **Pairing allowlists**: `~/.clawdbot/credentials/<channel>-allowFrom.json`
-- **Model auth profiles**: `~/.clawdbot/agents/<agentId>/agent/auth-profiles.json`
-- **Legacy OAuth import**: `~/.clawdbot/credentials/oauth.json`
+- **Pairing allowlists**: `~/.pandabot/credentials/<channel>-allowFrom.json`
+- **Model auth profiles**: `~/.pandabot/agents/<agentId>/agent/auth-profiles.json`
+- **Legacy OAuth import**: `~/.pandabot/credentials/oauth.json`
 More detail: [Security](/gateway/security#credential-storage-map).
 
 ## Updating (without wrecking your setup)
 
-- Keep `~/clawd` and `~/.clawdbot/` as “your stuff”; don’t put personal prompts/config into the `moltbot` repo.
+- Keep `~/panda` and `~/.pandabot/` as “your stuff”; don’t put personal prompts/config into the `panda` repo.
 - Updating source: `git pull` + `pnpm install` (when lockfile changed) + keep using `pnpm gateway:watch`.
 
 ## Linux (systemd user service)
@@ -140,5 +140,5 @@ user service (no lingering needed). See [Gateway runbook](/gateway) for the syst
 - [Gateway runbook](/gateway) (flags, supervision, ports)
 - [Gateway configuration](/gateway/configuration) (config schema + examples)
 - [Discord](/channels/discord) and [Telegram](/channels/telegram) (reply tags + replyToMode settings)
-- [Moltbot assistant setup](/start/clawd)
+- [Panda assistant setup](/start/panda)
 - [macOS app](/platforms/macos) (gateway lifecycle)

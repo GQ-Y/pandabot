@@ -47,8 +47,8 @@ async function main() {
   const { loadDotEnv } = await import("../infra/dotenv.js");
   loadDotEnv({ quiet: true });
 
-  const { ensureMoltbotCliOnPath } = await import("../infra/path-env.js");
-  ensureMoltbotCliOnPath();
+  const { ensurePandaCliOnPath } = await import("../infra/path-env.js");
+  ensurePandaCliOnPath();
 
   const { enableConsoleCapture } = await import("../logging.js");
   enableConsoleCapture();
@@ -64,7 +64,7 @@ async function main() {
   installUnhandledRejectionHandler();
 
   process.on("uncaughtException", (error) => {
-    console.error("[moltbot] Uncaught exception:", formatUncaughtError(error));
+    console.error("[panda] Uncaught exception:", formatUncaughtError(error));
     process.exit(1);
   });
 
@@ -72,6 +72,6 @@ async function main() {
 }
 
 void main().catch((err) => {
-  console.error("[moltbot] Relay failed:", err instanceof Error ? (err.stack ?? err.message) : err);
+  console.error("[panda] Relay failed:", err instanceof Error ? (err.stack ?? err.message) : err);
   process.exit(1);
 });

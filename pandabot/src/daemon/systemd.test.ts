@@ -24,21 +24,21 @@ describe("resolveSystemdUserUnitPath", () => {
   it("uses default service name when PANDA_PROFILE is default", () => {
     const env = { HOME: "/home/test", PANDA_PROFILE: "default" };
     expect(resolveSystemdUserUnitPath(env)).toBe(
-      "/home/test/.config/systemd/user/moltbot-gateway.service",
+      "/home/test/.config/systemd/user/pandabot-gateway.service",
     );
   });
 
   it("uses default service name when PANDA_PROFILE is unset", () => {
     const env = { HOME: "/home/test" };
     expect(resolveSystemdUserUnitPath(env)).toBe(
-      "/home/test/.config/systemd/user/moltbot-gateway.service",
+      "/home/test/.config/systemd/user/pandabot-gateway.service",
     );
   });
 
   it("uses profile-specific service name when PANDA_PROFILE is set to a custom value", () => {
     const env = { HOME: "/home/test", PANDA_PROFILE: "jbphoenix" };
     expect(resolveSystemdUserUnitPath(env)).toBe(
-      "/home/test/.config/systemd/user/moltbot-gateway-jbphoenix.service",
+      "/home/test/.config/systemd/user/pandabot-gateway-jbphoenix.service",
     );
   });
 
@@ -76,21 +76,21 @@ describe("resolveSystemdUserUnitPath", () => {
   it("handles case-insensitive 'Default' profile", () => {
     const env = { HOME: "/home/test", PANDA_PROFILE: "Default" };
     expect(resolveSystemdUserUnitPath(env)).toBe(
-      "/home/test/.config/systemd/user/moltbot-gateway.service",
+      "/home/test/.config/systemd/user/pandabot-gateway.service",
     );
   });
 
   it("handles case-insensitive 'DEFAULT' profile", () => {
     const env = { HOME: "/home/test", PANDA_PROFILE: "DEFAULT" };
     expect(resolveSystemdUserUnitPath(env)).toBe(
-      "/home/test/.config/systemd/user/moltbot-gateway.service",
+      "/home/test/.config/systemd/user/pandabot-gateway.service",
     );
   });
 
   it("trims whitespace from PANDA_PROFILE", () => {
     const env = { HOME: "/home/test", PANDA_PROFILE: "  myprofile  " };
     expect(resolveSystemdUserUnitPath(env)).toBe(
-      "/home/test/.config/systemd/user/moltbot-gateway-myprofile.service",
+      "/home/test/.config/systemd/user/pandabot-gateway-myprofile.service",
     );
   });
 });

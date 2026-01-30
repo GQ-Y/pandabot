@@ -82,7 +82,7 @@ export function parseCliProfileArgs(argv: string[]): CliProfileParseResult {
 
 function resolveProfileStateDir(profile: string, homedir: () => string): string {
   const suffix = profile.toLowerCase() === "default" ? "" : `-${profile}`;
-  return path.join(homedir(), `.clawdbot${suffix}`);
+  return path.join(homedir(), `.pandabot${suffix}`);
 }
 
 export function applyCliProfileEnv(params: {
@@ -102,7 +102,7 @@ export function applyCliProfileEnv(params: {
   if (!env.PANDA_STATE_DIR?.trim()) env.PANDA_STATE_DIR = stateDir;
 
   if (!env.PANDA_CONFIG_PATH?.trim()) {
-    env.PANDA_CONFIG_PATH = path.join(stateDir, "moltbot.json");
+    env.PANDA_CONFIG_PATH = path.join(stateDir, "panda.json");
   }
 
   if (profile === "dev" && !env.PANDA_GATEWAY_PORT?.trim()) {

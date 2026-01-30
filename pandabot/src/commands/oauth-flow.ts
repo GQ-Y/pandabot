@@ -3,7 +3,7 @@ import type { WizardPrompter } from "../wizard/prompts.js";
 
 type OAuthPrompt = { message: string; placeholder?: string };
 
-const validateRequiredInput = (value: string) => (value.trim().length > 0 ? undefined : "Required");
+const validateRequiredInput = (value: string) => (value.trim().length > 0 ? undefined : "必填");
 
 export function createVpsAwareOAuthHandlers(params: {
   isRemote: boolean;
@@ -18,14 +18,14 @@ export function createVpsAwareOAuthHandlers(params: {
   onPrompt: (prompt: OAuthPrompt) => Promise<string>;
 } {
   const manualPromptMessage =
-    params.manualPromptMessage ?? "Paste the redirect URL (or authorization code)";
+    params.manualPromptMessage ?? "粘贴重定向 URL（或授权码）";
   let manualCodePromise: Promise<string> | undefined;
 
   return {
     onAuth: async ({ url }) => {
       if (params.isRemote) {
-        params.spin.stop("OAuth URL ready");
-        params.runtime.log(`\nOpen this URL in your LOCAL browser:\n\n${url}\n`);
+        params.spin.stop("OAuth URL 已就绪");
+        params.runtime.log(`\n请在本地浏览器中打开此 URL：\n\n${url}\n`);
         manualCodePromise = params.prompter
           .text({
             message: manualPromptMessage,

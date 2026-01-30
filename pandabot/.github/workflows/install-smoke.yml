@@ -32,10 +32,10 @@ jobs:
 
       - name: Run installer docker tests
         env:
-          CLAWDBOT_INSTALL_URL: https://clawd.bot/install.sh
-          CLAWDBOT_INSTALL_CLI_URL: https://clawd.bot/install-cli.sh
-          CLAWDBOT_NO_ONBOARD: "1"
-          CLAWDBOT_INSTALL_SMOKE_SKIP_CLI: "1"
-          CLAWDBOT_INSTALL_SMOKE_SKIP_NONROOT: ${{ github.event_name == 'pull_request' && '1' || '0' }}
-          CLAWDBOT_INSTALL_SMOKE_SKIP_PREVIOUS: "1"
+          PANDABOT_INSTALL_URL: https://panda.bot/install.sh
+          PANDABOT_INSTALL_CLI_URL: https://panda.bot/install-cli.sh
+          PANDABOT_NO_ONBOARD: "1"
+          PANDABOT_INSTALL_SMOKE_SKIP_CLI: "1"
+          PANDABOT_INSTALL_SMOKE_SKIP_NONROOT: ${{ github.event_name == 'pull_request' && '1' || '0' }}
+          PANDABOT_INSTALL_SMOKE_SKIP_PREVIOUS: "1"
         run: pnpm test:install:smoke

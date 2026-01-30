@@ -1,8 +1,8 @@
 {
-  "name": "@moltbot/copilot-proxy",
+  "name": "@pandabot/copilot-proxy",
   "version": "2026.1.27-beta.1",
   "type": "module",
-  "description": "Moltbot Copilot Proxy provider plugin",
+  "description": "Panda Copilot Proxy provider plugin",
   "pandabot": {
     "extensions": [
       "./index.ts"

@@ -1,6 +1,6 @@
 # 🐼 Pandabot - 智能 AI Agent 平台
 
-> 原名 Moltbot/Clawdbot，已全面迁移为 Pandabot
+> 原名 Panda/Pandabot，已全面迁移为 Pandabot
 
 ## 快速开始
 
@@ -158,20 +158,20 @@ pnpm type-check          # 类型检查
 
 ## 迁移说明
 
-从 Moltbot/Clawdbot 迁移到 Pandabot 的变更:
+从 Panda/Pandabot 迁移到 Pandabot 的变更:
 
 ### 命令变更
-- `moltbot` → `panda`
-- `clawdbot` → `panda`
+- `panda` → `panda`
+- `pandabot` → `panda`
 
 ### 环境变量变更
-- `CLAWDBOT_*` → `PANDA_*`
-- `MOLTBOT_*` → `PANDA_*`
+- `PANDABOT_*` → `PANDA_*`
+- `PANDA_*` → `PANDA_*`
 
 ### 配置路径变更
-- `~/.clawdbot/` → `~/.panda/`
-- `~/.moltbot/` → `~/.panda/`
-- `moltbot.json` → `panda.json`
+- `~/.pandabot/` → `~/.panda/`
+- `~/.panda/` → `~/.panda/`
+- `panda.json` → `panda.json`
 
 ### 向后兼容
 系统会自动检测并迁移旧配置（仅读取，不修改原文件）

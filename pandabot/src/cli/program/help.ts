@@ -31,17 +31,19 @@ export function configureProgramHelp(program: Command, ctx: ProgramContext) {
   program
     .name(CLI_NAME)
     .description("")
-    .version(ctx.programVersion)
+    .version(ctx.programVersion, "-V, --version", "显示版本号")
     .option(
       "--dev",
-      "Dev profile: isolate state under ~/.panda-dev, default gateway port 19001, and shift derived ports (browser/canvas)",
+      "开发模式：状态目录 ~/.panda-dev，网关端口 19001，并偏移浏览器/画布等端口",
     )
     .option(
       "--profile <name>",
-      "Use a named profile (isolates PANDA_STATE_DIR/PANDA_CONFIG_PATH under ~/.panda-<name>)",
+      "使用命名配置（状态与配置隔离到 ~/.panda-<name>）",
     );
 
-  program.option("--no-color", "Disable ANSI colors", false);
+  program.option("--no-color", "关闭 ANSI 颜色", false);
+  program.helpOption("-h, --help", "显示帮助信息");
+  program.addHelpCommand("help", "显示帮助信息");
 
   program.configureHelp({
     optionTerm: (option) => theme.option(option.flags),

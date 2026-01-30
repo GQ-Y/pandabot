@@ -20,7 +20,7 @@ import { collectOption } from "./helpers.js";
 export function registerAgentCommands(program: Command, args: { agentChannelOptions: string }) {
   program
     .command("agent")
-    .description("Run an agent turn via the Gateway (use --local for embedded)")
+    .description("通过网关执行单轮代理（可用 --local 本地嵌入）")
     .requiredOption("-m, --message <text>", "Message body for the agent")
     .option("-t, --to <number>", "Recipient number in E.164 used to derive the session key")
     .option("--session-id <id>", "Use an explicit session id")
@@ -51,24 +51,24 @@ export function registerAgentCommands(program: Command, args: { agentChannelOpti
         `
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
-  ['moltbot agent --to +15555550123 --message "status update"', "Start a new session."],
-  ['moltbot agent --agent ops --message "Summarize logs"', "Use a specific agent."],
+  ['panda agent --to +15555550123 --message "status update"', "Start a new session."],
+  ['panda agent --agent ops --message "Summarize logs"', "Use a specific agent."],
   [
-    'moltbot agent --session-id 1234 --message "Summarize inbox" --thinking medium',
+    'panda agent --session-id 1234 --message "Summarize inbox" --thinking medium',
     "Target a session with explicit thinking level.",
   ],
   [
-    'moltbot agent --to +15555550123 --message "Trace logs" --verbose on --json',
+    'panda agent --to +15555550123 --message "Trace logs" --verbose on --json',
     "Enable verbose logging and JSON output.",
   ],
-  ['moltbot agent --to +15555550123 --message "Summon reply" --deliver', "Deliver reply."],
+  ['panda agent --to +15555550123 --message "Summon reply" --deliver', "Deliver reply."],
   [
-    'moltbot agent --agent ops --message "Generate report" --deliver --reply-channel slack --reply-to "#reports"',
+    'panda agent --agent ops --message "Generate report" --deliver --reply-channel slack --reply-to "#reports"',
     "Send reply to a different channel/target.",
   ],
 ])}
 
-${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.molt.bot/cli/agent")}`,
+${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.pandabot.cc/cli/agent")}`,
     )
     .action(async (opts) => {
       const verboseLevel = typeof opts.verbose === "string" ? opts.verbose.toLowerCase() : "";
@@ -82,11 +82,11 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.molt.bot/cli/agent"
 
   const agents = program
     .command("agents")
-    .description("Manage isolated agents (workspaces + auth + routing)")
+    .description("管理独立代理（工作区、认证与路由）")
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/agents", "docs.molt.bot/cli/agents")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/agents", "docs.pandabot.cc/cli/agents")}\n`,
     );
 
   agents
@@ -155,11 +155,11 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.molt.bot/cli/agent"
         `
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
-  ['moltbot agents set-identity --agent main --name "Clawd" --emoji "🦞"', "Set name + emoji."],
-  ["moltbot agents set-identity --agent main --avatar avatars/clawd.png", "Set avatar path."],
-  ["moltbot agents set-identity --workspace ~/clawd --from-identity", "Load from IDENTITY.md."],
+  ['panda agents set-identity --agent main --name "Panda" --emoji "🐼"', "Set name + emoji."],
+  ["panda agents set-identity --agent main --avatar avatars/panda.png", "Set avatar path."],
+  ["panda agents set-identity --workspace ~/panda --from-identity", "Load from IDENTITY.md."],
   [
-    "moltbot agents set-identity --identity-file ~/clawd/IDENTITY.md --agent main",
+    "panda agents set-identity --identity-file ~/panda/IDENTITY.md --agent main",
     "Use a specific IDENTITY.md.",
   ],
 ])}

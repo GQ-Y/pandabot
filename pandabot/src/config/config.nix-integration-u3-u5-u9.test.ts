@@ -40,7 +40,7 @@ describe("Nix integration (U3, U5, U9)", () => {
         { PANDA_STATE_DIR: undefined, PANDA_STATE_DIR: undefined },
         async () => {
           const { STATE_DIR } = await import("./config.js");
-          expect(STATE_DIR).toMatch(/\.clawdbot$/);
+          expect(STATE_DIR).toMatch(/\.panda$/);
         },
       );
     });
@@ -57,7 +57,7 @@ describe("Nix integration (U3, U5, U9)", () => {
 
     it("STATE_DIR prefers PANDA_STATE_DIR over legacy override", async () => {
       await withEnvOverride(
-        { PANDA_STATE_DIR: "/custom/new", PANDA_STATE_DIR: "/custom/legacy" },
+        { PANDA_STATE_DIR: "/custom/new", PANDABOT_STATE_DIR: "/custom/legacy" },
         async () => {
           const { STATE_DIR } = await import("./config.js");
           expect(STATE_DIR).toBe(path.resolve("/custom/new"));
@@ -75,17 +75,17 @@ describe("Nix integration (U3, U5, U9)", () => {
         },
         async () => {
           const { CONFIG_PATH } = await import("./config.js");
-          expect(CONFIG_PATH).toMatch(/\.clawdbot[\\/]moltbot\.json$/);
+          expect(CONFIG_PATH).toMatch(/\.panda[\\/]panda\.json$/);
         },
       );
     });
 
     it("CONFIG_PATH respects PANDA_CONFIG_PATH override", async () => {
       await withEnvOverride(
-        { PANDA_CONFIG_PATH: undefined, PANDA_CONFIG_PATH: "/nix/store/abc/moltbot.json" },
+        { PANDA_CONFIG_PATH: undefined, PANDA_CONFIG_PATH: "/nix/store/abc/panda.json" },
         async () => {
           const { CONFIG_PATH } = await import("./config.js");
-          expect(CONFIG_PATH).toBe(path.resolve("/nix/store/abc/moltbot.json"));
+          expect(CONFIG_PATH).toBe(path.resolve("/nix/store/abc/panda.json"));
         },
       );
     });
@@ -93,12 +93,12 @@ describe("Nix integration (U3, U5, U9)", () => {
     it("CONFIG_PATH prefers PANDA_CONFIG_PATH over legacy override", async () => {
       await withEnvOverride(
         {
-          PANDA_CONFIG_PATH: "/nix/store/new/moltbot.json",
-          PANDA_CONFIG_PATH: "/nix/store/legacy/moltbot.json",
+          PANDA_CONFIG_PATH: "/nix/store/new/panda.json",
+          PANDABOT_CONFIG_PATH: "/nix/store/legacy/panda.json",
         },
         async () => {
           const { CONFIG_PATH } = await import("./config.js");
-          expect(CONFIG_PATH).toBe(path.resolve("/nix/store/new/moltbot.json"));
+          expect(CONFIG_PATH).toBe(path.resolve("/nix/store/new/panda.json"));
         },
       );
     });
@@ -109,7 +109,7 @@ describe("Nix integration (U3, U5, U9)", () => {
           { PANDA_CONFIG_PATH: undefined, PANDA_CONFIG_PATH: "~/.panda/custom.json" },
           async () => {
             const { CONFIG_PATH } = await import("./config.js");
-            expect(CONFIG_PATH).toBe(path.join(home, ".clawdbot", "custom.json"));
+            expect(CONFIG_PATH).toBe(path.join(home, ".panda", "custom.json"));
           },
         );
       });
@@ -125,7 +125,7 @@ describe("Nix integration (U3, U5, U9)", () => {
         },
         async () => {
           const { CONFIG_PATH } = await import("./config.js");
-          expect(CONFIG_PATH).toBe(path.join(path.resolve("/custom/state"), "moltbot.json"));
+          expect(CONFIG_PATH).toBe(path.join(path.resolve("/custom/state"), "panda.json"));
         },
       );
     });
@@ -134,7 +134,7 @@ describe("Nix integration (U3, U5, U9)", () => {
   describe("U5b: tilde expansion for config paths", () => {
     it("expands ~ in common path-ish config fields", async () => {
       await withTempHome(async (home) => {
-        const configDir = path.join(home, ".clawdbot");
+        const configDir = path.join(home, ".panda");
         await fs.mkdir(configDir, { recursive: true });
         const pluginDir = path.join(home, "plugins", "demo-plugin");
         await fs.mkdir(pluginDir, { recursive: true });
@@ -144,7 +144,7 @@ describe("Nix integration (U3, U5, U9)", () => {
           "utf-8",
         );
         await fs.writeFile(
-          path.join(pluginDir, "moltbot.plugin.json"),
+          path.join(pluginDir, "pandabot.plugin.json"),
           JSON.stringify(
             {
               id: "demo-plugin",
@@ -156,7 +156,7 @@ describe("Nix integration (U3, U5, U9)", () => {
           "utf-8",
         );
         await fs.writeFile(
-          path.join(configDir, "moltbot.json"),
+          path.join(configDir, "panda.json"),
           JSON.stringify(
             {
               plugins: {
@@ -199,11 +199,11 @@ describe("Nix integration (U3, U5, U9)", () => {
         expect(cfg.agents?.defaults?.workspace).toBe(path.join(home, "ws-default"));
         expect(cfg.agents?.list?.[0]?.workspace).toBe(path.join(home, "ws-agent"));
         expect(cfg.agents?.list?.[0]?.agentDir).toBe(
-          path.join(home, ".clawdbot", "agents", "main"),
+          path.join(home, ".panda", "agents", "main"),
         );
         expect(cfg.agents?.list?.[0]?.sandbox?.workspaceRoot).toBe(path.join(home, "sandbox-root"));
         expect(cfg.channels?.whatsapp?.accounts?.personal?.authDir).toBe(
-          path.join(home, ".clawdbot", "credentials", "wa-personal"),
+          path.join(home, ".panda", "credentials", "wa-personal"),
         );
       });
     });
@@ -235,10 +235,10 @@ describe("Nix integration (U3, U5, U9)", () => {
   describe("U9: telegram.tokenFile schema validation", () => {
     it("accepts config with only botToken", async () => {
       await withTempHome(async (home) => {
-        const configDir = path.join(home, ".clawdbot");
+        const configDir = path.join(home, ".pandabot");
         await fs.mkdir(configDir, { recursive: true });
         await fs.writeFile(
-          path.join(configDir, "moltbot.json"),
+          path.join(configDir, "panda.json"),
           JSON.stringify({
             channels: { telegram: { botToken: "123:ABC" } },
           }),
@@ -255,10 +255,10 @@ describe("Nix integration (U3, U5, U9)", () => {
 
     it("accepts config with only tokenFile", async () => {
       await withTempHome(async (home) => {
-        const configDir = path.join(home, ".clawdbot");
+        const configDir = path.join(home, ".pandabot");
         await fs.mkdir(configDir, { recursive: true });
         await fs.writeFile(
-          path.join(configDir, "moltbot.json"),
+          path.join(configDir, "panda.json"),
           JSON.stringify({
             channels: { telegram: { tokenFile: "/run/agenix/telegram-token" } },
           }),
@@ -275,10 +275,10 @@ describe("Nix integration (U3, U5, U9)", () => {
 
     it("accepts config with both botToken and tokenFile", async () => {
       await withTempHome(async (home) => {
-        const configDir = path.join(home, ".clawdbot");
+        const configDir = path.join(home, ".pandabot");
         await fs.mkdir(configDir, { recursive: true });
         await fs.writeFile(
-          path.join(configDir, "moltbot.json"),
+          path.join(configDir, "panda.json"),
           JSON.stringify({
             channels: {
               telegram: {

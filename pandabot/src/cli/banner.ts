@@ -65,12 +65,13 @@ export function formatCliBannerLine(version: string, options: BannerOptions = {}
 }
 
 const PANDA_ASCII = [
-  "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄",
-  "██░███░██░▄▄▄██░▄▀█░█▀▄██░▄▄▄██░████▄▄░▄▄██░▄▄▄░█",
-  "██░█░█░██░▄▄████░█░█░█░███░███░██░▀▀████░████░███░█",
-  "██░▀▄▀░██░▀▀▀██░██▄██▄███░▀▀▀░██░▀▀░███░████░▀▀▀░█",
-  "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀",
-  "              🐼 AGENT PLATFORM 🐼              ",
+  "██████╗  █████╗ ███╗   ██╗██████╗  █████╗ ██████╗  ██████╗ ████████╗",
+  "██╔══██╗██╔══██╗████╗  ██║██╔══██╗██╔══██╗██╔══██╗██╔═══██╗╚══██╔══╝",
+  "██████╔╝███████║██╔██╗ ██║██║  ██║███████║██████╔╝██║   ██║   ██║   ",
+  "██╔═══╝ ██╔══██║██║╚██╗██║██║  ██║██╔══██║██╔══██╗██║   ██║   ██║   ",
+  "██║     ██║  ██║██║ ╚████║██████╔╝██║  ██║██████╔╝╚██████╔╝   ██║   ",
+  "╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚═╝  ╚═╝╚═════╝  ╚═════╝    ╚═╝   ",
+  "                      🐼 PANDABOT 🐼                      ",
   " ",
 ];
 
@@ -79,18 +80,21 @@ export function formatCliBannerArt(options: BannerOptions = {}): string {
   if (!rich) return PANDA_ASCII.join("\n");
 
   const colorChar = (ch: string) => {
-    if (ch === "█") return theme.accentBright(ch);
+    if (ch === "█" || ch === "╔" || ch === "╗" || ch === "╚" || ch === "╝" || ch === "║" || ch === "═")
+      return theme.accentBright(ch);
+    if (ch === "╠" || ch === "╣" || ch === "╦" || ch === "╩" || ch === "╬")
+      return theme.accentBright(ch);
     if (ch === "░") return theme.accentDim(ch);
-    if (ch === "▀") return theme.accent(ch);
+    if (ch === "▀" || ch === "▄") return theme.accent(ch);
     return theme.muted(ch);
   };
 
   const colored = PANDA_ASCII.map((line) => {
-    if (line.includes("AGENT PLATFORM")) {
+    if (line.includes("PANDABOT")) {
       return (
-        theme.muted("             ") +
+        theme.muted("                      ") +
         theme.accent("🐼") +
-        theme.info(" AGENT PLATFORM ") +
+        theme.info(" PANDABOT ") +
         theme.accent("🐼")
       );
     }

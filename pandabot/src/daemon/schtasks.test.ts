@@ -9,7 +9,7 @@ import { parseSchtasksQuery, readScheduledTaskCommand, resolveTaskScriptPath } f
 describe("schtasks runtime parsing", () => {
   it("parses status and last run info", () => {
     const output = [
-      "TaskName: \\Moltbot Gateway",
+      "TaskName: \\Panda Gateway",
       "Status: Ready",
       "Last Run Time: 1/8/2026 1:23:45 AM",
       "Last Run Result: 0x0",
@@ -23,7 +23,7 @@ describe("schtasks runtime parsing", () => {
 
   it("parses running status", () => {
     const output = [
-      "TaskName: \\Moltbot Gateway",
+      "TaskName: \\Panda Gateway",
       "Status: Running",
       "Last Run Time: 1/8/2026 1:23:45 AM",
       "Last Run Result: 0x0",
@@ -40,21 +40,21 @@ describe("resolveTaskScriptPath", () => {
   it("uses default path when PANDA_PROFILE is default", () => {
     const env = { USERPROFILE: "C:\\Users\\test", PANDA_PROFILE: "default" };
     expect(resolveTaskScriptPath(env)).toBe(
-      path.join("C:\\Users\\test", ".clawdbot", "gateway.cmd"),
+      path.join("C:\\Users\\test", ".pandabot", "gateway.cmd"),
     );
   });
 
   it("uses default path when PANDA_PROFILE is unset", () => {
     const env = { USERPROFILE: "C:\\Users\\test" };
     expect(resolveTaskScriptPath(env)).toBe(
-      path.join("C:\\Users\\test", ".clawdbot", "gateway.cmd"),
+      path.join("C:\\Users\\test", ".pandabot", "gateway.cmd"),
     );
   });
 
   it("uses profile-specific path when PANDA_PROFILE is set to a custom value", () => {
     const env = { USERPROFILE: "C:\\Users\\test", PANDA_PROFILE: "jbphoenix" };
     expect(resolveTaskScriptPath(env)).toBe(
-      path.join("C:\\Users\\test", ".clawdbot-jbphoenix", "gateway.cmd"),
+      path.join("C:\\Users\\test", ".pandabot-jbphoenix", "gateway.cmd"),
     );
   });
 
@@ -62,43 +62,43 @@ describe("resolveTaskScriptPath", () => {
     const env = {
       USERPROFILE: "C:\\Users\\test",
       PANDA_PROFILE: "rescue",
-      PANDA_STATE_DIR: "C:\\State\\moltbot",
+      PANDA_STATE_DIR: "C:\\State\\panda",
     };
-    expect(resolveTaskScriptPath(env)).toBe(path.join("C:\\State\\moltbot", "gateway.cmd"));
+    expect(resolveTaskScriptPath(env)).toBe(path.join("C:\\State\\panda", "gateway.cmd"));
   });
 
   it("handles case-insensitive 'Default' profile", () => {
     const env = { USERPROFILE: "C:\\Users\\test", PANDA_PROFILE: "Default" };
     expect(resolveTaskScriptPath(env)).toBe(
-      path.join("C:\\Users\\test", ".clawdbot", "gateway.cmd"),
+      path.join("C:\\Users\\test", ".pandabot", "gateway.cmd"),
     );
   });
 
   it("handles case-insensitive 'DEFAULT' profile", () => {
     const env = { USERPROFILE: "C:\\Users\\test", PANDA_PROFILE: "DEFAULT" };
     expect(resolveTaskScriptPath(env)).toBe(
-      path.join("C:\\Users\\test", ".clawdbot", "gateway.cmd"),
+      path.join("C:\\Users\\test", ".pandabot", "gateway.cmd"),
     );
   });
 
   it("trims whitespace from PANDA_PROFILE", () => {
     const env = { USERPROFILE: "C:\\Users\\test", PANDA_PROFILE: "  myprofile  " };
     expect(resolveTaskScriptPath(env)).toBe(
-      path.join("C:\\Users\\test", ".clawdbot-myprofile", "gateway.cmd"),
+      path.join("C:\\Users\\test", ".pandabot-myprofile", "gateway.cmd"),
     );
   });
 
   it("falls back to HOME when USERPROFILE is not set", () => {
     const env = { HOME: "/home/test", PANDA_PROFILE: "default" };
-    expect(resolveTaskScriptPath(env)).toBe(path.join("/home/test", ".clawdbot", "gateway.cmd"));
+    expect(resolveTaskScriptPath(env)).toBe(path.join("/home/test", ".pandabot", "gateway.cmd"));
   });
 });
 
 describe("readScheduledTaskCommand", () => {
   it("parses basic command script", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-schtasks-test-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "panda-schtasks-test-"));
     try {
-      const scriptPath = path.join(tmpDir, ".clawdbot", "gateway.cmd");
+      const scriptPath = path.join(tmpDir, ".pandabot", "gateway.cmd");
       await fs.mkdir(path.dirname(scriptPath), { recursive: true });
       await fs.writeFile(
         scriptPath,
@@ -117,13 +117,13 @@ describe("readScheduledTaskCommand", () => {
   });
 
   it("parses script with working directory", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-schtasks-test-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "panda-schtasks-test-"));
     try {
-      const scriptPath = path.join(tmpDir, ".clawdbot", "gateway.cmd");
+      const scriptPath = path.join(tmpDir, ".pandabot", "gateway.cmd");
       await fs.mkdir(path.dirname(scriptPath), { recursive: true });
       await fs.writeFile(
         scriptPath,
-        ["@echo off", "cd /d C:\\Projects\\moltbot", "node gateway.js"].join("\r\n"),
+        ["@echo off", "cd /d C:\\Projects\\panda", "node gateway.js"].join("\r\n"),
         "utf8",
       );
 
@@ -131,7 +131,7 @@ describe("readScheduledTaskCommand", () => {
       const result = await readScheduledTaskCommand(env);
       expect(result).toEqual({
         programArguments: ["node", "gateway.js"],
-        workingDirectory: "C:\\Projects\\moltbot",
+        workingDirectory: "C:\\Projects\\panda",
       });
     } finally {
       await fs.rm(tmpDir, { recursive: true, force: true });
@@ -139,9 +139,9 @@ describe("readScheduledTaskCommand", () => {
   });
 
   it("parses script with environment variables", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-schtasks-test-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "panda-schtasks-test-"));
     try {
-      const scriptPath = path.join(tmpDir, ".clawdbot", "gateway.cmd");
+      const scriptPath = path.join(tmpDir, ".pandabot", "gateway.cmd");
       await fs.mkdir(path.dirname(scriptPath), { recursive: true });
       await fs.writeFile(
         scriptPath,
@@ -164,9 +164,9 @@ describe("readScheduledTaskCommand", () => {
   });
 
   it("parses script with quoted arguments containing spaces", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-schtasks-test-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "panda-schtasks-test-"));
     try {
-      const scriptPath = path.join(tmpDir, ".clawdbot", "gateway.cmd");
+      const scriptPath = path.join(tmpDir, ".pandabot", "gateway.cmd");
       await fs.mkdir(path.dirname(scriptPath), { recursive: true });
       // Use forward slashes which work in Windows cmd and avoid escape parsing issues
       await fs.writeFile(
@@ -186,7 +186,7 @@ describe("readScheduledTaskCommand", () => {
   });
 
   it("returns null when script does not exist", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-schtasks-test-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "panda-schtasks-test-"));
     try {
       const env = { USERPROFILE: tmpDir, PANDA_PROFILE: "default" };
       const result = await readScheduledTaskCommand(env);
@@ -197,9 +197,9 @@ describe("readScheduledTaskCommand", () => {
   });
 
   it("returns null when script has no command", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-schtasks-test-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "panda-schtasks-test-"));
     try {
-      const scriptPath = path.join(tmpDir, ".clawdbot", "gateway.cmd");
+      const scriptPath = path.join(tmpDir, ".pandabot", "gateway.cmd");
       await fs.mkdir(path.dirname(scriptPath), { recursive: true });
       await fs.writeFile(
         scriptPath,
@@ -216,18 +216,18 @@ describe("readScheduledTaskCommand", () => {
   });
 
   it("parses full script with all components", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-schtasks-test-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "panda-schtasks-test-"));
     try {
-      const scriptPath = path.join(tmpDir, ".clawdbot", "gateway.cmd");
+      const scriptPath = path.join(tmpDir, ".pandabot", "gateway.cmd");
       await fs.mkdir(path.dirname(scriptPath), { recursive: true });
       await fs.writeFile(
         scriptPath,
         [
           "@echo off",
-          "rem Moltbot Gateway",
-          "cd /d C:\\Projects\\moltbot",
+          "rem Panda Gateway",
+          "cd /d C:\\Projects\\panda",
           "set NODE_ENV=production",
-          "set CLAWDBOT_PORT=18789",
+          "set PANDABOT_PORT=18789",
           "node gateway.js --verbose",
         ].join("\r\n"),
         "utf8",
@@ -237,10 +237,10 @@ describe("readScheduledTaskCommand", () => {
       const result = await readScheduledTaskCommand(env);
       expect(result).toEqual({
         programArguments: ["node", "gateway.js", "--verbose"],
-        workingDirectory: "C:\\Projects\\moltbot",
+        workingDirectory: "C:\\Projects\\panda",
         environment: {
           NODE_ENV: "production",
-          CLAWDBOT_PORT: "18789",
+          PANDABOT_PORT: "18789",
         },
       });
     } finally {

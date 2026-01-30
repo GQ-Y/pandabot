@@ -1,6 +1,6 @@
 import AVFAudio
-import MoltbotKit
-import MoltbotProtocol
+import PandaKit
+import PandaProtocol
 import Foundation
 import Observation
 import OSLog

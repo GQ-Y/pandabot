@@ -1,5 +1,5 @@
-export const LEGACY_PROJECT_NAME = "clawdbot" as const;
-export const LEGACY_PROJECT_NAME_MOLTBOT = "moltbot" as const;
+export const LEGACY_PROJECT_NAME = "pandabot" as const;
+export const LEGACY_PROJECT_NAME_PANDA = "panda" as const;
 export const PROJECT_NAME = "pandabot" as const;
 
 export const LEGACY_MANIFEST_KEY = LEGACY_PROJECT_NAME;
@@ -10,6 +10,6 @@ export const PLUGIN_MANIFEST_FILENAME = `${PROJECT_NAME}.plugin.json` as const;
 export const LEGACY_CANVAS_HANDLER_NAME = `${LEGACY_PROJECT_NAME}CanvasA2UIAction` as const;
 export const CANVAS_HANDLER_NAME = `${PROJECT_NAME}CanvasA2UIAction` as const;
 
-export const LEGACY_MACOS_APP_SOURCES_DIR = "apps/macos/Sources/Clawdbot" as const;
-export const LEGACY_MACOS_APP_SOURCES_DIR_MOLTBOT = "apps/macos/Sources/Moltbot" as const;
-export const MACOS_APP_SOURCES_DIR = "apps/macos/Sources/Pandabot" as const;
+export const LEGACY_MACOS_APP_SOURCES_DIR = "apps/macos/Sources/Pandabot" as const;
+export const LEGACY_MACOS_APP_SOURCES_DIR_PANDA = "apps/macos/Sources/Panda" as const;
+export const MACOS_APP_SOURCES_DIR = "apps/macos/Sources/Panda" as const;

@@ -1,8 +1,8 @@
-import MoltbotKit
+import PandaKit
 import Foundation
 import Testing
 import UIKit
-@testable import Moltbot
+@testable import Panda
 
 private func withUserDefaults<T>(_ updates: [String: Any?], _ body: () throws -> T) rethrows -> T {
     let defaults = UserDefaults.standard
@@ -49,31 +49,31 @@ private func withUserDefaults<T>(_ updates: [String: Any?], _ body: () throws ->
             "node.instanceId": "ios-test",
             "node.displayName": "Test Node",
             "camera.enabled": true,
-            "location.enabledMode": MoltbotLocationMode.always.rawValue,
+            "location.enabledMode": PandaLocationMode.always.rawValue,
             VoiceWakePreferences.enabledKey: true,
         ]) {
             let appModel = NodeAppModel()
             let controller = GatewayConnectionController(appModel: appModel, startDiscovery: false)
             let caps = Set(controller._test_currentCaps())
 
-            #expect(caps.contains(MoltbotCapability.canvas.rawValue))
-            #expect(caps.contains(MoltbotCapability.screen.rawValue))
-            #expect(caps.contains(MoltbotCapability.camera.rawValue))
-            #expect(caps.contains(MoltbotCapability.location.rawValue))
-            #expect(caps.contains(MoltbotCapability.voiceWake.rawValue))
+            #expect(caps.contains(PandaCapability.canvas.rawValue))
+            #expect(caps.contains(PandaCapability.screen.rawValue))
+            #expect(caps.contains(PandaCapability.camera.rawValue))
+            #expect(caps.contains(PandaCapability.location.rawValue))
+            #expect(caps.contains(PandaCapability.voiceWake.rawValue))
         }
     }
 
     @Test @MainActor func currentCommandsIncludeLocationWhenEnabled() {
         withUserDefaults([
             "node.instanceId": "ios-test",
-            "location.enabledMode": MoltbotLocationMode.whileUsing.rawValue,
+            "location.enabledMode": PandaLocationMode.whileUsing.rawValue,
         ]) {
             let appModel = NodeAppModel()
             let controller = GatewayConnectionController(appModel: appModel, startDiscovery: false)
             let commands = Set(controller._test_currentCommands())
 
-            #expect(commands.contains(MoltbotLocationCommand.get.rawValue))
+            #expect(commands.contains(PandaLocationCommand.get.rawValue))
         }
     }
 }

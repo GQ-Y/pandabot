@@ -1,5 +1,5 @@
 # EditorConfig: https://editorconfig.org
-# Moltbot repo defaults; ensures UTF-8 for docs and SVG so CJK text does not corrupt.
+# Panda repo defaults; ensures UTF-8 for docs and SVG so CJK text does not corrupt.
 
 root = true
 

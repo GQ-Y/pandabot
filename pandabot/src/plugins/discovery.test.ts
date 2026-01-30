@@ -7,7 +7,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 const tempDirs: string[] = [];
 
 function makeTempDir() {
-  const dir = path.join(os.tmpdir(), `moltbot-plugins-${randomUUID()}`);
+  const dir = path.join(os.tmpdir(), `panda-plugins-${randomUUID()}`);
   fs.mkdirSync(dir, { recursive: true });
   tempDirs.push(dir);
   return dir;
@@ -46,7 +46,7 @@ afterEach(() => {
   }
 });
 
-describe("discoverMoltbotPlugins", () => {
+describe("discoverPandaPlugins", () => {
   it("discovers global and workspace extensions", async () => {
     const stateDir = makeTempDir();
     const workspaceDir = path.join(stateDir, "workspace");
@@ -55,13 +55,13 @@ describe("discoverMoltbotPlugins", () => {
     fs.mkdirSync(globalExt, { recursive: true });
     fs.writeFileSync(path.join(globalExt, "alpha.ts"), "export default function () {}", "utf-8");
 
-    const workspaceExt = path.join(workspaceDir, ".clawdbot", "extensions");
+    const workspaceExt = path.join(workspaceDir, ".pandabot", "extensions");
     fs.mkdirSync(workspaceExt, { recursive: true });
     fs.writeFileSync(path.join(workspaceExt, "beta.ts"), "export default function () {}", "utf-8");
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      const { discoverMoltbotPlugins } = await import("./discovery.js");
-      return discoverMoltbotPlugins({ workspaceDir });
+      const { discoverPandaPlugins } = await import("./discovery.js");
+      return discoverPandaPlugins({ workspaceDir });
     });
 
     const ids = candidates.map((c) => c.idHint);
@@ -78,7 +78,7 @@ describe("discoverMoltbotPlugins", () => {
       path.join(globalExt, "package.json"),
       JSON.stringify({
         name: "pack",
-        moltbot: { extensions: ["./src/one.ts", "./src/two.ts"] },
+        panda: { extensions: ["./src/one.ts", "./src/two.ts"] },
       }),
       "utf-8",
     );
@@ -94,8 +94,8 @@ describe("discoverMoltbotPlugins", () => {
     );
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      const { discoverMoltbotPlugins } = await import("./discovery.js");
-      return discoverMoltbotPlugins({});
+      const { discoverPandaPlugins } = await import("./discovery.js");
+      return discoverPandaPlugins({});
     });
 
     const ids = candidates.map((c) => c.idHint);
@@ -111,8 +111,8 @@ describe("discoverMoltbotPlugins", () => {
     fs.writeFileSync(
       path.join(globalExt, "package.json"),
       JSON.stringify({
-        name: "@moltbot/voice-call",
-        moltbot: { extensions: ["./src/index.ts"] },
+        name: "@pandabot/voice-call",
+        panda: { extensions: ["./src/index.ts"] },
       }),
       "utf-8",
     );
@@ -123,8 +123,8 @@ describe("discoverMoltbotPlugins", () => {
     );
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      const { discoverMoltbotPlugins } = await import("./discovery.js");
-      return discoverMoltbotPlugins({});
+      const { discoverPandaPlugins } = await import("./discovery.js");
+      return discoverPandaPlugins({});
     });
 
     const ids = candidates.map((c) => c.idHint);
@@ -139,16 +139,16 @@ describe("discoverMoltbotPlugins", () => {
     fs.writeFileSync(
       path.join(packDir, "package.json"),
       JSON.stringify({
-        name: "@moltbot/demo-plugin-dir",
-        moltbot: { extensions: ["./index.js"] },
+        name: "@pandabot/demo-plugin-dir",
+        panda: { extensions: ["./index.js"] },
       }),
       "utf-8",
     );
     fs.writeFileSync(path.join(packDir, "index.js"), "module.exports = {}", "utf-8");
 
     const { candidates } = await withStateDir(stateDir, async () => {
-      const { discoverMoltbotPlugins } = await import("./discovery.js");
-      return discoverMoltbotPlugins({ extraPaths: [packDir] });
+      const { discoverPandaPlugins } = await import("./discovery.js");
+      return discoverPandaPlugins({ extraPaths: [packDir] });
     });
 
     const ids = candidates.map((c) => c.idHint);

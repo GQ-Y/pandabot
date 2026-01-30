@@ -83,10 +83,10 @@ async function setupGatewayTestHome() {
   previousSkipBrowserControl = process.env.PANDA_SKIP_BROWSER_CONTROL_SERVER;
   previousSkipGmailWatcher = process.env.PANDA_SKIP_GMAIL_WATCHER;
   previousSkipCanvasHost = process.env.PANDA_SKIP_CANVAS_HOST;
-  tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-gateway-home-"));
+  tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "panda-gateway-home-"));
   process.env.HOME = tempHome;
   process.env.USERPROFILE = tempHome;
-  process.env.PANDA_STATE_DIR = path.join(tempHome, ".clawdbot");
+  process.env.PANDA_STATE_DIR = path.join(tempHome, ".pandabot");
   delete process.env.PANDA_CONFIG_PATH;
 }
 
@@ -105,8 +105,8 @@ async function resetGatewayTestState(options: { uniqueConfigRoot: boolean }) {
   }
   applyGatewaySkipEnv();
   tempConfigRoot = options.uniqueConfigRoot
-    ? await fs.mkdtemp(path.join(tempHome, "moltbot-test-"))
-    : path.join(tempHome, ".clawdbot-test");
+    ? await fs.mkdtemp(path.join(tempHome, "panda-test-"))
+    : path.join(tempHome, ".pandabot-test");
   setTestConfigRoot(tempConfigRoot);
   sessionStoreSaveDelayMs.value = 0;
   testTailnetIPv4.value = undefined;

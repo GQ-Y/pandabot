@@ -49,8 +49,8 @@ describe("gateway server auth/connect", () => {
 
     test("closes silent handshakes after timeout", { timeout: 60_000 }, async () => {
       vi.useRealTimers();
-      const prevHandshakeTimeout = process.env.CLAWDBOT_TEST_HANDSHAKE_TIMEOUT_MS;
-      process.env.CLAWDBOT_TEST_HANDSHAKE_TIMEOUT_MS = "50";
+      const prevHandshakeTimeout = process.env.PANDABOT_TEST_HANDSHAKE_TIMEOUT_MS;
+      process.env.PANDABOT_TEST_HANDSHAKE_TIMEOUT_MS = "50";
       try {
         const ws = await openWs(port);
         const handshakeTimeoutMs = getHandshakeTimeoutMs();
@@ -58,9 +58,9 @@ describe("gateway server auth/connect", () => {
         expect(closed).toBe(true);
       } finally {
         if (prevHandshakeTimeout === undefined) {
-          delete process.env.CLAWDBOT_TEST_HANDSHAKE_TIMEOUT_MS;
+          delete process.env.PANDABOT_TEST_HANDSHAKE_TIMEOUT_MS;
         } else {
-          process.env.CLAWDBOT_TEST_HANDSHAKE_TIMEOUT_MS = prevHandshakeTimeout;
+          process.env.PANDABOT_TEST_HANDSHAKE_TIMEOUT_MS = prevHandshakeTimeout;
         }
       }
     });
@@ -461,7 +461,7 @@ describe("gateway server auth/connect", () => {
     const { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } =
       await import("../utils/message-channel.js");
     const { server, ws, port, prevToken } = await startServerWithClient("secret");
-    const identityDir = await mkdtemp(join(tmpdir(), "moltbot-device-scope-"));
+    const identityDir = await mkdtemp(join(tmpdir(), "panda-device-scope-"));
     const identity = loadOrCreateDeviceIdentity(join(identityDir, "device.json"));
     const client = {
       id: GATEWAY_CLIENT_NAMES.TEST,

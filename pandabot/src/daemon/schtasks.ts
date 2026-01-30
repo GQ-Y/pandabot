@@ -17,15 +17,15 @@ const formatLine = (label: string, value: string) => {
 };
 
 function resolveTaskName(env: Record<string, string | undefined>): string {
-  const override = env.CLAWDBOT_WINDOWS_TASK_NAME?.trim();
+  const override = env.PANDABOT_WINDOWS_TASK_NAME?.trim();
   if (override) return override;
   return resolveGatewayWindowsTaskName(env.PANDA_PROFILE);
 }
 
 export function resolveTaskScriptPath(env: Record<string, string | undefined>): string {
-  const override = env.CLAWDBOT_TASK_SCRIPT?.trim();
+  const override = env.PANDABOT_TASK_SCRIPT?.trim();
   if (override) return override;
-  const scriptName = env.CLAWDBOT_TASK_SCRIPT_NAME?.trim() || "gateway.cmd";
+  const scriptName = env.PANDABOT_TASK_SCRIPT_NAME?.trim() || "gateway.cmd";
   const stateDir = resolveGatewayStateDir(env);
   return path.join(stateDir, scriptName);
 }
@@ -226,7 +226,7 @@ export async function installScheduledTask({
     description ??
     formatGatewayServiceDescription({
       profile: env.PANDA_PROFILE,
-      version: environment?.CLAWDBOT_SERVICE_VERSION ?? env.CLAWDBOT_SERVICE_VERSION,
+      version: environment?.PANDABOT_SERVICE_VERSION ?? env.PANDABOT_SERVICE_VERSION,
     });
   const script = buildTaskScript({
     description: taskDescription,

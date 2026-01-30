@@ -1,8 +1,8 @@
 {
-  "name": "@moltbot/discord",
+  "name": "@pandabot/discord",
   "version": "2026.1.27-beta.1",
   "type": "module",
-  "description": "Moltbot Discord channel plugin",
+  "description": "Panda Discord channel plugin",
   "pandabot": {
     "extensions": [
       "./index.ts"

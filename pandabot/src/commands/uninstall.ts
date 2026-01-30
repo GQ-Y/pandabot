@@ -82,9 +82,9 @@ async function stopAndUninstallService(runtime: RuntimeEnv): Promise<boolean> {
 
 async function removeMacApp(runtime: RuntimeEnv, dryRun?: boolean) {
   if (process.platform !== "darwin") return;
-  await removePath("/Applications/Moltbot.app", runtime, {
+  await removePath("/Applications/Pandabot.app", runtime, {
     dryRun,
-    label: "/Applications/Moltbot.app",
+    label: "/Applications/Pandabot.app",
   });
 }
 
@@ -116,7 +116,7 @@ export async function uninstallCommand(runtime: RuntimeEnv, opts: UninstallOptio
         {
           value: "app",
           label: "macOS app",
-          hint: "/Applications/Moltbot.app",
+          hint: "/Applications/Pandabot.app",
         },
       ],
       initialValues: ["service", "state", "workspace"],

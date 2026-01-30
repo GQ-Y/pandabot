@@ -84,7 +84,7 @@ async function waitForLocalCallback(params: {
             "<!doctype html>",
             "<html><head><meta charset='utf-8' /></head>",
             "<body><h2>Chutes OAuth complete</h2>",
-            "<p>You can close this window and return to moltbot.</p></body></html>",
+            "<p>You can close this window and return to panda.</p></body></html>",
           ].join(""),
         );
         if (timeout) clearTimeout(timeout);
@@ -144,9 +144,9 @@ export async function loginChutes(params: {
   let codeAndState: { code: string; state: string };
   if (params.manual) {
     await params.onAuth({ url });
-    params.onProgress?.("Waiting for redirect URL…");
+    params.onProgress?.("等待重定向 URL…");
     const input = await params.onPrompt({
-      message: "Paste the redirect URL (or authorization code)",
+      message: "粘贴重定向 URL（或授权码）",
       placeholder: `${params.app.redirectUri}?code=...&state=...`,
     });
     const parsed = parseOAuthCallbackInput(String(input), state);
@@ -160,9 +160,9 @@ export async function loginChutes(params: {
       timeoutMs,
       onProgress: params.onProgress,
     }).catch(async () => {
-      params.onProgress?.("OAuth callback not detected; paste redirect URL…");
+      params.onProgress?.("未检测到 OAuth 回调，请粘贴重定向 URL…");
       const input = await params.onPrompt({
-        message: "Paste the redirect URL (or authorization code)",
+        message: "粘贴重定向 URL（或授权码）",
         placeholder: `${params.app.redirectUri}?code=...&state=...`,
       });
       const parsed = parseOAuthCallbackInput(String(input), state);

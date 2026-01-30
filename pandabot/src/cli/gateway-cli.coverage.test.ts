@@ -139,7 +139,7 @@ describe("gateway-cli coverage", () => {
     discoverGatewayBeacons.mockReset();
     discoverGatewayBeacons.mockResolvedValueOnce([
       {
-        instanceName: "Studio (Moltbot)",
+        instanceName: "Studio (Panda)",
         displayName: "Studio",
         domain: "local.",
         host: "studio.local",
@@ -171,10 +171,10 @@ describe("gateway-cli coverage", () => {
     discoverGatewayBeacons.mockReset();
     discoverGatewayBeacons.mockResolvedValueOnce([
       {
-        instanceName: "Studio (Moltbot)",
+        instanceName: "Studio (Panda)",
         displayName: "Studio",
-        domain: "moltbot.internal.",
-        host: "studio.clawdbot.internal",
+        domain: "panda.internal.",
+        host: "studio.pandabot.internal",
         lanHost: "studio.local",
         tailnetDns: "studio.tailnet.ts.net",
         gatewayPort: 18789,
@@ -194,9 +194,9 @@ describe("gateway-cli coverage", () => {
     const out = runtimeLogs.join("\n");
     expect(out).toContain("Gateway Discovery");
     expect(out).toContain("Found 1 gateway(s)");
-    expect(out).toContain("- Studio moltbot.internal.");
+    expect(out).toContain("- Studio panda.internal.");
     expect(out).toContain("  tailnet: studio.tailnet.ts.net");
-    expect(out).toContain("  host: studio.clawdbot.internal");
+    expect(out).toContain("  host: studio.pandabot.internal");
     expect(out).toContain("  ws: ws://studio.tailnet.ts.net:18789");
   });
 

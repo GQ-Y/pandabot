@@ -7,7 +7,7 @@ import type { AuthProfileCredential, OAuthCredential } from "../agents/auth-prof
 import type { AnyAgentTool } from "../agents/tools/common.js";
 import type { ChannelDock } from "../channels/dock.js";
 import type { ChannelPlugin } from "../channels/plugins/types.js";
-import type { MoltbotConfig } from "../config/config.js";
+import type { PandaConfig } from "../config/config.js";
 import type { InternalHookHandler } from "../hooks/internal-hooks.js";
 import type { HookEntry } from "../hooks/types.js";
 import type { ModelProviderConfig } from "../config/types.js";
@@ -41,7 +41,7 @@ export type PluginConfigValidation =
   | { ok: true; value?: unknown }
   | { ok: false; errors: string[] };
 
-export type MoltbotPluginConfigSchema = {
+export type PandaPluginConfigSchema = {
   safeParse?: (value: unknown) => {
     success: boolean;
     data?: unknown;
@@ -55,8 +55,8 @@ export type MoltbotPluginConfigSchema = {
   jsonSchema?: Record<string, unknown>;
 };
 
-export type MoltbotPluginToolContext = {
-  config?: MoltbotConfig;
+export type PandaPluginToolContext = {
+  config?: PandaConfig;
   workspaceDir?: string;
   agentDir?: string;
   agentId?: string;
@@ -66,17 +66,17 @@ export type MoltbotPluginToolContext = {
   sandboxed?: boolean;
 };
 
-export type MoltbotPluginToolFactory = (
-  ctx: MoltbotPluginToolContext,
+export type PandaPluginToolFactory = (
+  ctx: PandaPluginToolContext,
 ) => AnyAgentTool | AnyAgentTool[] | null | undefined;
 
-export type MoltbotPluginToolOptions = {
+export type PandaPluginToolOptions = {
   name?: string;
   names?: string[];
   optional?: boolean;
 };
 
-export type MoltbotPluginHookOptions = {
+export type PandaPluginHookOptions = {
   entry?: HookEntry;
   name?: string;
   description?: string;
@@ -87,13 +87,13 @@ export type ProviderAuthKind = "oauth" | "api_key" | "token" | "device_code" | "
 
 export type ProviderAuthResult = {
   profiles: Array<{ profileId: string; credential: AuthProfileCredential }>;
-  configPatch?: Partial<MoltbotConfig>;
+  configPatch?: Partial<PandaConfig>;
   defaultModel?: string;
   notes?: string[];
 };
 
 export type ProviderAuthContext = {
-  config: MoltbotConfig;
+  config: PandaConfig;
   agentDir?: string;
   workspaceDir?: string;
   prompter: WizardPrompter;
@@ -125,7 +125,7 @@ export type ProviderPlugin = {
   refreshOAuth?: (cred: OAuthCredential) => Promise<OAuthCredential>;
 };
 
-export type MoltbotPluginGatewayMethod = {
+export type PandaPluginGatewayMethod = {
   method: string;
   handler: GatewayRequestHandler;
 };
@@ -148,8 +148,8 @@ export type PluginCommandContext = {
   args?: string;
   /** The full normalized command body */
   commandBody: string;
-  /** Current moltbot configuration */
-  config: MoltbotConfig;
+  /** Current panda configuration */
+  config: PandaConfig;
 };
 
 /**
@@ -167,7 +167,7 @@ export type PluginCommandHandler = (
 /**
  * Definition for a plugin-registered command.
  */
-export type MoltbotPluginCommandDefinition = {
+export type PandaPluginCommandDefinition = {
   /** Command name without leading slash (e.g., "tts") */
   name: string;
   /** Description shown in /help and command menus */
@@ -180,90 +180,90 @@ export type MoltbotPluginCommandDefinition = {
   handler: PluginCommandHandler;
 };
 
-export type MoltbotPluginHttpHandler = (
+export type PandaPluginHttpHandler = (
   req: IncomingMessage,
   res: ServerResponse,
 ) => Promise<boolean> | boolean;
 
-export type MoltbotPluginHttpRouteHandler = (
+export type PandaPluginHttpRouteHandler = (
   req: IncomingMessage,
   res: ServerResponse,
 ) => Promise<void> | void;
 
-export type MoltbotPluginCliContext = {
+export type PandaPluginCliContext = {
   program: Command;
-  config: MoltbotConfig;
+  config: PandaConfig;
   workspaceDir?: string;
   logger: PluginLogger;
 };
 
-export type MoltbotPluginCliRegistrar = (ctx: MoltbotPluginCliContext) => void | Promise<void>;
+export type PandaPluginCliRegistrar = (ctx: PandaPluginCliContext) => void | Promise<void>;
 
-export type MoltbotPluginServiceContext = {
-  config: MoltbotConfig;
+export type PandaPluginServiceContext = {
+  config: PandaConfig;
   workspaceDir?: string;
   stateDir: string;
   logger: PluginLogger;
 };
 
-export type MoltbotPluginService = {
+export type PandaPluginService = {
   id: string;
-  start: (ctx: MoltbotPluginServiceContext) => void | Promise<void>;
-  stop?: (ctx: MoltbotPluginServiceContext) => void | Promise<void>;
+  start: (ctx: PandaPluginServiceContext) => void | Promise<void>;
+  stop?: (ctx: PandaPluginServiceContext) => void | Promise<void>;
 };
 
-export type MoltbotPluginChannelRegistration = {
+export type PandaPluginChannelRegistration = {
   plugin: ChannelPlugin;
   dock?: ChannelDock;
 };
 
-export type MoltbotPluginDefinition = {
+export type PandaPluginDefinition = {
   id?: string;
   name?: string;
   description?: string;
   version?: string;
   kind?: PluginKind;
-  configSchema?: MoltbotPluginConfigSchema;
-  register?: (api: MoltbotPluginApi) => void | Promise<void>;
-  activate?: (api: MoltbotPluginApi) => void | Promise<void>;
+  configSchema?: PandaPluginConfigSchema;
+  register?: (api: PandaPluginApi) => void | Promise<void>;
+  activate?: (api: PandaPluginApi) => void | Promise<void>;
 };
 
-export type MoltbotPluginModule =
-  | MoltbotPluginDefinition
-  | ((api: MoltbotPluginApi) => void | Promise<void>);
+export type PandaPluginModule =
+  | PandaPluginDefinition
+  | ((api: PandaPluginApi) => void | Promise<void>);
 
-export type MoltbotPluginApi = {
+export type PandaPluginApi = {
   id: string;
   name: string;
   version?: string;
   description?: string;
   source: string;
-  config: MoltbotConfig;
+  config: PandaConfig;
   pluginConfig?: Record<string, unknown>;
   runtime: PluginRuntime;
   logger: PluginLogger;
   registerTool: (
-    tool: AnyAgentTool | MoltbotPluginToolFactory,
-    opts?: MoltbotPluginToolOptions,
+    tool: AnyAgentTool | PandaPluginToolFactory,
+    opts?: PandaPluginToolOptions,
   ) => void;
   registerHook: (
     events: string | string[],
     handler: InternalHookHandler,
-    opts?: MoltbotPluginHookOptions,
+    opts?: PandaPluginHookOptions,
   ) => void;
-  registerHttpHandler: (handler: MoltbotPluginHttpHandler) => void;
-  registerHttpRoute: (params: { path: string; handler: MoltbotPluginHttpRouteHandler }) => void;
-  registerChannel: (registration: MoltbotPluginChannelRegistration | ChannelPlugin) => void;
+  registerHttpHandler: (handler: PandaPluginHttpHandler) => void;
+  registerHttpRoute: (params: { path: string; handler: PandaPluginHttpRouteHandler }) => void;
+  registerChannel: (registration: PandaPluginChannelRegistration | ChannelPlugin) => void;
   registerGatewayMethod: (method: string, handler: GatewayRequestHandler) => void;
-  registerCli: (registrar: MoltbotPluginCliRegistrar, opts?: { commands?: string[] }) => void;
-  registerService: (service: MoltbotPluginService) => void;
+  registerCli: (registrar: PandaPluginCliRegistrar, opts?: { commands?: string[] }) => void;
+  registerService: (service: PandaPluginService) => void;
   registerProvider: (provider: ProviderPlugin) => void;
   /**
    * Register a custom command that bypasses the LLM agent.
    * Plugin commands are processed before built-in commands and before agent invocation.
    * Use this for simple state-toggling or status commands that don't need AI reasoning.
    */
-  registerCommand: (command: MoltbotPluginCommandDefinition) => void;
+  registerCommand: (command: PandaPluginCommandDefinition) => void;
   resolvePath: (input: string) => string;
   /** Register a lifecycle hook handler */
   on: <K extends PluginHookName>(

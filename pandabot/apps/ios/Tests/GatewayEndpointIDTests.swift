@@ -1,17 +1,17 @@
-import MoltbotKit
+import PandaKit
 import Network
 import Testing
-@testable import Moltbot
+@testable import Panda
 
 @Suite struct GatewayEndpointIDTests {
     @Test func stableIDForServiceDecodesAndNormalizesName() {
         let endpoint = NWEndpoint.service(
-            name: "Moltbot\\032Gateway   \\032  Node\n",
-            type: "_moltbot-gw._tcp",
+            name: "Panda\\032Gateway   \\032  Node\n",
+            type: "_panda-gw._tcp",
             domain: "local.",
             interface: nil)
 
-        #expect(GatewayEndpointID.stableID(endpoint) == "_moltbot-gw._tcp|local.|Moltbot Gateway Node")
+        #expect(GatewayEndpointID.stableID(endpoint) == "_panda-gw._tcp|local.|Panda Gateway Node")
     }
 
     @Test func stableIDForNonServiceUsesEndpointDescription() {
@@ -21,8 +21,8 @@ import Testing
 
     @Test func prettyDescriptionDecodesBonjourEscapes() {
         let endpoint = NWEndpoint.service(
-            name: "Moltbot\\032Gateway",
-            type: "_moltbot-gw._tcp",
+            name: "Panda\\032Gateway",
+            type: "_panda-gw._tcp",
             domain: "local.",
             interface: nil)
 

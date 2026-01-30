@@ -1,12 +1,12 @@
 import Foundation
 import Testing
-@testable import Moltbot
+@testable import Panda
 
 @Suite struct VoiceWakeGatewaySyncTests {
     @Test func decodeGatewayTriggersFromJSONSanitizes() {
-        let payload = #"{"triggers":[" clawd  ","", "computer"]}"#
+        let payload = #"{"triggers":[" panda  ","", "computer"]}"#
         let triggers = VoiceWakePreferences.decodeGatewayTriggers(from: payload)
-        #expect(triggers == ["clawd", "computer"])
+        #expect(triggers == ["panda", "computer"])
     }
 
     @Test func decodeGatewayTriggersFromJSONFallsBackWhenEmpty() {

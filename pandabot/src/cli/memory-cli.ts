@@ -451,11 +451,11 @@ export async function runMemoryStatus(opts: MemoryCommandOptions) {
 export function registerMemoryCli(program: Command) {
   const memory = program
     .command("memory")
-    .description("Memory search tools")
+    .description("记忆检索工具")
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/memory", "docs.molt.bot/cli/memory")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/memory", "docs.pandabot.cc/cli/memory")}\n`,
     );
 
   memory

@@ -225,12 +225,12 @@ describe("buildServiceEnvironment", () => {
     }
     expect(env.PANDA_GATEWAY_PORT).toBe("18789");
     expect(env.PANDA_GATEWAY_TOKEN).toBe("secret");
-    expect(env.CLAWDBOT_SERVICE_MARKER).toBe("moltbot");
-    expect(env.CLAWDBOT_SERVICE_KIND).toBe("gateway");
-    expect(typeof env.CLAWDBOT_SERVICE_VERSION).toBe("string");
-    expect(env.PANDA_SYSTEMD_UNIT).toBe("moltbot-gateway.service");
+    expect(env.PANDA_SERVICE_MARKER).toBe("pandabot");
+    expect(env.PANDA_SERVICE_KIND).toBe("gateway");
+    expect(typeof env.PANDA_SERVICE_VERSION).toBe("string");
+    expect(env.PANDA_SYSTEMD_UNIT).toBe("pandabot-gateway.service");
     if (process.platform === "darwin") {
-      expect(env.PANDA_LAUNCHD_LABEL).toBe("bot.molt.gateway");
+      expect(env.PANDA_LAUNCHD_LABEL).toBe("bot.panda.gateway");
     }
   });
 
@@ -239,9 +239,9 @@ describe("buildServiceEnvironment", () => {
       env: { HOME: "/home/user", PANDA_PROFILE: "work" },
       port: 18789,
     });
-    expect(env.PANDA_SYSTEMD_UNIT).toBe("moltbot-gateway-work.service");
+    expect(env.PANDA_SYSTEMD_UNIT).toBe("pandabot-gateway-work.service");
     if (process.platform === "darwin") {
-      expect(env.PANDA_LAUNCHD_LABEL).toBe("bot.molt.work");
+      expect(env.PANDA_LAUNCHD_LABEL).toBe("bot.panda.work");
     }
   });
 });

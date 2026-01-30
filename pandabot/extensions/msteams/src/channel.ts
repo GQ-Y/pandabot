@@ -1,10 +1,10 @@
-import type { ChannelMessageActionName, ChannelPlugin, MoltbotConfig } from "clawdbot/plugin-sdk";
+import type { ChannelMessageActionName, ChannelPlugin, PandaConfig } from "pandabot/plugin-sdk";
 import {
   buildChannelConfigSchema,
   DEFAULT_ACCOUNT_ID,
   MSTeamsConfigSchema,
   PAIRING_APPROVED_MESSAGE,
-} from "clawdbot/plugin-sdk";
+} from "pandabot/plugin-sdk";
 
 import { msteamsOnboardingAdapter } from "./onboarding.js";
 import { msteamsOutbound } from "./outbound.js";
@@ -102,7 +102,7 @@ export const msteamsPlugin: ChannelPlugin<ResolvedMSTeamsAccount> = {
       },
     }),
     deleteAccount: ({ cfg }) => {
-      const next = { ...cfg } as MoltbotConfig;
+      const next = { ...cfg } as PandaConfig;
       const nextChannels = { ...cfg.channels };
       delete nextChannels.msteams;
       if (Object.keys(nextChannels).length > 0) {

@@ -173,7 +173,7 @@ async function loadValidConfig() {
   for (const issue of snapshot.issues) {
     defaultRuntime.error(`- ${issue.path || "<root>"}: ${issue.message}`);
   }
-  defaultRuntime.error(`Run \`${formatCliCommand("moltbot doctor")}\` to repair, then retry.`);
+  defaultRuntime.error(`Run \`${formatCliCommand("panda doctor")}\` to repair, then retry.`);
   defaultRuntime.exit(1);
   return snapshot;
 }
@@ -181,11 +181,11 @@ async function loadValidConfig() {
 export function registerConfigCli(program: Command) {
   const cmd = program
     .command("config")
-    .description("Config helpers (get/set/unset). Run without subcommand for the wizard.")
+    .description("配置读写（get/set/unset）。无子命令时进入配置向导。")
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/config", "docs.molt.bot/cli/config")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/config", "docs.pandabot.cc/cli/config")}\n`,
     )
     .option(
       "--section <section>",

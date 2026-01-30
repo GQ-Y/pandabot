@@ -4,9 +4,9 @@ import path from "node:path";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import { resolveMoltbotAgentDir } from "./agent-paths.js";
+import { resolvePandaAgentDir } from "./agent-paths.js";
 
-describe("resolveMoltbotAgentDir", () => {
+describe("resolvePandaAgentDir", () => {
   const previousStateDir = process.env.PANDA_STATE_DIR;
   const previousAgentDir = process.env.PANDA_AGENT_DIR;
   const previousPiAgentDir = process.env.PI_CODING_AGENT_DIR;
@@ -35,23 +35,23 @@ describe("resolveMoltbotAgentDir", () => {
   });
 
   it("defaults to the multi-agent path when no overrides are set", async () => {
-    tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-agent-"));
+    tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "panda-agent-"));
     process.env.PANDA_STATE_DIR = tempStateDir;
     delete process.env.PANDA_AGENT_DIR;
     delete process.env.PI_CODING_AGENT_DIR;
 
-    const resolved = resolveMoltbotAgentDir();
+    const resolved = resolvePandaAgentDir();
 
     expect(resolved).toBe(path.join(tempStateDir, "agents", "main", "agent"));
   });
 
   it("honors PANDA_AGENT_DIR overrides", async () => {
-    tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-agent-"));
+    tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "panda-agent-"));
     const override = path.join(tempStateDir, "agent");
     process.env.PANDA_AGENT_DIR = override;
     delete process.env.PI_CODING_AGENT_DIR;
 
-    const resolved = resolveMoltbotAgentDir();
+    const resolved = resolvePandaAgentDir();
 
     expect(resolved).toBe(path.resolve(override));
   });

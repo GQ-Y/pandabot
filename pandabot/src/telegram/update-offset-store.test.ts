@@ -8,7 +8,7 @@ import { readTelegramUpdateOffset, writeTelegramUpdateOffset } from "./update-of
 
 async function withTempStateDir<T>(fn: (dir: string) => Promise<T>) {
   const previous = process.env.PANDA_STATE_DIR;
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-telegram-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "panda-telegram-"));
   process.env.PANDA_STATE_DIR = dir;
   try {
     return await fn(dir);

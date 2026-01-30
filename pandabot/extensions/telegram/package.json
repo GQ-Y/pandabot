@@ -1,8 +1,8 @@
 {
-  "name": "@moltbot/telegram",
+  "name": "@pandabot/telegram",
   "version": "2026.1.27-beta.1",
   "type": "module",
-  "description": "Moltbot Telegram channel plugin",
+  "description": "Panda Telegram channel plugin",
   "pandabot": {
     "extensions": [
       "./index.ts"

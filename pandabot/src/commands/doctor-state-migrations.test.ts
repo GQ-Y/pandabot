@@ -4,7 +4,7 @@ import path from "node:path";
 
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import type { MoltbotConfig } from "../config/config.js";
+import type { PandaConfig } from "../config/config.js";
 import {
   autoMigrateLegacyStateDir,
   autoMigrateLegacyState,
@@ -17,7 +17,7 @@ import {
 let tempRoot: string | null = null;
 
 async function makeTempRoot() {
-  const root = await fs.promises.mkdtemp(path.join(os.tmpdir(), "moltbot-doctor-"));
+  const root = await fs.promises.mkdtemp(path.join(os.tmpdir(), "panda-doctor-"));
   tempRoot = root;
   return root;
 }
@@ -38,7 +38,7 @@ function writeJson5(filePath: string, value: unknown) {
 describe("doctor legacy state migrations", () => {
   it("migrates legacy sessions into agents/<id>/sessions", async () => {
     const root = await makeTempRoot();
-    const cfg: MoltbotConfig = {};
+    const cfg: PandaConfig = {};
     const legacySessionsDir = path.join(root, "sessions");
     fs.mkdirSync(legacySessionsDir, { recursive: true });
 
@@ -82,7 +82,7 @@ describe("doctor legacy state migrations", () => {
 
   it("migrates legacy agent dir with conflict fallback", async () => {
     const root = await makeTempRoot();
-    const cfg: MoltbotConfig = {};
+    const cfg: PandaConfig = {};
 
     const legacyAgentDir = path.join(root, "agent");
     fs.mkdirSync(legacyAgentDir, { recursive: true });
@@ -106,7 +106,7 @@ describe("doctor legacy state migrations", () => {
 
   it("auto-migrates legacy agent dir on startup", async () => {
     const root = await makeTempRoot();
-    const cfg: MoltbotConfig = {};
+    const cfg: PandaConfig = {};
 
     const legacyAgentDir = path.join(root, "agent");
     fs.mkdirSync(legacyAgentDir, { recursive: true });
@@ -128,7 +128,7 @@ describe("doctor legacy state migrations", () => {
 
   it("auto-migrates legacy sessions on startup", async () => {
     const root = await makeTempRoot();
-    const cfg: MoltbotConfig = {};
+    const cfg: PandaConfig = {};
 
     const legacySessionsDir = path.join(root, "sessions");
     fs.mkdirSync(legacySessionsDir, { recursive: true });
@@ -157,7 +157,7 @@ describe("doctor legacy state migrations", () => {
 
   it("migrates legacy WhatsApp auth files without touching oauth.json", async () => {
     const root = await makeTempRoot();
-    const cfg: MoltbotConfig = {};
+    const cfg: PandaConfig = {};
 
     const oauthDir = path.join(root, "credentials");
     fs.mkdirSync(oauthDir, { recursive: true });
@@ -180,7 +180,7 @@ describe("doctor legacy state migrations", () => {
 
   it("no-ops when nothing detected", async () => {
     const root = await makeTempRoot();
-    const cfg: MoltbotConfig = {};
+    const cfg: PandaConfig = {};
     const detected = await detectLegacyStateMigrations({
       cfg,
       env: { PANDA_STATE_DIR: root } as NodeJS.ProcessEnv,
@@ -191,7 +191,7 @@ describe("doctor legacy state migrations", () => {
 
   it("routes legacy state to the default agent entry", async () => {
     const root = await makeTempRoot();
-    const cfg: MoltbotConfig = {
+    const cfg: PandaConfig = {
       agents: { list: [{ id: "alpha", default: true }] },
     };
     const legacySessionsDir = path.join(root, "sessions");
@@ -215,7 +215,7 @@ describe("doctor legacy state migrations", () => {
 
   it("honors session.mainKey when seeding the direct-chat bucket", async () => {
     const root = await makeTempRoot();
-    const cfg: MoltbotConfig = { session: { mainKey: "work" } };
+    const cfg: PandaConfig = { session: { mainKey: "work" } };
     const legacySessionsDir = path.join(root, "sessions");
     fs.mkdirSync(legacySessionsDir, { recursive: true });
     writeJson5(path.join(legacySessionsDir, "sessions.json"), {
@@ -239,7 +239,7 @@ describe("doctor legacy state migrations", () => {
 
   it("canonicalizes legacy main keys inside the target sessions store", async () => {
     const root = await makeTempRoot();
-    const cfg: MoltbotConfig = {};
+    const cfg: PandaConfig = {};
     const targetDir = path.join(root, "agents", "main", "sessions");
     writeJson5(path.join(targetDir, "sessions.json"), {
       main: { sessionId: "legacy", updatedAt: 10 },
@@ -261,7 +261,7 @@ describe("doctor legacy state migrations", () => {
 
   it("prefers the newest entry when collapsing main aliases", async () => {
     const root = await makeTempRoot();
-    const cfg: MoltbotConfig = { session: { mainKey: "work" } };
+    const cfg: PandaConfig = { session: { mainKey: "work" } };
     const targetDir = path.join(root, "agents", "main", "sessions");
     writeJson5(path.join(targetDir, "sessions.json"), {
       "agent:main:main": { sessionId: "legacy", updatedAt: 50 },
@@ -283,7 +283,7 @@ describe("doctor legacy state migrations", () => {
 
   it("lowercases agent session keys during canonicalization", async () => {
     const root = await makeTempRoot();
-    const cfg: MoltbotConfig = {};
+    const cfg: PandaConfig = {};
     const targetDir = path.join(root, "agents", "main", "sessions");
     writeJson5(path.join(targetDir, "sessions.json"), {
       "agent:main:slack:channel:C123": { sessionId: "legacy", updatedAt: 10 },
@@ -304,7 +304,7 @@ describe("doctor legacy state migrations", () => {
 
   it("auto-migrates when only target sessions contain legacy keys", async () => {
     const root = await makeTempRoot();
-    const cfg: MoltbotConfig = {};
+    const cfg: PandaConfig = {};
     const targetDir = path.join(root, "agents", "main", "sessions");
     writeJson5(path.join(targetDir, "sessions.json"), {
       main: { sessionId: "legacy", updatedAt: 10 },
@@ -329,7 +329,7 @@ describe("doctor legacy state migrations", () => {
 
   it("auto-migrates legacy state dir to ~/.panda", async () => {
     const root = await makeTempRoot();
-    const legacyDir = path.join(root, ".clawdbot");
+    const legacyDir = path.join(root, ".pandabot");
     fs.mkdirSync(legacyDir, { recursive: true });
     fs.writeFileSync(path.join(legacyDir, "foo.txt"), "legacy", "utf-8");
 
@@ -338,7 +338,7 @@ describe("doctor legacy state migrations", () => {
       homedir: () => root,
     });
 
-    const targetDir = path.join(root, ".moltbot");
+    const targetDir = path.join(root, ".panda");
     expect(fs.existsSync(path.join(targetDir, "foo.txt"))).toBe(true);
     const legacyStat = fs.lstatSync(legacyDir);
     expect(legacyStat.isSymbolicLink()).toBe(true);
@@ -348,8 +348,8 @@ describe("doctor legacy state migrations", () => {
 
   it("skips state dir migration when target exists", async () => {
     const root = await makeTempRoot();
-    const legacyDir = path.join(root, ".clawdbot");
-    const targetDir = path.join(root, ".moltbot");
+    const legacyDir = path.join(root, ".pandabot");
+    const targetDir = path.join(root, ".panda");
     fs.mkdirSync(legacyDir, { recursive: true });
     fs.mkdirSync(targetDir, { recursive: true });
 
@@ -364,7 +364,7 @@ describe("doctor legacy state migrations", () => {
 
   it("skips state dir migration when env override is set", async () => {
     const root = await makeTempRoot();
-    const legacyDir = path.join(root, ".clawdbot");
+    const legacyDir = path.join(root, ".pandabot");
     fs.mkdirSync(legacyDir, { recursive: true });
 
     const result = await autoMigrateLegacyStateDir({

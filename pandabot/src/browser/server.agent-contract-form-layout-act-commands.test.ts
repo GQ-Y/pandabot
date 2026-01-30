@@ -94,9 +94,9 @@ vi.mock("../config/config.js", async (importOriginal) => {
         color: "#FF4500",
         attachOnly: cfgAttachOnly,
         headless: true,
-        defaultProfile: "clawd",
+        defaultProfile: "panda",
         profiles: {
-          clawd: { cdpPort: testPort + 1, color: "#FF4500" },
+          panda: { cdpPort: testPort + 1, color: "#FF4500" },
         },
       },
     }),
@@ -108,20 +108,20 @@ const launchCalls = vi.hoisted(() => [] as Array<{ port: number }>);
 vi.mock("./chrome.js", () => ({
   isChromeCdpReady: vi.fn(async () => reachable),
   isChromeReachable: vi.fn(async () => reachable),
-  launchClawdChrome: vi.fn(async (_resolved: unknown, profile: { cdpPort: number }) => {
+  launchPandaChrome: vi.fn(async (_resolved: unknown, profile: { cdpPort: number }) => {
     launchCalls.push({ port: profile.cdpPort });
     reachable = true;
     return {
       pid: 123,
       exe: { kind: "chrome", path: "/fake/chrome" },
-      userDataDir: "/tmp/clawd",
+      userDataDir: "/tmp/panda",
       cdpPort: profile.cdpPort,
       startedAt: Date.now(),
       proc,
     };
   }),
-  resolveClawdUserDataDir: vi.fn(() => "/tmp/clawd"),
-  stopClawdChrome: vi.fn(async () => {
+  resolvePandaUserDataDir: vi.fn(() => "/tmp/panda"),
+  stopPandaChrome: vi.fn(async () => {
     reachable = false;
   }),
 }));

@@ -11,11 +11,11 @@ import { runCommandWithRuntime } from "../cli-utils.js";
 export function registerMaintenanceCommands(program: Command) {
   program
     .command("doctor")
-    .description("Health checks + quick fixes for the gateway and channels")
+    .description("健康检查与网关、渠道的快速修复")
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/doctor", "docs.molt.bot/cli/doctor")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/doctor", "docs.pandabot.cc/cli/doctor")}\n`,
     )
     .option("--no-workspace-suggestions", "Disable workspace memory system suggestions", false)
     .option("--yes", "Accept defaults without prompting", false)
@@ -41,11 +41,11 @@ export function registerMaintenanceCommands(program: Command) {
 
   program
     .command("dashboard")
-    .description("Open the Control UI with your current token")
+    .description("用当前 token 打开控制台界面")
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/dashboard", "docs.molt.bot/cli/dashboard")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/dashboard", "docs.pandabot.cc/cli/dashboard")}\n`,
     )
     .option("--no-open", "Print URL but do not launch a browser", false)
     .action(async (opts) => {
@@ -58,11 +58,11 @@ export function registerMaintenanceCommands(program: Command) {
 
   program
     .command("reset")
-    .description("Reset local config/state (keeps the CLI installed)")
+    .description("重置本地配置与状态（保留已安装的 CLI）")
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/reset", "docs.molt.bot/cli/reset")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/reset", "docs.pandabot.cc/cli/reset")}\n`,
     )
     .option("--scope <scope>", "config|config+creds+sessions|full (default: interactive prompt)")
     .option("--yes", "Skip confirmation prompts", false)
@@ -81,11 +81,11 @@ export function registerMaintenanceCommands(program: Command) {
 
   program
     .command("uninstall")
-    .description("Uninstall the gateway service + local data (CLI remains)")
+    .description("卸载网关服务与本地数据（CLI 保留）")
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/uninstall", "docs.molt.bot/cli/uninstall")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/uninstall", "docs.pandabot.cc/cli/uninstall")}\n`,
     )
     .option("--service", "Remove the gateway service", false)
     .option("--state", "Remove state + config", false)

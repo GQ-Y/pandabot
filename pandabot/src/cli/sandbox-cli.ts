@@ -15,30 +15,30 @@ type CommandOptions = Record<string, unknown>;
 
 const SANDBOX_EXAMPLES = {
   main: [
-    ["moltbot sandbox list", "List all sandbox containers."],
-    ["moltbot sandbox list --browser", "List only browser containers."],
-    ["moltbot sandbox recreate --all", "Recreate all containers."],
-    ["moltbot sandbox recreate --session main", "Recreate a specific session."],
-    ["moltbot sandbox recreate --agent mybot", "Recreate agent containers."],
-    ["moltbot sandbox explain", "Explain effective sandbox config."],
+    ["panda sandbox list", "List all sandbox containers."],
+    ["panda sandbox list --browser", "List only browser containers."],
+    ["panda sandbox recreate --all", "Recreate all containers."],
+    ["panda sandbox recreate --session main", "Recreate a specific session."],
+    ["panda sandbox recreate --agent mybot", "Recreate agent containers."],
+    ["panda sandbox explain", "Explain effective sandbox config."],
   ],
   list: [
-    ["moltbot sandbox list", "List all sandbox containers."],
-    ["moltbot sandbox list --browser", "List only browser containers."],
-    ["moltbot sandbox list --json", "JSON output."],
+    ["panda sandbox list", "List all sandbox containers."],
+    ["panda sandbox list --browser", "List only browser containers."],
+    ["panda sandbox list --json", "JSON output."],
   ],
   recreate: [
-    ["moltbot sandbox recreate --all", "Recreate all containers."],
-    ["moltbot sandbox recreate --session main", "Recreate a specific session."],
-    ["moltbot sandbox recreate --agent mybot", "Recreate a specific agent (includes sub-agents)."],
-    ["moltbot sandbox recreate --browser --all", "Recreate only browser containers."],
-    ["moltbot sandbox recreate --all --force", "Skip confirmation."],
+    ["panda sandbox recreate --all", "Recreate all containers."],
+    ["panda sandbox recreate --session main", "Recreate a specific session."],
+    ["panda sandbox recreate --agent mybot", "Recreate a specific agent (includes sub-agents)."],
+    ["panda sandbox recreate --browser --all", "Recreate only browser containers."],
+    ["panda sandbox recreate --all --force", "Skip confirmation."],
   ],
   explain: [
-    ["moltbot sandbox explain", "Show effective sandbox config."],
-    ["moltbot sandbox explain --session agent:main:main", "Explain a specific session."],
-    ["moltbot sandbox explain --agent work", "Explain an agent sandbox."],
-    ["moltbot sandbox explain --json", "JSON output."],
+    ["panda sandbox explain", "Show effective sandbox config."],
+    ["panda sandbox explain --session agent:main:main", "Explain a specific session."],
+    ["panda sandbox explain --agent work", "Explain an agent sandbox."],
+    ["panda sandbox explain --json", "JSON output."],
   ],
 } as const;
 
@@ -68,7 +68,7 @@ export function registerSandboxCli(program: Command) {
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/sandbox", "docs.molt.bot/cli/sandbox")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/sandbox", "docs.pandabot.cc/cli/sandbox")}\n`,
     )
     .action(() => {
       sandbox.help({ error: true });

@@ -16,7 +16,7 @@ describe("normalizeLegacyConfigValues", () => {
 
   beforeEach(() => {
     previousOauthDir = process.env.PANDA_OAUTH_DIR;
-    tempOauthDir = fs.mkdtempSync(path.join(os.tmpdir(), "moltbot-oauth-"));
+    tempOauthDir = fs.mkdtempSync(path.join(os.tmpdir(), "panda-oauth-"));
     process.env.PANDA_OAUTH_DIR = tempOauthDir;
   });
 
@@ -94,7 +94,7 @@ describe("normalizeLegacyConfigValues", () => {
   });
 
   it("copies legacy ack reaction when authDir override exists", () => {
-    const customDir = fs.mkdtempSync(path.join(os.tmpdir(), "moltbot-wa-auth-"));
+    const customDir = fs.mkdtempSync(path.join(os.tmpdir(), "panda-wa-auth-"));
     try {
       writeCreds(customDir);
 

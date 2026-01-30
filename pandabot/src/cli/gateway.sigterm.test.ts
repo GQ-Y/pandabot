@@ -77,14 +77,14 @@ describe("gateway SIGTERM", () => {
   });
 
   it("exits 0 on SIGTERM", { timeout: 180_000 }, async () => {
-    const stateDir = fs.mkdtempSync(path.join(os.tmpdir(), "moltbot-gateway-test-"));
+    const stateDir = fs.mkdtempSync(path.join(os.tmpdir(), "panda-gateway-test-"));
     const out: string[] = [];
     const err: string[] = [];
 
     const nodeBin = process.execPath;
     const env = {
       ...process.env,
-      CLAWDBOT_NO_RESPAWN: "1",
+      PANDABOT_NO_RESPAWN: "1",
       PANDA_STATE_DIR: stateDir,
       PANDA_SKIP_CHANNELS: "1",
       PANDA_SKIP_GMAIL_WATCHER: "1",
@@ -92,7 +92,7 @@ describe("gateway SIGTERM", () => {
       PANDA_SKIP_BROWSER_CONTROL_SERVER: "1",
       PANDA_SKIP_CANVAS_HOST: "1",
     };
-    const bootstrapPath = path.join(stateDir, "moltbot-entry-bootstrap.mjs");
+    const bootstrapPath = path.join(stateDir, "panda-entry-bootstrap.mjs");
     const runLoopPath = path.resolve("src/cli/gateway-cli/run-loop.ts");
     const runtimePath = path.resolve("src/runtime.ts");
     fs.writeFileSync(

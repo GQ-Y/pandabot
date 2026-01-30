@@ -7,7 +7,7 @@ describe("resolveTelegramAutoSelectFamilyDecision", () => {
     const decision = resolveTelegramAutoSelectFamilyDecision({
       env: {
         PANDA_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY: "1",
-        CLAWDBOT_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY: "1",
+        PANDABOT_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY: "1",
       },
       nodeMajor: 22,
     });
@@ -19,12 +19,12 @@ describe("resolveTelegramAutoSelectFamilyDecision", () => {
 
   it("uses env disable when set", () => {
     const decision = resolveTelegramAutoSelectFamilyDecision({
-      env: { CLAWDBOT_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY: "1" },
+      env: { PANDABOT_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY: "1" },
       nodeMajor: 22,
     });
     expect(decision).toEqual({
       value: false,
-      source: "env:CLAWDBOT_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY",
+      source: "env:PANDABOT_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY",
     });
   });
 

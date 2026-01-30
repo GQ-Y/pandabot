@@ -1,8 +1,8 @@
 {
-  "name": "@moltbot/nextcloud-talk",
+  "name": "@pandabot/nextcloud-talk",
   "version": "2026.1.27-beta.1",
   "type": "module",
-  "description": "Moltbot Nextcloud Talk channel plugin",
+  "description": "Panda Nextcloud Talk channel plugin",
   "pandabot": {
     "extensions": [
       "./index.ts"
@@ -22,7 +22,7 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@moltbot/nextcloud-talk",
+      "npmSpec": "@pandabot/nextcloud-talk",
       "localPath": "extensions/nextcloud-talk",
       "defaultChoice": "npm"
     }

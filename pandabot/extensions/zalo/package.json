@@ -1,8 +1,8 @@
 {
-  "name": "@moltbot/zalo",
+  "name": "@pandabot/zalo",
   "version": "2026.1.27-beta.1",
   "type": "module",
-  "description": "Moltbot Zalo channel plugin",
+  "description": "Panda Zalo channel plugin",
   "pandabot": {
     "extensions": [
       "./index.ts"
@@ -21,7 +21,7 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@moltbot/zalo",
+      "npmSpec": "@pandabot/zalo",
       "localPath": "extensions/zalo",
       "defaultChoice": "npm"
     }

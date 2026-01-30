@@ -59,7 +59,7 @@ describe("writeOAuthCredentials", () => {
   });
 
   it("writes auth-profiles.json under PANDA_AGENT_DIR when set", async () => {
-    tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-oauth-"));
+    tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "panda-oauth-"));
     process.env.PANDA_STATE_DIR = tempStateDir;
     process.env.PANDA_AGENT_DIR = path.join(tempStateDir, "agent");
     process.env.PI_CODING_AGENT_DIR = process.env.PANDA_AGENT_DIR;
@@ -118,7 +118,7 @@ describe("setMinimaxApiKey", () => {
   });
 
   it("writes to PANDA_AGENT_DIR when set", async () => {
-    tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-minimax-"));
+    tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "panda-minimax-"));
     process.env.PANDA_STATE_DIR = tempStateDir;
     process.env.PANDA_AGENT_DIR = path.join(tempStateDir, "custom-agent");
     process.env.PI_CODING_AGENT_DIR = process.env.PANDA_AGENT_DIR;

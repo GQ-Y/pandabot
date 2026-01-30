@@ -24,7 +24,7 @@ export type AcpServerOptions = {
 };
 
 export const ACP_AGENT_INFO = {
-  name: "moltbot-acp",
-  title: "Moltbot ACP Gateway",
+  name: "panda-acp",
+  title: "Panda ACP Gateway",
   version: VERSION,
 };

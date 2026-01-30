@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
-import type { MoltbotConfig } from "../../config/config.js";
+import type { PandaConfig } from "../../config/config.js";
 import type { SessionEntry } from "../../config/sessions.js";
 import { resolveSessionAuthProfileOverride } from "./session-override.js";
 
@@ -23,7 +23,7 @@ async function writeAuthStore(agentDir: string) {
 
 describe("resolveSessionAuthProfileOverride", () => {
   it("keeps user override when provider alias differs", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-auth-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "panda-auth-"));
     const prevStateDir = process.env.PANDA_STATE_DIR;
     process.env.PANDA_STATE_DIR = tmpDir;
     try {
@@ -40,7 +40,7 @@ describe("resolveSessionAuthProfileOverride", () => {
       const sessionStore = { "agent:main:main": sessionEntry };
 
       const resolved = await resolveSessionAuthProfileOverride({
-        cfg: {} as MoltbotConfig,
+        cfg: {} as PandaConfig,
         provider: "z.ai",
         agentDir,
         sessionEntry,

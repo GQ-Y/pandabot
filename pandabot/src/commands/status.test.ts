@@ -94,7 +94,7 @@ vi.mock("../memory/manager.js", () => ({
         files: 2,
         chunks: 3,
         dirty: false,
-        workspaceDir: "/tmp/clawd",
+        workspaceDir: "/tmp/panda",
         dbPath: "/tmp/memory.sqlite",
         provider: "openai",
         model: "text-embedding-3-small",
@@ -204,8 +204,8 @@ vi.mock("../gateway/call.js", async (importOriginal) => {
 vi.mock("../gateway/session-utils.js", () => ({
   listAgentsForGateway: mocks.listAgentsForGateway,
 }));
-vi.mock("../infra/moltbot-root.js", () => ({
-  resolveMoltbotPackageRoot: vi.fn().mockResolvedValue("/tmp/moltbot"),
+vi.mock("../infra/panda-root.js", () => ({
+  resolvePandaPackageRoot: vi.fn().mockResolvedValue("/tmp/panda"),
 }));
 vi.mock("../infra/os-summary.js", () => ({
   resolveOsSummary: () => ({
@@ -217,11 +217,11 @@ vi.mock("../infra/os-summary.js", () => ({
 }));
 vi.mock("../infra/update-check.js", () => ({
   checkUpdateStatus: vi.fn().mockResolvedValue({
-    root: "/tmp/moltbot",
+    root: "/tmp/panda",
     installKind: "git",
     packageManager: "pnpm",
     git: {
-      root: "/tmp/moltbot",
+      root: "/tmp/panda",
       branch: "main",
       upstream: "origin/main",
       dirty: false,
@@ -232,8 +232,8 @@ vi.mock("../infra/update-check.js", () => ({
     deps: {
       manager: "pnpm",
       status: "ok",
-      lockfilePath: "/tmp/moltbot/pnpm-lock.yaml",
-      markerPath: "/tmp/moltbot/node_modules/.modules.yaml",
+      lockfilePath: "/tmp/panda/pnpm-lock.yaml",
+      markerPath: "/tmp/panda/node_modules/.modules.yaml",
     },
     registry: { latestVersion: "0.0.0" },
   }),
@@ -255,7 +255,7 @@ vi.mock("../daemon/service.js", () => ({
     readRuntime: async () => ({ status: "running", pid: 1234 }),
     readCommand: async () => ({
       programArguments: ["node", "dist/entry.js", "gateway"],
-      sourcePath: "/tmp/Library/LaunchAgents/bot.molt.gateway.plist",
+      sourcePath: "/tmp/Library/LaunchAgents/bot.panda.gateway.plist",
     }),
   }),
 }));
@@ -330,10 +330,10 @@ describe("statusCommand", () => {
     expect(
       logs.some(
         (l) =>
-          l.includes("moltbot status --all") ||
-          l.includes("moltbot --profile isolated status --all") ||
-          l.includes("moltbot status --all") ||
-          l.includes("moltbot --profile isolated status --all"),
+          l.includes("panda status --all") ||
+          l.includes("panda --profile isolated status --all") ||
+          l.includes("panda status --all") ||
+          l.includes("panda --profile isolated status --all"),
       ),
     ).toBe(true);
   });

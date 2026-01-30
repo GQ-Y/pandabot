@@ -52,7 +52,7 @@ export function resolveGatewayLogPaths(env: Record<string, string | undefined>):
 } {
   const stateDir = resolveGatewayStateDir(env);
   const logDir = path.join(stateDir, "logs");
-  const prefix = env.CLAWDBOT_LOG_PREFIX?.trim() || "gateway";
+  const prefix = env.PANDABOT_LOG_PREFIX?.trim() || "gateway";
   return {
     logDir,
     stdoutPath: path.join(logDir, `${prefix}.log`),
@@ -402,7 +402,7 @@ export async function installLaunchAgent({
     description ??
     formatGatewayServiceDescription({
       profile: env.PANDA_PROFILE,
-      version: environment?.CLAWDBOT_SERVICE_VERSION ?? env.CLAWDBOT_SERVICE_VERSION,
+      version: environment?.PANDABOT_SERVICE_VERSION ?? env.PANDABOT_SERVICE_VERSION,
     });
   const plist = buildLaunchAgentPlist({
     label,

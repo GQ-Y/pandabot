@@ -1,6 +1,6 @@
-name: Moltbot
+name: Panda
 options:
-  bundleIdPrefix: bot.molt
+  bundleIdPrefix: bot.panda
   deploymentTarget:
     iOS: "18.0"
   xcodeVersion: "16.0"
@@ -10,33 +10,33 @@ settings:
     SWIFT_VERSION: "6.0"
 
 packages:
-  MoltbotKit:
-    path: ../shared/MoltbotKit
+  PandaKit:
+    path: ../shared/PandaKit
   Swabble:
     path: ../../Swabble
 
 schemes:
-  Moltbot:
+  Panda:
     shared: true
     build:
       targets:
-        Moltbot: all
+        Panda: all
     test:
       targets:
-        - MoltbotTests
+        - PandaTests
 
 targets:
-  Moltbot:
+  Panda:
     type: application
     platform: iOS
     sources:
       - path: Sources
     dependencies:
-      - package: MoltbotKit
-      - package: MoltbotKit
-        product: MoltbotChatUI
-      - package: MoltbotKit
-        product: MoltbotProtocol
+      - package: PandaKit
+      - package: PandaKit
+        product: PandaChatUI
+      - package: PandaKit
+        product: PandaProtocol
       - package: Swabble
         product: SwabbleKit
       - sdk: AppIntents.framework
@@ -71,15 +71,15 @@ targets:
         CODE_SIGN_IDENTITY: "Apple Development"
         CODE_SIGN_STYLE: Manual
         DEVELOPMENT_TEAM: Y5PE65HELJ
-        PRODUCT_BUNDLE_IDENTIFIER: bot.molt.ios
-        PROVISIONING_PROFILE_SPECIFIER: "bot.molt.ios Development"
+        PRODUCT_BUNDLE_IDENTIFIER: bot.panda.ios
+        PROVISIONING_PROFILE_SPECIFIER: "bot.panda.ios Development"
         SWIFT_VERSION: "6.0"
         SWIFT_STRICT_CONCURRENCY: complete
         ENABLE_APPINTENTS_METADATA: NO
     info:
       path: Sources/Info.plist
       properties:
-        CFBundleDisplayName: Moltbot
+        CFBundleDisplayName: Panda
         CFBundleIconName: AppIcon
         CFBundleShortVersionString: "2026.1.27-beta.1"
         CFBundleVersion: "20260126"
@@ -88,16 +88,16 @@ targets:
           UIApplicationSupportsMultipleScenes: false
         UIBackgroundModes:
           - audio
-        NSLocalNetworkUsageDescription: Moltbot discovers and connects to your Moltbot gateway on the local network.
+        NSLocalNetworkUsageDescription: Panda discovers and connects to your Panda gateway on the local network.
         NSAppTransportSecurity:
           NSAllowsArbitraryLoadsInWebContent: true
         NSBonjourServices:
-          - _moltbot-gw._tcp
-        NSCameraUsageDescription: Moltbot can capture photos or short video clips when requested via the gateway.
-        NSLocationWhenInUseUsageDescription: Moltbot uses your location when you allow location sharing.
-        NSLocationAlwaysAndWhenInUseUsageDescription: Moltbot can share your location in the background when you enable Always.
-        NSMicrophoneUsageDescription: Moltbot needs microphone access for voice wake.
-        NSSpeechRecognitionUsageDescription: Moltbot uses on-device speech recognition for voice wake.
+          - _panda-gw._tcp
+        NSCameraUsageDescription: Panda can capture photos or short video clips when requested via the gateway.
+        NSLocationWhenInUseUsageDescription: Panda uses your location when you allow location sharing.
+        NSLocationAlwaysAndWhenInUseUsageDescription: Panda can share your location in the background when you enable Always.
+        NSMicrophoneUsageDescription: Panda needs microphone access for voice wake.
+        NSSpeechRecognitionUsageDescription: Panda uses on-device speech recognition for voice wake.
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationPortraitUpsideDown
@@ -109,26 +109,26 @@ targets:
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
 
-  MoltbotTests:
+  PandaTests:
     type: bundle.unit-test
     platform: iOS
     sources:
       - path: Tests
     dependencies:
-      - target: Moltbot
+      - target: Panda
       - package: Swabble
         product: SwabbleKit
       - sdk: AppIntents.framework
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: bot.molt.ios.tests
+        PRODUCT_BUNDLE_IDENTIFIER: bot.panda.ios.tests
         SWIFT_VERSION: "6.0"
         SWIFT_STRICT_CONCURRENCY: complete
-        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Moltbot.app/Moltbot"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Panda.app/Panda"
         BUNDLE_LOADER: "$(TEST_HOST)"
     info:
       path: Tests/Info.plist
       properties:
-        CFBundleDisplayName: MoltbotTests
+        CFBundleDisplayName: PandaTests
         CFBundleShortVersionString: "2026.1.27-beta.1"
         CFBundleVersion: "20260126"

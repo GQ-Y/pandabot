@@ -92,9 +92,9 @@ vi.mock("../config/config.js", async (importOriginal) => {
         color: "#FF4500",
         attachOnly: cfgAttachOnly,
         headless: true,
-        defaultProfile: "clawd",
+        defaultProfile: "panda",
         profiles: {
-          clawd: { cdpPort: testPort + 1, color: "#FF4500" },
+          panda: { cdpPort: testPort + 1, color: "#FF4500" },
         },
       },
     }),
@@ -106,20 +106,20 @@ const launchCalls = vi.hoisted(() => [] as Array<{ port: number }>);
 vi.mock("./chrome.js", () => ({
   isChromeCdpReady: vi.fn(async () => reachable),
   isChromeReachable: vi.fn(async () => reachable),
-  launchClawdChrome: vi.fn(async (_resolved: unknown, profile: { cdpPort: number }) => {
+  launchPandaChrome: vi.fn(async (_resolved: unknown, profile: { cdpPort: number }) => {
     launchCalls.push({ port: profile.cdpPort });
     reachable = true;
     return {
       pid: 123,
       exe: { kind: "chrome", path: "/fake/chrome" },
-      userDataDir: "/tmp/clawd",
+      userDataDir: "/tmp/panda",
       cdpPort: profile.cdpPort,
       startedAt: Date.now(),
       proc,
     };
   }),
-  resolveClawdUserDataDir: vi.fn(() => "/tmp/clawd"),
-  stopClawdChrome: vi.fn(async () => {
+  resolvePandaUserDataDir: vi.fn(() => "/tmp/panda"),
+  stopPandaChrome: vi.fn(async () => {
     reachable = false;
   }),
 }));
@@ -348,11 +348,11 @@ describe("profile CRUD endpoints", () => {
     await startBrowserControlServerFromConfig();
     const base = `http://127.0.0.1:${testPort}`;
 
-    // "clawd" already exists as the default profile
+    // "panda" already exists as the default profile
     const result = await realFetch(`${base}/profiles/create`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: "clawd" }),
+      body: JSON.stringify({ name: "panda" }),
     });
     expect(result.status).toBe(409);
     const body = (await result.json()) as { error: string };
@@ -413,8 +413,8 @@ describe("profile CRUD endpoints", () => {
     await startBrowserControlServerFromConfig();
     const base = `http://127.0.0.1:${testPort}`;
 
-    // clawd is the default profile
-    const result = await realFetch(`${base}/profiles/clawd`, {
+    // panda is the default profile
+    const result = await realFetch(`${base}/profiles/panda`, {
       method: "DELETE",
     });
     expect(result.status).toBe(400);

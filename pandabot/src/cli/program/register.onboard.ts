@@ -34,13 +34,13 @@ function resolveInstallDaemonFlag(
 export function registerOnboardCommand(program: Command) {
   program
     .command("onboard")
-    .description("Interactive wizard to set up the gateway, workspace, and skills")
+    .description("交互式向导：配置网关、工作区与技能")
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/onboard", "docs.molt.bot/cli/onboard")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/onboard", "docs.pandabot.cc/cli/onboard")}\n`,
     )
-    .option("--workspace <dir>", "Agent workspace directory (default: ~/clawd)")
+    .option("--workspace <dir>", "Agent workspace directory (default: ~/panda)")
     .option("--reset", "Reset config + credentials + sessions + workspace before running wizard")
     .option("--non-interactive", "Run without prompts", false)
     .option(

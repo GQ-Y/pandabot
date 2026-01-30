@@ -88,8 +88,8 @@ describe("daemon-cli coverage", () => {
   };
 
   beforeEach(() => {
-    process.env.PANDA_STATE_DIR = "/tmp/moltbot-cli-state";
-    process.env.PANDA_CONFIG_PATH = "/tmp/moltbot-cli-state/moltbot.json";
+    process.env.PANDA_STATE_DIR = "/tmp/panda-cli-state";
+    process.env.PANDA_CONFIG_PATH = "/tmp/panda-cli-state/panda.json";
     delete process.env.PANDA_GATEWAY_PORT;
     delete process.env.PANDA_PROFILE;
     serviceReadCommand.mockResolvedValue(null);
@@ -141,11 +141,11 @@ describe("daemon-cli coverage", () => {
       programArguments: ["/bin/node", "cli", "gateway", "--port", "19001"],
       environment: {
         PANDA_PROFILE: "dev",
-        PANDA_STATE_DIR: "/tmp/moltbot-daemon-state",
-        PANDA_CONFIG_PATH: "/tmp/moltbot-daemon-state/moltbot.json",
+        PANDA_STATE_DIR: "/tmp/panda-daemon-state",
+        PANDA_CONFIG_PATH: "/tmp/panda-daemon-state/panda.json",
         PANDA_GATEWAY_PORT: "19001",
       },
-      sourcePath: "/tmp/bot.molt.gateway.plist",
+      sourcePath: "/tmp/bot.panda.gateway.plist",
     });
 
     const { registerDaemonCli } = await import("./daemon-cli.js");

@@ -26,7 +26,7 @@ type GatewayWsLogStyle = "auto" | "full" | "compact";
 
 async function main() {
   if (hasFlag(args, "--version") || hasFlag(args, "-v")) {
-    // Match `moltbot --version` behavior for Swift env/version checks.
+    // Match `panda --version` behavior for Swift env/version checks.
     // Keep output a single line.
     console.log(BUNDLED_VERSION);
     process.exit(0);
@@ -86,7 +86,7 @@ async function main() {
 
   const bindRaw =
     argValue(args, "--bind") ??
-    process.env.CLAWDBOT_GATEWAY_BIND ??
+    process.env.PANDABOT_GATEWAY_BIND ??
     cfg.gateway?.bind ??
     "loopback";
   const bind =
@@ -211,7 +211,7 @@ async function main() {
 
 void main().catch((err) => {
   console.error(
-    "[moltbot] Gateway daemon failed:",
+    "[panda] Gateway daemon failed:",
     err instanceof Error ? (err.stack ?? err.message) : err,
   );
   process.exit(1);

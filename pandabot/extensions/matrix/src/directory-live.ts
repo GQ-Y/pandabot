@@ -1,4 +1,4 @@
-import type { ChannelDirectoryEntry } from "clawdbot/plugin-sdk";
+import type { ChannelDirectoryEntry } from "pandabot/plugin-sdk";
 
 import { resolveMatrixAuth } from "./matrix/client.js";
 

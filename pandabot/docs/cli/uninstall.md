@@ -1,17 +1,17 @@
 ---
-summary: "CLI reference for `moltbot uninstall` (remove gateway service + local data)"
+summary: "CLI reference for `panda uninstall` (remove gateway service + local data)"
 read_when:
   - You want to remove the gateway service and/or local state
   - You want a dry-run first
 ---
 
-# `moltbot uninstall`
+# `panda uninstall`
 
 Uninstall the gateway service + local data (CLI remains).
 
 ```bash
-moltbot uninstall
-moltbot uninstall --all --yes
-moltbot uninstall --dry-run
+panda uninstall
+panda uninstall --all --yes
+panda uninstall --dry-run
 ```
 

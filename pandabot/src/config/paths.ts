@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { MoltbotConfig } from "./types.js";
+import type { PandaConfig } from "./types.js";
 
 /**
  * Nix mode detection: When PANDA_NIX_MODE=1, the gateway is running under Nix.
@@ -11,32 +11,22 @@ import type { MoltbotConfig } from "./types.js";
  * - Config is managed externally (read-only from Nix perspective)
  */
 export function resolveIsNixMode(env: NodeJS.ProcessEnv = process.env): boolean {
-  return env.PANDA_NIX_MODE === "1" || env.PANDA_NIX_MODE === "1" || env.PANDA_NIX_MODE === "1";
+  return env.PANDA_NIX_MODE === "1";
 }
 
 export const isNixMode = resolveIsNixMode();
 
-const LEGACY_STATE_DIRNAME_CLAWDBOT = ".clawdbot";
-const LEGACY_STATE_DIRNAME_MOLTBOT = ".moltbot";
 const STATE_DIRNAME = ".panda";
+const LEGACY_STATE_DIRNAME = ".pandabot";
 const CONFIG_FILENAME = "panda.json";
-const LEGACY_CONFIG_FILENAME_MOLTBOT = "moltbot.json";
-const LEGACY_CONFIG_FILENAME_CLAWDBOT = "clawdbot.json";
-
-function legacyClawdbotStateDir(homedir: () => string = os.homedir): string {
-  return path.join(homedir(), LEGACY_STATE_DIRNAME_CLAWDBOT);
-}
-
-function legacyMoltbotStateDir(homedir: () => string = os.homedir): string {
-  return path.join(homedir(), LEGACY_STATE_DIRNAME_MOLTBOT);
-}
+const LEGACY_CONFIG_FILENAME = "pandabot.json";
 
 function pandaStateDir(homedir: () => string = os.homedir): string {
   return path.join(homedir(), STATE_DIRNAME);
 }
 
 export function resolveLegacyStateDir(homedir: () => string = os.homedir): string {
-  return legacyClawdbotStateDir(homedir);
+  return path.join(homedir(), LEGACY_STATE_DIRNAME);
 }
 
 export function resolveNewStateDir(homedir: () => string = os.homedir): string {
@@ -45,26 +35,17 @@ export function resolveNewStateDir(homedir: () => string = os.homedir): string {
 
 /**
  * State directory for mutable data (sessions, logs, caches).
- * Can be overridden via PANDA_STATE_DIR (preferred) or PANDA_STATE_DIR/PANDA_STATE_DIR (legacy).
- * Default: ~/.panda
- * If ~/.panda doesn't exist but ~/.panda or ~/.panda exists, use those for compatibility.
+ * Overridable via PANDA_STATE_DIR (preferred) or PANDABOT_STATE_DIR (legacy). Default: ~/.panda
  */
 export function resolveStateDir(
   env: NodeJS.ProcessEnv = process.env,
   homedir: () => string = os.homedir,
 ): string {
-  const override = env.PANDA_STATE_DIR?.trim() || env.PANDA_STATE_DIR?.trim() || env.PANDA_STATE_DIR?.trim();
+  const override = env.PANDA_STATE_DIR?.trim();
   if (override) return resolveUserPath(override);
-  const pandaDir = pandaStateDir(homedir);
-  const moltbotDir = legacyMoltbotStateDir(homedir);
-  const clawdbotDir = legacyClawdbotStateDir(homedir);
-  const hasPanda = fs.existsSync(pandaDir);
-  const hasMoltbot = fs.existsSync(moltbotDir);
-  const hasClawdbot = fs.existsSync(clawdbotDir);
-  if (hasPanda) return pandaDir;
-  if (hasMoltbot) return moltbotDir;
-  if (hasClawdbot) return clawdbotDir;
-  return pandaDir;
+  const legacyOverride = env.PANDABOT_STATE_DIR?.trim();
+  if (legacyOverride) return resolveUserPath(legacyOverride);
+  return pandaStateDir(homedir);
 }
 
 function resolveUserPath(input: string): string {
@@ -81,14 +62,13 @@ export const STATE_DIR = resolveStateDir();
 
 /**
  * Config file path (JSON5).
- * Can be overridden via PANDA_CONFIG_PATH (preferred) or PANDA_CONFIG_PATH/PANDA_CONFIG_PATH (legacy).
- * Default: ~/.panda/panda.json (or $*_STATE_DIR/panda.json)
+ * Overridable via PANDA_CONFIG_PATH. Default: ~/.panda/panda.json (or $PANDA_STATE_DIR/panda.json)
  */
 export function resolveCanonicalConfigPath(
   env: NodeJS.ProcessEnv = process.env,
   stateDir: string = resolveStateDir(env, os.homedir),
 ): string {
-  const override = env.PANDA_CONFIG_PATH?.trim() || env.PANDA_CONFIG_PATH?.trim() || env.PANDA_CONFIG_PATH?.trim();
+  const override = env.PANDA_CONFIG_PATH?.trim();
   if (override) return resolveUserPath(override);
   return path.join(stateDir, CONFIG_FILENAME);
 }
@@ -114,77 +94,38 @@ export function resolveConfigPathCandidate(
 }
 
 /**
- * Active config path (prefers existing legacy/new config files).
+ * Active config path.
  */
 export function resolveConfigPath(
   env: NodeJS.ProcessEnv = process.env,
   stateDir: string = resolveStateDir(env, os.homedir),
-  homedir: () => string = os.homedir,
+  _homedir: () => string = os.homedir,
 ): string {
-  const override = env.PANDA_CONFIG_PATH?.trim() || env.PANDA_CONFIG_PATH?.trim() || env.PANDA_CONFIG_PATH?.trim();
+  const override = env.PANDA_CONFIG_PATH?.trim();
   if (override) return resolveUserPath(override);
-  const stateOverride = env.PANDA_STATE_DIR?.trim() || env.PANDA_STATE_DIR?.trim() || env.PANDA_STATE_DIR?.trim();
-  const candidates = [
-    path.join(stateDir, CONFIG_FILENAME),
-    path.join(stateDir, LEGACY_CONFIG_FILENAME_MOLTBOT),
-    path.join(stateDir, LEGACY_CONFIG_FILENAME_CLAWDBOT),
-  ];
-  const existing = candidates.find((candidate) => {
-    try {
-      return fs.existsSync(candidate);
-    } catch {
-      return false;
-    }
-  });
-  if (existing) return existing;
-  if (stateOverride) return path.join(stateDir, CONFIG_FILENAME);
-  const defaultStateDir = resolveStateDir(env, homedir);
-  if (path.resolve(stateDir) === path.resolve(defaultStateDir)) {
-    return resolveConfigPathCandidate(env, homedir);
-  }
   return path.join(stateDir, CONFIG_FILENAME);
 }
 
 export const CONFIG_PATH = resolveConfigPathCandidate();
 
 /**
- * Resolve default config path candidates across new + legacy locations.
- * Order: explicit config path → state-dir-derived paths → new default → legacy default.
+ * Resolve default config path candidates. Order: explicit PANDA_CONFIG_PATH → state dir + panda.json → legacy dir + panda.json → legacy dir + pandabot.json.
  */
 export function resolveDefaultConfigCandidates(
   env: NodeJS.ProcessEnv = process.env,
   homedir: () => string = os.homedir,
 ): string[] {
-  const explicit = env.PANDA_CONFIG_PATH?.trim() || env.MOLTBOT_CONFIG_PATH?.trim() || env.CLAWDBOT_CONFIG_PATH?.trim();
+  const explicit = env.PANDA_CONFIG_PATH?.trim();
   if (explicit) return [resolveUserPath(explicit)];
 
   const candidates: string[] = [];
   const pandaStateDirEnv = env.PANDA_STATE_DIR?.trim();
   if (pandaStateDirEnv) {
     candidates.push(path.join(resolveUserPath(pandaStateDirEnv), CONFIG_FILENAME));
-    candidates.push(path.join(resolveUserPath(pandaStateDirEnv), LEGACY_CONFIG_FILENAME_MOLTBOT));
-    candidates.push(path.join(resolveUserPath(pandaStateDirEnv), LEGACY_CONFIG_FILENAME_CLAWDBOT));
   }
-  const moltbotStateDirEnv = env.MOLTBOT_STATE_DIR?.trim();
-  if (moltbotStateDirEnv) {
-    candidates.push(path.join(resolveUserPath(moltbotStateDirEnv), CONFIG_FILENAME));
-    candidates.push(path.join(resolveUserPath(moltbotStateDirEnv), LEGACY_CONFIG_FILENAME_MOLTBOT));
-    candidates.push(path.join(resolveUserPath(moltbotStateDirEnv), LEGACY_CONFIG_FILENAME_CLAWDBOT));
-  }
-  const clawdbotStateDirEnv = env.CLAWDBOT_STATE_DIR?.trim();
-  if (clawdbotStateDirEnv) {
-    candidates.push(path.join(resolveUserPath(clawdbotStateDirEnv), CONFIG_FILENAME));
-    candidates.push(path.join(resolveUserPath(clawdbotStateDirEnv), LEGACY_CONFIG_FILENAME_MOLTBOT));
-    candidates.push(path.join(resolveUserPath(clawdbotStateDirEnv), LEGACY_CONFIG_FILENAME_CLAWDBOT));
-  }
-
   candidates.push(path.join(pandaStateDir(homedir), CONFIG_FILENAME));
-  candidates.push(path.join(pandaStateDir(homedir), LEGACY_CONFIG_FILENAME_MOLTBOT));
-  candidates.push(path.join(pandaStateDir(homedir), LEGACY_CONFIG_FILENAME_CLAWDBOT));
-  candidates.push(path.join(legacyMoltbotStateDir(homedir), CONFIG_FILENAME));
-  candidates.push(path.join(legacyMoltbotStateDir(homedir), LEGACY_CONFIG_FILENAME_MOLTBOT));
-  candidates.push(path.join(legacyClawdbotStateDir(homedir), CONFIG_FILENAME));
-  candidates.push(path.join(legacyClawdbotStateDir(homedir), LEGACY_CONFIG_FILENAME_CLAWDBOT));
+  candidates.push(path.join(homedir(), LEGACY_STATE_DIRNAME, CONFIG_FILENAME));
+  candidates.push(path.join(homedir(), LEGACY_STATE_DIRNAME, LEGACY_CONFIG_FILENAME));
   return candidates;
 }
 
@@ -192,12 +133,12 @@ export const DEFAULT_GATEWAY_PORT = 18789;
 
 /**
  * Gateway lock directory (ephemeral).
- * Default: os.tmpdir()/moltbot-<uid> (uid suffix when available).
+ * Default: os.tmpdir()/pandabot-<uid> (uid suffix when available).
  */
 export function resolveGatewayLockDir(tmpdir: () => string = os.tmpdir): string {
   const base = tmpdir();
   const uid = typeof process.getuid === "function" ? process.getuid() : undefined;
-  const suffix = uid != null ? `moltbot-${uid}` : "moltbot";
+  const suffix = uid != null ? `pandabot-${uid}` : "pandabot";
   return path.join(base, suffix);
 }
 
@@ -228,7 +169,7 @@ export function resolveOAuthPath(
 }
 
 export function resolveGatewayPort(
-  cfg?: MoltbotConfig,
+  cfg?: PandaConfig,
   env: NodeJS.ProcessEnv = process.env,
 ): number {
   const envRaw = env.PANDA_GATEWAY_PORT?.trim();

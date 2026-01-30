@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 
 import { resolveDefaultAgentId } from "../agents/agent-scope.js";
-import type { MoltbotConfig } from "../config/config.js";
+import type { PandaConfig } from "../config/config.js";
 import {
   resolveLegacyStateDir,
   resolveNewStateDir,
@@ -346,14 +346,14 @@ export async function autoMigrateLegacyStateDir(params: {
       return { migrated: false, skipped: false, changes, warnings };
     }
     warnings.push(
-      `Legacy state dir is a symlink (${legacyDir} → ${legacyTarget ?? "unknown"}); skipping auto-migration.`,
+      `旧版状态目录为符号链接（${legacyDir} → ${legacyTarget ?? "未知"}），已跳过自动迁移。`,
     );
     return { migrated: false, skipped: false, changes, warnings };
   }
 
   if (isDirPath(targetDir)) {
     warnings.push(
-      `State dir migration skipped: target already exists (${targetDir}). Remove or merge manually.`,
+      `状态目录迁移已跳过：目标已存在（${targetDir}）。请手动删除或合并。`,
     );
     return { migrated: false, skipped: false, changes, warnings };
   }
@@ -361,7 +361,7 @@ export async function autoMigrateLegacyStateDir(params: {
   try {
     fs.renameSync(legacyDir, targetDir);
   } catch (err) {
-    warnings.push(`Failed to move legacy state dir (${legacyDir} → ${targetDir}): ${String(err)}`);
+    warnings.push(`移动旧版状态目录失败（${legacyDir} → ${targetDir}）：${String(err)}`);
     return { migrated: false, skipped: false, changes, warnings };
   }
 
@@ -380,15 +380,15 @@ export async function autoMigrateLegacyStateDir(params: {
       try {
         fs.renameSync(targetDir, legacyDir);
         warnings.push(
-          `State dir migration rolled back (failed to link legacy path): ${String(fallbackErr)}`,
+          `状态目录迁移已回滚（无法链接旧路径）：${String(fallbackErr)}`,
         );
         return { migrated: false, skipped: false, changes: [], warnings };
       } catch (rollbackErr) {
         warnings.push(
-          `State dir moved but failed to link legacy path (${legacyDir} → ${targetDir}): ${String(fallbackErr)}`,
+          `状态目录已移动但无法链接旧路径（${legacyDir} → ${targetDir}）：${String(fallbackErr)}`,
         );
         warnings.push(
-          `Rollback failed; set PANDA_STATE_DIR=${targetDir} to avoid split state: ${String(rollbackErr)}`,
+          `回滚失败；请设置 PANDA_STATE_DIR=${targetDir} 以避免状态分裂：${String(rollbackErr)}`,
         );
         changes.push(`State dir: ${legacyDir} → ${targetDir}`);
       }
@@ -399,7 +399,7 @@ export async function autoMigrateLegacyStateDir(params: {
 }
 
 export async function detectLegacyStateMigrations(params: {
-  cfg: MoltbotConfig;
+  cfg: PandaConfig;
   env?: NodeJS.ProcessEnv;
   homedir?: () => string;
 }): Promise<LegacyStateDetection> {
@@ -690,7 +690,7 @@ export async function runLegacyStateMigrations(params: {
 }
 
 export async function autoMigrateLegacyAgentDir(params: {
-  cfg: MoltbotConfig;
+  cfg: PandaConfig;
   env?: NodeJS.ProcessEnv;
   homedir?: () => string;
   log?: MigrationLogger;
@@ -705,7 +705,7 @@ export async function autoMigrateLegacyAgentDir(params: {
 }
 
 export async function autoMigrateLegacyState(params: {
-  cfg: MoltbotConfig;
+  cfg: PandaConfig;
   env?: NodeJS.ProcessEnv;
   homedir?: () => string;
   log?: MigrationLogger;

@@ -203,7 +203,7 @@ export async function installSystemdService({
     description ??
     formatGatewayServiceDescription({
       profile: env.PANDA_PROFILE,
-      version: environment?.CLAWDBOT_SERVICE_VERSION ?? env.CLAWDBOT_SERVICE_VERSION,
+      version: environment?.PANDABOT_SERVICE_VERSION ?? env.PANDABOT_SERVICE_VERSION,
     });
   const unit = buildSystemdUnit({
     description: serviceDescription,

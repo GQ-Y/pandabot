@@ -26,7 +26,7 @@ beforeEach(() => {
 
   readConfigFileSnapshot.mockReset();
   writeConfigFile.mockReset().mockResolvedValue(undefined);
-  resolveMoltbotPackageRoot.mockReset().mockResolvedValue(null);
+  resolvePandaPackageRoot.mockReset().mockResolvedValue(null);
   runGatewayUpdate.mockReset().mockResolvedValue({
     status: "skipped",
     mode: "unknown",
@@ -34,7 +34,7 @@ beforeEach(() => {
     durationMs: 0,
   });
   legacyReadConfigFileSnapshot.mockReset().mockResolvedValue({
-    path: "/tmp/moltbot.json",
+    path: "/tmp/panda.json",
     exists: false,
     raw: null,
     parsed: {},
@@ -78,7 +78,7 @@ beforeEach(() => {
   originalStateDir = process.env.PANDA_STATE_DIR;
   originalUpdateInProgress = process.env.PANDA_UPDATE_IN_PROGRESS;
   process.env.PANDA_UPDATE_IN_PROGRESS = "1";
-  tempStateDir = fs.mkdtempSync(path.join(os.tmpdir(), "moltbot-doctor-state-"));
+  tempStateDir = fs.mkdtempSync(path.join(os.tmpdir(), "panda-doctor-state-"));
   process.env.PANDA_STATE_DIR = tempStateDir;
   fs.mkdirSync(path.join(tempStateDir, "agents", "main", "sessions"), {
     recursive: true,
@@ -109,7 +109,7 @@ const confirm = vi.fn().mockResolvedValue(true);
 const select = vi.fn().mockResolvedValue("node");
 const note = vi.fn();
 const writeConfigFile = vi.fn().mockResolvedValue(undefined);
-const resolveMoltbotPackageRoot = vi.fn().mockResolvedValue(null);
+const resolvePandaPackageRoot = vi.fn().mockResolvedValue(null);
 const runGatewayUpdate = vi.fn().mockResolvedValue({
   status: "skipped",
   mode: "unknown",
@@ -133,7 +133,7 @@ const runCommandWithTimeout = vi.fn().mockResolvedValue({
 const ensureAuthProfileStore = vi.fn().mockReturnValue({ version: 1, profiles: {} });
 
 const legacyReadConfigFileSnapshot = vi.fn().mockResolvedValue({
-  path: "/tmp/moltbot.json",
+  path: "/tmp/panda.json",
   exists: false,
   raw: null,
   parsed: {},
@@ -173,14 +173,14 @@ vi.mock("../agents/skills-status.js", () => ({
 }));
 
 vi.mock("../plugins/loader.js", () => ({
-  loadMoltbotPlugins: () => ({ plugins: [], diagnostics: [] }),
+  loadPandaPlugins: () => ({ plugins: [], diagnostics: [] }),
 }));
 
 vi.mock("../config/config.js", async (importOriginal) => {
   const actual = await importOriginal();
   return {
     ...actual,
-    CONFIG_PATH: "/tmp/moltbot.json",
+    CONFIG_PATH: "/tmp/panda.json",
     createConfigIO,
     readConfigFileSnapshot,
     writeConfigFile,
@@ -215,8 +215,8 @@ vi.mock("../process/exec.js", () => ({
   runCommandWithTimeout,
 }));
 
-vi.mock("../infra/moltbot-root.js", () => ({
-  resolveMoltbotPackageRoot,
+vi.mock("../infra/panda-root.js", () => ({
+  resolvePandaPackageRoot,
 }));
 
 vi.mock("../infra/update-runner.js", () => ({
@@ -336,7 +336,7 @@ vi.mock("./doctor-update.js", () => ({
 describe("doctor command", () => {
   it("warns when the state directory is missing", async () => {
     readConfigFileSnapshot.mockResolvedValue({
-      path: "/tmp/moltbot.json",
+      path: "/tmp/panda.json",
       exists: true,
       raw: "{}",
       parsed: {},
@@ -346,7 +346,7 @@ describe("doctor command", () => {
       legacyIssues: [],
     });
 
-    const missingDir = fs.mkdtempSync(path.join(os.tmpdir(), "moltbot-missing-state-"));
+    const missingDir = fs.mkdtempSync(path.join(os.tmpdir(), "panda-missing-state-"));
     fs.rmSync(missingDir, { recursive: true, force: true });
     process.env.PANDA_STATE_DIR = missingDir;
     note.mockClear();
@@ -364,7 +364,7 @@ describe("doctor command", () => {
 
   it("warns about opencode provider overrides", async () => {
     readConfigFileSnapshot.mockResolvedValue({
-      path: "/tmp/moltbot.json",
+      path: "/tmp/panda.json",
       exists: true,
       raw: "{}",
       parsed: {},
@@ -398,7 +398,7 @@ describe("doctor command", () => {
 
   it("skips gateway auth warning when PANDA_GATEWAY_TOKEN is set", async () => {
     readConfigFileSnapshot.mockResolvedValue({
-      path: "/tmp/moltbot.json",
+      path: "/tmp/panda.json",
       exists: true,
       raw: "{}",
       parsed: {},

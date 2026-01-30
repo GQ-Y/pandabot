@@ -1,10 +1,10 @@
 import Foundation
 import Testing
-@testable import Moltbot
+@testable import Panda
 
 @Suite struct VoiceWakePreferencesTests {
     @Test func sanitizeTriggerWordsTrimsAndDropsEmpty() {
-        #expect(VoiceWakePreferences.sanitizeTriggerWords([" clawd ", "", " \nclaude\t"]) == ["clawd", "claude"])
+        #expect(VoiceWakePreferences.sanitizeTriggerWords([" panda ", "", " \nclaude\t"]) == ["panda", "claude"])
     }
 
     @Test func sanitizeTriggerWordsFallsBackToDefaultsWhenEmpty() {
@@ -24,7 +24,7 @@ import Testing
     }
 
     @Test func displayStringUsesSanitizedWords() {
-        #expect(VoiceWakePreferences.displayString(for: ["", " "]) == "clawd, claude")
+        #expect(VoiceWakePreferences.displayString(for: ["", " "]) == "panda, claude")
     }
 
     @Test func loadAndSaveTriggerWordsRoundTrip() {

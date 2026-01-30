@@ -18,20 +18,18 @@ export async function applyAuthChoiceAnthropic(
   ) {
     let nextConfig = params.config;
     await params.prompter.note(
-      ["Run `claude setup-token` in your terminal.", "Then paste the generated token below."].join(
-        "\n",
-      ),
+      ["请在终端运行 `claude setup-token`。", "然后在下方粘贴生成的令牌。"].join("\n"),
       "Anthropic setup-token",
     );
 
     const tokenRaw = await params.prompter.text({
-      message: "Paste Anthropic setup-token",
+      message: "粘贴 Anthropic setup-token",
       validate: (value) => validateAnthropicSetupToken(String(value ?? "")),
     });
     const token = String(tokenRaw).trim();
 
     const profileNameRaw = await params.prompter.text({
-      message: "Token name (blank = default)",
+      message: "令牌名称（留空使用 default）",
       placeholder: "default",
     });
     const provider = "anthropic";
@@ -74,7 +72,7 @@ export async function applyAuthChoiceAnthropic(
 
     if (!hasCredential && envKey) {
       const useExisting = await params.prompter.confirm({
-        message: `Use existing ANTHROPIC_API_KEY (env, ${formatApiKeyPreview(envKey)})?`,
+        message: `使用已有的 ANTHROPIC_API_KEY（env，${formatApiKeyPreview(envKey)}）？`,
         initialValue: true,
       });
       if (useExisting) {
@@ -84,7 +82,7 @@ export async function applyAuthChoiceAnthropic(
     }
     if (!hasCredential) {
       const key = await params.prompter.text({
-        message: "Enter Anthropic API key",
+        message: "请输入 Anthropic API 密钥",
         validate: validateApiKeyInput,
       });
       await setAnthropicApiKey(normalizeApiKeyInput(String(key)), params.agentDir);

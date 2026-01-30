@@ -1,8 +1,8 @@
 {
-  "name": "@moltbot/tlon",
+  "name": "@pandabot/tlon",
   "version": "2026.1.27-beta.1",
   "type": "module",
-  "description": "Moltbot Tlon/Urbit channel plugin",
+  "description": "Panda Tlon/Urbit channel plugin",
   "pandabot": {
     "extensions": [
       "./index.ts"
@@ -18,7 +18,7 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@moltbot/tlon",
+      "npmSpec": "@pandabot/tlon",
       "localPath": "extensions/tlon",
       "defaultChoice": "npm"
     }

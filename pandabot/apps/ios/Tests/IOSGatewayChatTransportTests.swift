@@ -1,6 +1,6 @@
-import MoltbotKit
+import PandaKit
 import Testing
-@testable import Moltbot
+@testable import Panda
 
 @Suite struct IOSGatewayChatTransportTests {
     @Test func requestsFailFastWhenGatewayNotConnected() async {

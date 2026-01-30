@@ -50,7 +50,7 @@ function restoreExtraEnv(snapshot: Record<string, string | undefined>) {
 function setTempHome(base: string) {
   process.env.HOME = base;
   process.env.USERPROFILE = base;
-  process.env.PANDA_STATE_DIR = path.join(base, ".clawdbot");
+  process.env.PANDA_STATE_DIR = path.join(base, ".pandabot");
 
   if (process.platform !== "win32") return;
   const match = base.match(/^([A-Za-z]:)(.*)$/);
@@ -63,7 +63,7 @@ export async function withTempHome<T>(
   fn: (home: string) => Promise<T>,
   opts: { env?: Record<string, EnvValue>; prefix?: string } = {},
 ): Promise<T> {
-  const base = await fs.mkdtemp(path.join(os.tmpdir(), opts.prefix ?? "moltbot-test-home-"));
+  const base = await fs.mkdtemp(path.join(os.tmpdir(), opts.prefix ?? "panda-test-home-"));
   const snapshot = snapshotEnv();
   const envKeys = Object.keys(opts.env ?? {});
   for (const key of envKeys) {
@@ -74,7 +74,7 @@ export async function withTempHome<T>(
   const envSnapshot = snapshotExtraEnv(envKeys);
 
   setTempHome(base);
-  await fs.mkdir(path.join(base, ".clawdbot", "agents", "main", "sessions"), { recursive: true });
+  await fs.mkdir(path.join(base, ".pandabot", "agents", "main", "sessions"), { recursive: true });
   if (opts.env) {
     for (const [key, raw] of Object.entries(opts.env)) {
       const value = typeof raw === "function" ? raw(base) : raw;

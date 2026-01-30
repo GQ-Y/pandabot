@@ -1,8 +1,8 @@
 {
-  "name": "@moltbot/zalouser",
+  "name": "@pandabot/zalouser",
   "version": "2026.1.27-beta.1",
   "type": "module",
-  "description": "Moltbot Zalo Personal Account plugin via zca-cli",
+  "description": "Panda Zalo Personal Account plugin via zca-cli",
   "dependencies": {
     "pandabot": "workspace:*",
     "@sinclair/typebox": "0.34.47"
@@ -25,7 +25,7 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@moltbot/zalouser",
+      "npmSpec": "@pandabot/zalouser",
       "localPath": "extensions/zalouser",
       "defaultChoice": "npm"
     }

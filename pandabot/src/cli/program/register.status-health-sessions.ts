@@ -27,7 +27,7 @@ function parseTimeoutMs(timeout: unknown): number | null | undefined {
 export function registerStatusHealthSessionsCommands(program: Command) {
   program
     .command("status")
-    .description("Show channel health and recent session recipients")
+    .description("查看渠道健康与近期会话对象")
     .option("--json", "Output JSON instead of text", false)
     .option("--all", "Full diagnosis (read-only, pasteable)", false)
     .option("--usage", "Show model provider usage/quota snapshots", false)
@@ -39,21 +39,21 @@ export function registerStatusHealthSessionsCommands(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["moltbot status", "Show channel health + session summary."],
-          ["moltbot status --all", "Full diagnosis (read-only)."],
-          ["moltbot status --json", "Machine-readable output."],
-          ["moltbot status --usage", "Show model provider usage/quota snapshots."],
+          ["panda status", "Show channel health + session summary."],
+          ["panda status --all", "Full diagnosis (read-only)."],
+          ["panda status --json", "Machine-readable output."],
+          ["panda status --usage", "Show model provider usage/quota snapshots."],
           [
-            "moltbot status --deep",
+            "panda status --deep",
             "Run channel probes (WA + Telegram + Discord + Slack + Signal).",
           ],
-          ["moltbot status --deep --timeout 5000", "Tighten probe timeout."],
+          ["panda status --deep --timeout 5000", "Tighten probe timeout."],
         ])}`,
     )
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/status", "docs.molt.bot/cli/status")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/status", "docs.pandabot.cc/cli/status")}\n`,
     )
     .action(async (opts) => {
       const verbose = resolveVerbose(opts);
@@ -79,7 +79,7 @@ export function registerStatusHealthSessionsCommands(program: Command) {
 
   program
     .command("health")
-    .description("Fetch health from the running gateway")
+    .description("从运行中的网关获取健康状态")
     .option("--json", "Output JSON instead of text", false)
     .option("--timeout <ms>", "Connection timeout in milliseconds", "10000")
     .option("--verbose", "Verbose logging", false)
@@ -87,7 +87,7 @@ export function registerStatusHealthSessionsCommands(program: Command) {
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/health", "docs.molt.bot/cli/health")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/health", "docs.pandabot.cc/cli/health")}\n`,
     )
     .action(async (opts) => {
       const verbose = resolveVerbose(opts);
@@ -110,7 +110,7 @@ export function registerStatusHealthSessionsCommands(program: Command) {
 
   program
     .command("sessions")
-    .description("List stored conversation sessions")
+    .description("列出已存储的会话")
     .option("--json", "Output as JSON", false)
     .option("--verbose", "Verbose logging", false)
     .option("--store <path>", "Path to session store (default: resolved from config)")
@@ -119,10 +119,10 @@ export function registerStatusHealthSessionsCommands(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["moltbot sessions", "List all sessions."],
-          ["moltbot sessions --active 120", "Only last 2 hours."],
-          ["moltbot sessions --json", "Machine-readable output."],
-          ["moltbot sessions --store ./tmp/sessions.json", "Use a specific session store."],
+          ["panda sessions", "List all sessions."],
+          ["panda sessions --active 120", "Only last 2 hours."],
+          ["panda sessions --json", "Machine-readable output."],
+          ["panda sessions --store ./tmp/sessions.json", "Use a specific session store."],
         ])}\n\n${theme.muted(
           "Shows token usage per session when the agent reports it; set agents.defaults.contextTokens to see % of your model window.",
         )}`,
@@ -130,7 +130,7 @@ export function registerStatusHealthSessionsCommands(program: Command) {
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/sessions", "docs.molt.bot/cli/sessions")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/sessions", "docs.pandabot.cc/cli/sessions")}\n`,
     )
     .action(async (opts) => {
       setVerbose(Boolean(opts.verbose));

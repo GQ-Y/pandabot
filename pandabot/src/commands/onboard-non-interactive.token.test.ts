@@ -25,10 +25,10 @@ describe("onboard (non-interactive): token auth", () => {
     delete process.env.PANDA_GATEWAY_TOKEN;
     delete process.env.PANDA_GATEWAY_PASSWORD;
 
-    const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-onboard-token-"));
+    const tempHome = await fs.mkdtemp(path.join(os.tmpdir(), "panda-onboard-token-"));
     process.env.HOME = tempHome;
     process.env.PANDA_STATE_DIR = tempHome;
-    process.env.PANDA_CONFIG_PATH = path.join(tempHome, "moltbot.json");
+    process.env.PANDA_CONFIG_PATH = path.join(tempHome, "panda.json");
     vi.resetModules();
 
     const token = `sk-ant-oat01-${"a".repeat(80)}`;

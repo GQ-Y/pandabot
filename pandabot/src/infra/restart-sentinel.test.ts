@@ -17,7 +17,7 @@ describe("restart sentinel", () => {
 
   beforeEach(async () => {
     prevStateDir = process.env.PANDA_STATE_DIR;
-    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "moltbot-sentinel-"));
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "panda-sentinel-"));
     process.env.PANDA_STATE_DIR = tempDir;
   });
 

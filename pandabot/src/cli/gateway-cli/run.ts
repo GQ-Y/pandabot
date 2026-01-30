@@ -65,7 +65,7 @@ async function runGatewayCommand(opts: GatewayRunOpts) {
   setVerbose(Boolean(opts.verbose));
   if (opts.claudeCliLogs) {
     setConsoleSubsystemFilter(["agent/claude-cli"]);
-    process.env.CLAWDBOT_CLAUDE_CLI_LOG_OUTPUT = "1";
+    process.env.PANDA_CLAUDE_CLI_LOG_OUTPUT = "1";
   }
   const wsLogRaw = (opts.compact ? "compact" : opts.wsLog) as string | undefined;
   const wsLogStyle: GatewayWsLogStyle =
@@ -163,7 +163,7 @@ async function runGatewayCommand(opts: GatewayRunOpts) {
   if (!opts.allowUnconfigured && mode !== "local") {
     if (!configExists) {
       defaultRuntime.error(
-        `Missing config. Run \`${formatCliCommand("moltbot setup")}\` or set gateway.mode=local (or pass --allow-unconfigured).`,
+        `Missing config. Run \`${formatCliCommand("panda setup")}\` or set gateway.mode=local (or pass --allow-unconfigured).`,
       );
     } else {
       defaultRuntime.error(
@@ -286,7 +286,7 @@ async function runGatewayCommand(opts: GatewayRunOpts) {
     ) {
       const errMessage = describeUnknownError(err);
       defaultRuntime.error(
-        `Gateway failed to start: ${errMessage}\nIf the gateway is supervised, stop it with: ${formatCliCommand("moltbot gateway stop")}`,
+        `Gateway failed to start: ${errMessage}\nIf the gateway is supervised, stop it with: ${formatCliCommand("panda gateway stop")}`,
       );
       try {
         const diagnostics = await inspectPortUsage(port);

@@ -3,10 +3,10 @@ import {
   createTypingCallbacks,
   logTypingFailure,
   resolveChannelMediaMaxBytes,
-  type MoltbotConfig,
+  type PandaConfig,
   type MSTeamsReplyStyle,
   type RuntimeEnv,
-} from "clawdbot/plugin-sdk";
+} from "pandabot/plugin-sdk";
 import type { MSTeamsAccessTokenProvider } from "./attachments/types.js";
 import type { StoredConversationReference } from "./conversation-store.js";
 import {
@@ -24,7 +24,7 @@ import type { MSTeamsTurnContext } from "./sdk-types.js";
 import { getMSTeamsRuntime } from "./runtime.js";
 
 export function createMSTeamsReplyDispatcher(params: {
-  cfg: MoltbotConfig;
+  cfg: PandaConfig;
   agentId: string;
   runtime: RuntimeEnv;
   log: MSTeamsMonitorLogger;

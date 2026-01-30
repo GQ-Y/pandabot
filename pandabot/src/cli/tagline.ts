@@ -1,4 +1,4 @@
-const DEFAULT_TAGLINE = "All your chats, one Moltbot.";
+const DEFAULT_TAGLINE = "All your chats, one Pandabot.";
 
 const HOLIDAY_TAGLINES = {
   newYear:
@@ -6,7 +6,7 @@ const HOLIDAY_TAGLINES = {
   lunarNewYear:
     "Lunar New Year: May your builds be lucky, your branches prosperous, and your merge conflicts chased away with fireworks.",
   christmas:
-    "Christmas: Ho ho ho—Santa's little claw-sistant is here to ship joy, roll back chaos, and stash the keys safely.",
+    "Christmas: Ho ho ho—Santa's little assistant is here to ship joy, roll back chaos, and stash the keys safely.",
   eid: "Eid al-Fitr: Celebration mode: queues cleared, tasks completed, and good vibes committed to main with clean history.",
   diwali:
     "Diwali: Let the logs sparkle and the bugs flee—today we light up the terminal and ship with pride.",
@@ -66,7 +66,7 @@ const TAGLINES: string[] = [
   "Because texting yourself reminders is so 2024.",
   "WhatsApp, but make it ✨engineering✨.",
   'Turning "I\'ll reply later" into "my bot replied instantly".',
-  "The only crab in your contacts you actually want to hear from. 🦞",
+  "The only panda in your contacts you actually want to hear from. 🐼",
   "Chat automation for people who peaked at IRC.",
   "Because Siri wasn't answering at 3AM.",
   "IPC, but it's your phone.",
@@ -241,7 +241,7 @@ export function activeTaglines(options: TaglineOptions = {}): string[] {
 
 export function pickTagline(options: TaglineOptions = {}): string {
   const env = options.env ?? process.env;
-  const override = env?.CLAWDBOT_TAGLINE_INDEX;
+  const override = env?.PANDA_TAGLINE_INDEX;
   if (override !== undefined) {
     const parsed = Number.parseInt(override, 10);
     if (!Number.isNaN(parsed) && parsed >= 0) {
