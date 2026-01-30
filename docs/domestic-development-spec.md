@@ -1,8 +1,4 @@
-# 国产化开发方案 — 详细规格说明
-
-本文档基于对 Panda 主仓库的调研，描述国产化改造的**功能定义**、**业务流程**与**实现方式**，供在新目录/新仓库中实施时参考。Panda 作为原项目保持只读参考，不直接在本仓库内实现全部功能；部分能力（如国产 LLM 集成与余额监控）需后续细节讨论后再定实现细节。
-
----
+# 国产化开发方案
 
 ## 一、企业微信渠道（WeCom / 企微）
 
@@ -211,71 +207,196 @@ sequenceDiagram
 
 ---
 
-## 五、国产 LLM 集成 + 余额监控与动态调度（待细节讨论）
+## 五、国产 LLM 集成分析与适配方案
 
-### 5.1 功能描述
+### 5.1 现有国产 LLM 集成情况
 
-- **国产 LLM 集成**：接入国产模型（如 DeepSeek、通义千问、智谱、文心等）；多数提供 OpenAI 兼容 API，通过 `baseUrl` + `apiKey` 即可。
-- **余额监控**：按厂商拉取「余额/用量」并缓存，供调度与告警使用。
-- **动态调度**：在选模型前根据「当前 provider 余额是否低于阈值」排除或降级该 provider，再在剩余候选中选模型；可与现有 model-fallback、model-selection 结合。
+项目已集成以下国产 LLM 厂商：
 
-以下为**基于调研的流程与实现思路**，具体厂商 API、阈值策略、存储方式等需后续讨论确定。
+| 厂商 | Provider ID | 状态 | 基础 URL | 默认模型 |
+|------|------------|------|----------|---------|
+| **MiniMax** | `minimax` | ✅ 已集成 | `https://api.minimaxi.com/v1` | MiniMax-M2.1, MiniMax-VL-01 |
+| **Moonshot (Kimi)** | `moonshot` | ✅ 已集成 | `https://api.moonshot.ai/v1` | kimi-k2.5 |
+| **Kimi For Coding** | `kimi-code` | ✅ 已集成 | `https://api.kimi.com/coding/v1` | kimi-for-coding |
+| **通义千问门户** | `qwen-portal` | ✅ 已集成(OAuth) | `https://portal.qwen.ai/v1` | coder-model, vision-model |
+| **Venice** | `venice` | ✅ 已集成 | - | 动态发现 |
+| **Ollama** | `ollama` | ✅ 已集成 | `http://127.0.0.1:11434/v1` | 本地模型动态发现 |
 
-### 5.2 业务流程（草案）
+**待补充的主流国产厂商：**
+- **DeepSeek** (API 兼容 OpenAI)
+- **通义千问开放平台** (DashScope API)
+- **智谱 AI (GLM)** (API 兼容 OpenAI)
+- **百度文心一言** (Wenxin API)
+- **腾讯混元** (Hunyuan API)
+- **百川智能** (Baichuan API)
+- **讯飞星火** (Spark API)
 
-```mermaid
-flowchart LR
-  A[请求需选模型] --> B[拉取/读缓存余额]
-  B --> C[过滤掉余额低于阈值的 provider]
-  C --> D[在剩余候选中做 model-selection / fallback]
-  D --> E[调用 LLM]
-  E --> F[可选: 更新用量缓存]
+### 5.2 余额监控系统现状
+
+项目已有完整的余额监控类型定义(`src/agents/balance/types.ts`)，包括：
+- ✅ `BalanceInfo` 接口（余额、用量、状态）
+- ✅ `BalanceChecker` 接口（余额检查器）
+- ✅ `BalanceCache` 接口（余额缓存）
+- ✅ `BalanceMonitorService` 接口（监控服务）
+- ✅ `BalanceMonitorConfig` 配置定义
+
+**需要实现的模块：**
+1. 余额检查器实现（各厂商）
+2. 余额缓存实现
+3. 余额监控服务实现
+4. 与 model-selection 的集成
+
+### 5.3 国产 LLM 集成开发方案
+
+#### 5.3.1 新增厂商配置 (`src/agents/models-config.providers.ts`)
+
+参照现有 MiniMax/Moonshot 实现模式，为每个新厂商添加：
+
+```typescript
+// DeepSeek 示例
+const DEEPSEEK_BASE_URL = "https://api.deepseek.com/v1";
+const DEEPSEEK_DEFAULT_MODEL_ID = "deepseek-v3";
+const DEEPSEEK_DEFAULT_CONTEXT_WINDOW = 128000;
+const DEEPSEEK_DEFAULT_MAX_TOKENS = 8192;
+
+function buildDeepSeekProvider(): ProviderConfig {
+  return {
+    baseUrl: DEEPSEEK_BASE_URL,
+    api: "openai-completions",
+    models: [
+      {
+        id: DEEPSEEK_DEFAULT_MODEL_ID,
+        name: "DeepSeek V3",
+        reasoning: true,
+        input: ["text"],
+        cost: { input: 0.14, output: 0.28, cacheRead: 0.014, cacheWrite: 0.07 },
+        contextWindow: DEEPSEEK_DEFAULT_CONTEXT_WINDOW,
+        maxTokens: DEEPSEEK_DEFAULT_MAX_TOKENS,
+      },
+    ],
+  };
+}
 ```
 
-- **余额拉取**：各厂商 API 不同（有的有「余额」接口，有的是「用量」统计）；需在 provider 层或独立模块中按 provider 调用对应接口，结果写入内存或轻量存储（如 JSON 文件、Redis），并设 TTL 避免频繁请求。
-- **动态调度**：在 `createModelSelectionState` 或 `runWithModelFallback` 前，先根据「当前余额缓存」过滤掉不可用的 provider，再在剩余列表中选模型/走 fallback。
+#### 5.3.2 余额监控实现路径
 
-### 5.3 实现方式（草案，待讨论）
+**文件结构：**
+```
+src/agents/balance/
+  ├── types.ts                    # ✅ 已有
+  ├── cache.ts                    # 🆕 实现 BalanceCache
+  ├── service.ts                  # 🆕 实现 BalanceMonitorService
+  ├── checkers/
+  │   ├── minimax.ts              # 🆕 MiniMax 余额检查器
+  │   ├── deepseek.ts             # 🆕 DeepSeek 余额检查器
+  │   ├── qwen.ts                 # 🆕 通义千问余额检查器
+  │   ├── zhipu.ts                # 🆕 智谱 AI 余额检查器
+  │   └── index.ts                # 🆕 统一导出
+  └── integration.ts              # 🆕 与 model-selection 集成
+```
 
-| 项目 | 说明 |
-|------|------|
-| **国产 provider 与 catalog** | 在 `src/agents/model-catalog.ts` 与 config 的 `models.providers` 中增加国产厂商：如 `deepseek`、`qwen`、`zhipu` 等，配置 `baseUrl`、`apiKey`；model catalog 中登记各厂商模型 ID。现有 `model-fallback`、`model-selection` 已支持多 provider，无需改核心逻辑。 |
-| **余额/用量 API** | 各厂商文档不一致，需逐个对接。新模块如 `src/agents/llm-balance.ts`：按 provider 调用其「余额」或「用量」接口，返回统一结构（如 `{ provider, balance?, usage?, expiresAt }`）；配置项如 `models.providers.<id>.balanceCheckUrl` 或 `usageApi`、请求方法、解析方式。首版可先支持 1～2 家，其余仅做模型接入。 |
-| **缓存与阈值** | 内存或文件缓存，带 `expiresAt`；配置告警阈值如 `models.providers.<id>.balanceThreshold`，低于该值时视为不可用，从候选列表中剔除。 |
-| **与 model-selection 对接** | 在 `createModelSelectionState` 或 fallback 构建 candidate 列表时，先调用 `getProviderBalances(cfg)`，过滤掉 `balance < threshold` 的 provider，再生成 `allowedModelKeys` / candidate 列表。 |
-| **待讨论** | 具体厂商列表、每家 API 形态、错误与限流处理、多账号/多 profile 下的余额聚合方式、告警通知方式等。 |
+#### 5.3.3 余额 API 调研情况（需补充）
+
+| 厂商 | 余额查询 API | 认证方式 | 响应格式 | 限流 |
+|------|------------|---------|---------|-----|
+| MiniMax | `/user/balance` | Bearer Token | JSON | 待确认 |
+| DeepSeek | `/user/balance` | Bearer Token | JSON | 待确认 |
+| 通义千问 | DashScope API | API Key | JSON | 待确认 |
+| 智谱 AI | `/billing/balance` | Bearer Token | JSON | 待确认 |
+| 百度文心 | `/rpc/2.0/billing/balance` | Access Token | JSON | 待确认 |
+
+### 5.4 余额监控与动态调度流程
+
+```mermaid
+flowchart TB
+  subgraph 初始化
+    A[启动应用] --> B[加载余额监控配置]
+    B --> C[启动 BalanceMonitorService]
+    C --> D[定期检查各厂商余额]
+  end
+
+  subgraph 模型选择
+    E[Agent 请求模型] --> F[读取余额缓存]
+    F --> G{余额是否充足?}
+    G -->|余额充足| H[保留该 Provider]
+    G -->|余额不足| I[从候选列表移除]
+    H --> J[应用 model-selection 逻辑]
+    I --> J
+    J --> K[返回可用模型]
+  end
+
+  subgraph 告警
+    D --> L{余额 < 阈值?}
+    L -->|是| M[触发告警事件]
+    M --> N[记录日志/发送通知]
+    L -->|否| D
+  end
+```
+
+### 5.5 实现方式
+
+| 项目 | 说明 | 优先级 |
+|------|------|-------|
+| **新增国产 Provider** | 在 `models-config.providers.ts` 中添加 DeepSeek、通义千问（开放平台）、智谱 AI、百度文心、腾讯混元等配置 | P0 |
+| **余额缓存实现** | 实现 `BalanceCache` 接口，使用文件系统或内存存储，支持 TTL | P0 |
+| **余额检查器实现** | 为主流厂商（MiniMax、DeepSeek、通义、智谱）实现余额检查器 | P0 |
+| **余额监控服务** | 实现 `BalanceMonitorService`，支持定时检查、事件监听 | P1 |
+| **Model-Selection 集成** | 在 `model-selection.ts` 中集成余额过滤逻辑 | P1 |
+| **告警机制** | 实现余额低/耗尽时的日志记录和通知 | P2 |
+| **余额 CLI 命令** | 添加 `panda models balance` 命令查看余额状态 | P2 |
+| **用量统计收集** | 在模型调用后更新用量缓存（可选） | P3 |
+
+### 5.6 配置示例
+
+```yaml
+models:
+  balanceMonitor:
+    enabled: true
+    checkInterval: 300  # 5分钟检查一次
+    cacheExpiry: 600    # 缓存10分钟
+    providers:
+      minimax:
+        enabled: true
+        balanceThreshold: 10.0  # 低于10元不可用
+        timeout: 5000
+      deepseek:
+        enabled: true
+        balanceThreshold: 5.0
+      qwen:
+        enabled: true
+        balanceThreshold: 10.0
+    alerting:
+      enabled: true
+      channels: ["log", "webhook"]
+      threshold: 20.0
+      cooldownSeconds: 3600
+  providers:
+    deepseek:
+      apiKey: DEEPSEEK_API_KEY
+      baseUrl: "https://api.deepseek.com/v1"
+    qwen:
+      apiKey: QWEN_API_KEY
+      baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    zhipu:
+      apiKey: ZHIPU_API_KEY
+      baseUrl: "https://open.bigmodel.cn/api/paas/v4"
+```
+
+### 5.7 开发里程碑
+
+**阶段一：基础集成（1-2周）**
+- [ ] 添加 DeepSeek、通义千问、智谱 AI provider 配置
+- [ ] 实现基础余额缓存机制
+- [ ] 完成 2-3 个厂商的余额检查器
+
+**阶段二：监控服务（1周）**
+- [ ] 实现完整的 BalanceMonitorService
+- [ ] 集成到 model-selection 流程
+- [ ] 添加余额状态 CLI 命令
+
+**阶段三：完善与优化（1周）**
+- [ ] 补充剩余厂商集成
+- [ ] 实现告警机制
+- [ ] 性能优化与测试
 
 ---
-
-## 六、国产化品牌与 UI（中文名、中文界面、国产主题、一键部署）
-
-### 6.1 功能描述
-
-- **品牌与命名**：产品中文名、Slogan；通过构建变量或配置在国产版中切换，不污染上游 Panda 默认英文。
-- **中文界面**：Web 控制台与 CLI 关键路径提供中文文案；通过 locale 或 config 选择语言。
-- **国产主题**：在现有 UI 主题上增加「国产/政务」等主题变体（色板、圆角、字体）。
-- **一键部署**：提供国产化一键安装脚本（及可选 docker-compose），实现「一条命令启动网关 + 企微 + 国产 LLM」的示例部署。
-
-### 6.2 业务流程
-
-- **品牌**：构建时注入变量（如 `PRODUCT_NAME_ZH`、`TAGLINE_ZH`），在 banner、tagline、UI 标题处读取；未设置时回退到英文。
-- **中文界面**：应用启动或首次加载时根据 `locale` 或 config 选择语言；请求对应 JSON 或使用内联 map 渲染导航、设置、通道状态等。
-- **主题**：用户选择「国产主题」时，切换 CSS 变量或主题类名，应用预设色板与字体。
-- **一键部署**：用户执行安装脚本（如 `curl ... | bash -s -- --channel wecom --default-llm deepseek`）→ 安装 Node、安装包、写默认 config → 可选启动 gateway；或 `docker-compose up` 使用预置 compose 文件。
-
-### 6.3 实现方式
-
-| 项目 | 说明 |
-|------|------|
-| **品牌** | Panda 中：`src/cli/banner.ts`、`src/cli/tagline.ts` 当前写死英文；新项目改为从环境变量或 config（如 `meta.productNameZh`、`meta.taglineZh`）读取，无则用默认英文。UI：`ui/src/ui/app-render.ts` 中 brand title、subtitle 同理改为可配置或根据 locale 选择。 |
-| **中文文案** | 新增 `ui/src/locales/zh.json`（或内联 map），key 与现有英文文案对应；入口根据 `locale` 或 config 选择 zh/en，渲染时取对应字符串。CLI：onboarding、关键命令说明可增加 `--locale zh` 或从 config 读，输出中文提示。 |
-| **国产主题** | 在 UI 的 theme 逻辑上增加一项（如 `domestic`），对应一套 CSS 变量（主色、圆角、字体）；切换主题时加上该类名或变量作用域。 |
-| **一键部署** | 新项目可维护单独脚本（如 `install-domestic.sh`），内部调用与现有 `install.sh` 类似的逻辑，但默认写入国产化推荐 config（如启用 wecom、默认 LLM 为 deepseek）；或提供 `docs/install/domestic.md` 与示例 `docker-compose.yml`，列出步骤与一条命令示例。 |
-
----
-
-## 七、文档与仓库使用说明
-
-- **新项目**：可将本文档复制到新仓库的 `docs/` 下，作为国产化开发的规格基准；实施时以 Panda 为只读参考，在新目录中实现功能。
-- **国产 LLM 与余额**：第五章为草案，具体 API、阈值、存储与告警需单独讨论后再补充到本文档或单独子文档。
-- **变更与反馈**：若某功能在实现中需要更细的流程或接口说明，可在本文档对应章节追加「实现细节」或链接到设计文档。
