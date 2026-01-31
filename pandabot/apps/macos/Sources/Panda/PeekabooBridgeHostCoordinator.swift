@@ -5,6 +5,13 @@ import PeekabooBridge
 import PeekabooFoundation
 import Security
 
+/// Socket path for the Panda Peekaboo bridge (in-app host). Must match what MCP/clients connect to.
+private enum PeekabooBridgeSocketPath {
+    static var pandaSocketPath: String {
+        PandaPaths.stateDirURL.appendingPathComponent("peekaboo-bridge.sock").path
+    }
+}
+
 @MainActor
 final class PeekabooBridgeHostCoordinator {
     static let shared = PeekabooBridgeHostCoordinator()
@@ -47,7 +54,7 @@ final class PeekabooBridgeHostCoordinator {
             allowlistedBundles: allowlistedBundles)
 
         let host = PeekabooBridgeHost(
-            socketPath: PeekabooBridgeConstants.pandaSocketPath,
+            socketPath: PeekabooBridgeSocketPath.pandaSocketPath,
             server: server,
             allowedTeamIDs: allowlistedTeamIDs,
             requestTimeoutSec: 10)
@@ -57,7 +64,7 @@ final class PeekabooBridgeHostCoordinator {
 
         await host.start()
         self.logger
-            .info("PeekabooBridge host started at \(PeekabooBridgeConstants.pandaSocketPath, privacy: .public)")
+            .info("PeekabooBridge host started at \(PeekabooBridgeSocketPath.pandaSocketPath, privacy: .public)")
     }
 
     private static func currentTeamID() -> String? {
